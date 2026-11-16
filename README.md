@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Prospecting Hub Service (`prospect-agent`)
 
-## Getting Started
+> Autonomous B2B Prospecting Engine, Waterfall Contact Enrichment, Buying Signals, and AI Scribe Service designed for seamless integration into any CRM product (modeled after [LeadIQ Prospecting Hub](https://leadiq.com/prospecting-hub)).
 
-First, run the development server:
+---
 
+## 🌟 Key Features
+
+1. **Prospect Discovery Engine (`POST /api/v1/prospects/search`)**
+   - Multi-criteria filtering: Job title, seniority (C-Level, VP, Director), industry, company headcount, revenue, location, and technology stack.
+2. **Waterfall Contact Enrichment (`POST /api/v1/prospects/enrich`)**
+   - Cascading verification protocol (B2B registry &rarr; MX handshake &rarr; SMTP port 25 ping &rarr; Telco carrier type check).
+   - Delivers deliverable work emails (with % confidence score) and verified direct-dial mobile phone numbers.
+   - Batch enrichment ("Unlock All") support.
+3. **Buying Signals & Trigger Tracking (`GET /api/v1/signals`)**
+   - Real-time trigger tracking: Job changes (past champions moving to target accounts), executive promotions, funding announcements, and hiring surges.
+4. **LeadIQ "Scribe" AI Outreach Copilot (`POST /api/v1/ai/scribe`)**
+   - Generates hyper-personalized cold outreach emails across 3 distinct angles:
+     - *Event Trigger & Congratulatory Angle* (highest conversion)
+     - *Pain-Point & RevOps Friction Angle*
+     - *Peer Benchmark & Tech Stack Angle*
+   - Includes subject lines, full email body, and 300-character LinkedIn InMail snippets.
+5. **CRM Push Bridge & Deduplication (`POST /api/v1/crm/push`)**
+   - Direct sync into your CRM database as `Lead` or `Contact`.
+   - Built-in deduplication check (matching on email or domain) to avoid duplicate entries.
+   - Asynchronous Webhook notifications support.
+6. **Drop-in Client SDK (`src/sdk/prospect-client.js`)**
+   - Zero-dependency client library that your CRM developers can copy directly into their CRM backend or frontend to execute actions in 3 lines of code.
+
+---
+
+## 🚀 Getting Started
+
+### 1. Start the Prospecting Hub Service:
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Interactive Hub & API Sandbox:** Open [http://localhost:3000](http://localhost:3000)
+* **OpenAPI Specification:** [http://localhost:3000/api/v1/openapi](http://localhost:3000/api/v1/openapi)
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 2. Run Automated Verification Tests:
+```bash
+npm test
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📚 Detailed Documentation & Integration Guide
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For full cURL examples, request/response schemas, and SDK documentation, see [INTEGRATION_GUIDE.md](file:///D:/PiBi/prospect-agent/INTEGRATION_GUIDE.md).
