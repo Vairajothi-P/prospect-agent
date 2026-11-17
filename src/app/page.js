@@ -46,6 +46,7 @@ import {
   MapPin,
   Globe
 } from "lucide-react";
+import LandingPage from "../components/LandingPage";
 
 // Inline LinkedIn Icon SVG
 function LinkedInIcon(props) {
@@ -69,8 +70,8 @@ function PiBiLogo({ className = "h-7 w-auto", ...props }) {
 }
 
 export default function ProspectingHubDashboard() {
-  // Main view state: "company_onboarding" (Image 1) | "prospect_hub" (Image 2)
-  const [currentView, setCurrentView] = useState("company_onboarding");
+  // Main view state: "landing" (Highperformr-style landing) | "company_onboarding" (Image 1) | "prospect_hub" (Image 2)
+  const [currentView, setCurrentView] = useState("landing");
 
   // Company Profile State (from Image 1)
   const [companyProfile, setCompanyProfile] = useState({
@@ -110,7 +111,7 @@ export default function ProspectingHubDashboard() {
     }
   ]);
 
-  const [activeProductId, setActiveProductId] = useState("prod_1");
+  const [activeProductIds, setActiveProductIds] = useState(["prod_1", "prod_2"]);
   const [showProductModal, setShowProductModal] = useState(false);
   const [editingProductId, setEditingProductId] = useState(null);
   const [productForm, setProductForm] = useState({
@@ -142,13 +143,35 @@ export default function ProspectingHubDashboard() {
     "Chief Technology Officer"
   ];
 
-  const activeProduct = products.find(p => p.id === activeProductId) || products[0] || {
+  const selectedProducts = products.filter(p => activeProductIds.includes(p.id));
+  const activeProduct = selectedProducts[0] || products[0] || {
     id: "prod_1",
     name: "Pipeline Automation & Deal Intelligence",
     category: "CRM & Revenue Operations",
     description: "",
     targetIndustries: ["Software & SaaS"],
     targetRoles: ["VP of Revenue Operations"]
+  };
+
+  const handleToggleProductSelection = (prodId) => {
+    setActiveProductIds(prev => {
+      if (prev.includes(prodId)) {
+        if (prev.length === 1) {
+          return prev; // Maintain at least 1 selected product
+        }
+        return prev.filter(id => id !== prodId);
+      } else {
+        return [...prev, prodId];
+      }
+    });
+  };
+
+  const handleSelectAllProducts = () => {
+    if (activeProductIds.length === products.length) {
+      setActiveProductIds([products[0].id]);
+    } else {
+      setActiveProductIds(products.map(p => p.id));
+    }
   };
 
   // Company Profile 3 Target Criteria State & Handlers
@@ -316,16 +339,27 @@ export default function ProspectingHubDashboard() {
 
   const API_KEY = "phub_live_sec_9942a1b7e";
 
-  // Fetch prospects filtered by company ICP profile & active product
+  // Fetch prospects filtered by company ICP profile & active products
   useEffect(() => {
     fetchProspects();
     fetchSignals();
     fetchCrmRecords();
-  }, [searchQuery, selectedSeniority, selectedIndustry, companyProfile, activeProductId, products]);
+  }, [searchQuery, selectedSeniority, selectedIndustry, companyProfile, activeProductIds, products]);
 
   const fetchProspects = async () => {
     setLoading(true);
     try {
+      const selectedProds = products.filter(p => activeProductIds.includes(p.id));
+      const combinedTargetIndustries = Array.from(new Set([
+        ...(companyProfile.targetIndustries || []),
+        ...selectedProds.flatMap(p => p.targetIndustries || [])
+      ]));
+      const combinedTargetRoles = Array.from(new Set(
+        selectedProds.flatMap(p => p.targetRoles || [])
+      ));
+      const combinedNames = selectedProds.map(p => p.name).join(" & ");
+      const combinedCategories = Array.from(new Set(selectedProds.map(p => p.category))).join(" / ");
+
       const payload = {
         query: searchQuery,
         seniority: selectedSeniority !== "all" ? [selectedSeniority] : [],
@@ -334,15 +368,12 @@ export default function ProspectingHubDashboard() {
           companyName: companyProfile.name,
           description: companyProfile.description,
           website: companyProfile.website,
-          targetIndustries: [
-            ...(companyProfile.targetIndustries || []),
-            ...(activeProduct.targetIndustries || [])
-          ],
+          targetIndustries: combinedTargetIndustries,
           targetLocations: companyProfile.targetLocations || [],
           targetCustomerTypes: companyProfile.targetCustomerTypes || [],
-          productName: activeProduct.name || "",
-          category: activeProduct.category || "",
-          targetRoles: activeProduct.targetRoles || []
+          productName: combinedNames,
+          category: combinedCategories,
+          targetRoles: combinedTargetRoles
         }
       };
 
@@ -449,7 +480,7 @@ export default function ProspectingHubDashboard() {
         targetRoles: productForm.targetRoles.length > 0 ? productForm.targetRoles : ["VP of Revenue Operations"]
       };
       setProducts(prev => [...prev, newProd]);
-      setActiveProductId(newProd.id);
+      setActiveProductIds(prev => [...prev, newProd.id]);
     }
     setShowProductModal(false);
   };
@@ -459,12 +490,12 @@ export default function ProspectingHubDashboard() {
       alert("A company must have at least one product or service listed.");
       return;
     }
-    setProducts(prev => {
-      const filtered = prev.filter(p => p.id !== prodId);
-      if (activeProductId === prodId && filtered.length > 0) {
-        setActiveProductId(filtered[0].id);
-      }
-      return filtered;
+    setProducts(prev => prev.filter(p => p.id !== prodId));
+    setActiveProductIds(prev => {
+      const next = prev.filter(id => id !== prodId);
+      if (next.length > 0) return next;
+      const remaining = products.filter(p => p.id !== prodId);
+      return remaining.length > 0 ? [remaining[0].id] : [];
     });
   };
 
@@ -497,7 +528,7 @@ export default function ProspectingHubDashboard() {
           targetRoles: ["Head of Global Sales", "Director of Demand Generation"]
         }
       ]);
-      setActiveProductId("prod_saas_1");
+      setActiveProductIds(["prod_saas_1", "prod_saas_2"]);
     } else if (type === "fintech") {
       setCompanyProfile({
         name: "FinPulse Engine",
@@ -517,7 +548,7 @@ export default function ProspectingHubDashboard() {
           targetRoles: ["Chief Information Officer", "Head of Global Sales", "Director of Product Management"]
         }
       ]);
-      setActiveProductId("prod_fin_1");
+      setActiveProductIds(["prod_fin_1"]);
     }
   };
 
@@ -583,8 +614,8 @@ export default function ProspectingHubDashboard() {
         },
         body: JSON.stringify({
           prospect_id: prospect.id,
-          product_name: activeProduct.name || companyProfile.name,
-          value_proposition: activeProduct.description || companyProfile.description
+          product_name: selectedProducts.map(p => p.name).join(" & ") || activeProduct.name || companyProfile.name,
+          value_proposition: selectedProducts.map(p => `${p.name}: ${p.description}`).join(" | ") || activeProduct.description || companyProfile.description
         })
       });
       const data = await res.json();
@@ -638,6 +669,17 @@ export default function ProspectingHubDashboard() {
   const unlockedCount = prospects.filter(p => p.contact.isUnlocked).length;
   const syncedCount = prospects.filter(p => p.crmStatus.isSynced).length;
 
+  // View: Landing Page (Highperformr.ai inspired)
+  if (currentView === "landing") {
+    return (
+      <LandingPage
+        onLaunchProspectAI={() => setCurrentView("company_onboarding")}
+        onExploreHub={() => setCurrentView("prospect_hub")}
+        isDarkMode={isDarkMode}
+      />
+    );
+  }
+
   return (
     <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
       isDarkMode ? "bg-[#0B0F19] text-slate-100" : "bg-[#F8FAFC] text-slate-900"
@@ -650,14 +692,24 @@ export default function ProspectingHubDashboard() {
           {/* Left: Brand Logo & Growth AI */}
           <div className="flex items-center gap-3.5 shrink-0">
             <div
-              onClick={() => setCurrentView("company_onboarding")}
-              className="flex items-center gap-2.5 cursor-pointer select-none"
+              onClick={() => setCurrentView("landing")}
+              className="flex items-center gap-2.5 cursor-pointer select-none group"
+              title="Return to Landing Page"
             >
-              <PiBiLogo className="h-8 w-auto shrink-0" />
+              <PiBiLogo className="h-8 w-auto shrink-0 transition-transform group-hover:scale-105" />
               <span className={`text-xl font-bold tracking-tight ${isDarkMode ? "text-white" : "text-slate-900"}`}>
                 Prospect AI
               </span>
             </div>
+
+            <button
+              type="button"
+              onClick={() => setCurrentView("landing")}
+              className="hidden lg:flex items-center gap-1 text-[11px] font-bold text-slate-500 hover:text-teal-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
+              title="Back to Landing Page"
+            >
+              <span>← Landing</span>
+            </button>
 
             {/* Growth AI Indicator */}
             <div className={`hidden sm:flex items-center gap-1.5 font-extrabold px-3 py-1 rounded-full text-xs shadow-2xs border ${
@@ -703,7 +755,6 @@ export default function ProspectingHubDashboard() {
               >
                 <Zap className={`w-4 h-4 ${currentView === "prospect_hub" ? "text-teal-600" : "text-slate-400"}`} />
                 <span>2. Prospect AI Hub</span>
-                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
               </button>
             </div>
           </div>
@@ -1167,7 +1218,7 @@ export default function ProspectingHubDashboard() {
                         }}
                         className={`px-2.5 py-1 rounded-md text-xs font-semibold border transition-all cursor-pointer ${
                           isSel
-                            ? "bg-blue-600 text-white border-blue-700 font-bold shadow-2xs"
+                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
                             : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
                         }`}
                       >
@@ -1207,9 +1258,8 @@ export default function ProspectingHubDashboard() {
           <div className={`border rounded-2xl p-5 shadow-xs transition-colors ${
             isDarkMode ? "bg-slate-900 border-slate-800 text-white" : "bg-white border-slate-200 text-slate-900"
           }`}>
-            <div className="flex items-center gap-2 text-xs font-bold uppercase text-[#0066FF] tracking-wider mb-1">
-              <Target className="w-4 h-4 text-[#0066FF]" />
-              <span>Step 1: Onboard Your Company &amp; Products</span>
+            <div className="text-xs font-bold uppercase text-[#0066FF] tracking-wider mb-1">
+              Step 1: Onboard Your Company &amp; Products
             </div>
             <h2 className="text-2xl font-black tracking-tight">
               Setup Company Profile to Generate Tailored Prospects
@@ -1271,8 +1321,7 @@ export default function ProspectingHubDashboard() {
 
               {/* Company ICP & Targeting Criteria Divider */}
               <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                  <Target className="w-3.5 h-3.5 text-teal-600" />
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
                   Target ICP Criteria &amp; Market Alignment
                 </span>
                 <span className="text-[11px] text-slate-400 font-medium">Used for company-wide prospect qualification</span>
@@ -1349,7 +1398,7 @@ export default function ProspectingHubDashboard() {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                    <MapPin className="w-3.5 h-3.5 text-teal-600" />
                     <span>Target Location</span>
                     <span className="text-red-500">*</span>
                   </label>
@@ -1367,7 +1416,7 @@ export default function ProspectingHubDashboard() {
                         onClick={() => handleToggleCompanyLocation(loc)}
                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
                           isSel
-                            ? "bg-blue-600 text-white border-blue-700 font-bold shadow-2xs"
+                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
                             : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                         }`}
                       >
@@ -1380,7 +1429,7 @@ export default function ProspectingHubDashboard() {
                       type="button"
                       key={custom}
                       onClick={() => handleToggleCompanyLocation(custom)}
-                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-blue-600 text-white border-blue-700 shadow-2xs cursor-pointer flex items-center gap-1"
+                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-teal-600 text-white border-teal-700 shadow-2xs cursor-pointer flex items-center gap-1"
                     >
                       <span>✓ {custom}</span>
                       <X className="w-3 h-3 ml-0.5 opacity-80 hover:opacity-100" />
@@ -1400,7 +1449,7 @@ export default function ProspectingHubDashboard() {
                       }
                     }}
                     placeholder="Add custom location/country..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-blue-600"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600"
                   />
                   <button
                     type="button"
@@ -1416,7 +1465,7 @@ export default function ProspectingHubDashboard() {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
-                    <Users className="w-3.5 h-3.5 text-purple-600" />
+                    <Users className="w-3.5 h-3.5 text-teal-600" />
                     <span>Target Customer Type</span>
                     <span className="text-red-500">*</span>
                   </label>
@@ -1434,7 +1483,7 @@ export default function ProspectingHubDashboard() {
                         onClick={() => handleToggleCompanyCustomerType(type)}
                         className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
                           isSel
-                            ? "bg-purple-600 text-white border-purple-700 font-bold shadow-2xs"
+                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
                             : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                         }`}
                       >
@@ -1447,7 +1496,7 @@ export default function ProspectingHubDashboard() {
                       type="button"
                       key={custom}
                       onClick={() => handleToggleCompanyCustomerType(custom)}
-                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-purple-600 text-white border-purple-700 shadow-2xs cursor-pointer flex items-center gap-1"
+                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-teal-600 text-white border-teal-700 shadow-2xs cursor-pointer flex items-center gap-1"
                     >
                       <span>✓ {custom}</span>
                       <X className="w-3 h-3 ml-0.5 opacity-80 hover:opacity-100" />
@@ -1467,7 +1516,7 @@ export default function ProspectingHubDashboard() {
                       }
                     }}
                     placeholder="Add custom customer segment..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-purple-600"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600"
                   />
                   <button
                     type="button"
@@ -1484,54 +1533,70 @@ export default function ProspectingHubDashboard() {
             <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs flex flex-col gap-5">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2 flex-wrap">
                     <Briefcase className="w-5 h-5 text-slate-700" />
                     <span>Company Products &amp; Services</span>
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                       {products.length} {products.length === 1 ? "Product" : "Products"}
+                    </span>
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-600 text-white shadow-2xs">
+                      {activeProductIds.length} Active for ICP
                     </span>
                   </h3>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    List each product or service offering separately. Choose the active product to drive tailored ICP discovery and AI pitches.
+                    Select one or more products to combine target industries and buyer roles for multi-product ICP matching.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={handleOpenAddProduct}
-                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-all active:scale-98 cursor-pointer shrink-0 self-start sm:self-auto"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Add Product / Service</span>
-                </button>
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <button
+                    type="button"
+                    onClick={handleSelectAllProducts}
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-2 rounded-xl border border-slate-200 transition-all cursor-pointer"
+                  >
+                    {activeProductIds.length === products.length ? "Deselect Others" : "Select All Products"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleOpenAddProduct}
+                    className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-all active:scale-98 cursor-pointer shrink-0"
+                  >
+                    <Plus className="w-4 h-4" />
+                    <span>Add Product / Service</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Products List - Each product listed as a separate, distinct card */}
+              {/* Products List - Each product with multi-select checkbox */}
               <div className="flex flex-col gap-3.5">
                 {products.map((prod, index) => {
-                  const isActive = prod.id === activeProductId;
+                  const isSelected = activeProductIds.includes(prod.id);
                   return (
                     <div
                       key={prod.id}
-                      className={`rounded-xl p-4.5 transition-all border ${
-                        isActive
-                          ? "bg-teal-50/20 border-teal-500 ring-2 ring-teal-500/15 shadow-2xs"
+                      onClick={() => handleToggleProductSelection(prod.id)}
+                      className={`rounded-xl p-4.5 transition-all border cursor-pointer ${
+                        isSelected
+                          ? "bg-teal-50/25 border-teal-500 ring-2 ring-teal-500/15 shadow-2xs"
                           : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/40"
                       }`}
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-                        {/* Left: Radio Selector & Title */}
+                        {/* Left: Checkbox Selector & Title */}
                         <div className="flex items-start gap-3">
                           <button
                             type="button"
-                            onClick={() => setActiveProductId(prod.id)}
-                            className={`mt-0.5 w-5 h-5 rounded-full flex items-center justify-center border transition-all cursor-pointer shrink-0 ${
-                              isActive
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleToggleProductSelection(prod.id);
+                            }}
+                            className={`mt-0.5 w-5 h-5 rounded-md flex items-center justify-center border transition-all cursor-pointer shrink-0 ${
+                              isSelected
                                 ? "border-teal-600 bg-teal-600 text-white shadow-2xs"
                                 : "border-slate-300 bg-white hover:border-teal-500"
                             }`}
-                            title="Click to select this product for prospecting"
+                            title={isSelected ? "Click to deselect" : "Click to select"}
                           >
-                            {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                           </button>
                           <div>
                             <div className="flex items-center flex-wrap gap-2">
@@ -1550,21 +1615,25 @@ export default function ProspectingHubDashboard() {
                         </div>
 
                         {/* Right: Active Status Badge & Action Buttons */}
-                        <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                          {isActive ? (
-                            <span className="flex items-center gap-1.5 text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-3 py-1 rounded-lg">
-                              <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
-                              Active ICP Product
-                            </span>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => setActiveProductId(prod.id)}
-                              className="text-xs font-semibold text-slate-600 hover:text-teal-700 hover:bg-teal-50 px-3 py-1 rounded-lg border border-slate-200 transition-all cursor-pointer"
-                            >
-                              Select for ICP
-                            </button>
-                          )}
+                        <div className="flex items-center gap-2 shrink-0 self-end sm:self-center" onClick={(e) => e.stopPropagation()}>
+                          <button
+                            type="button"
+                            onClick={() => handleToggleProductSelection(prod.id)}
+                            className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-lg border transition-all cursor-pointer ${
+                              isSelected
+                                ? "bg-teal-50 text-teal-700 border-teal-300 hover:bg-teal-100/60"
+                                : "text-slate-600 hover:text-teal-700 hover:bg-teal-50 border-slate-200"
+                            }`}
+                          >
+                            {isSelected ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-teal-600 stroke-[3]" />
+                                <span>Active ICP Product</span>
+                              </>
+                            ) : (
+                              <span>+ Select for ICP</span>
+                            )}
+                          </button>
 
                           <button
                             type="button"
@@ -1614,7 +1683,7 @@ export default function ProspectingHubDashboard() {
                             {prod.targetRoles.map(role => (
                               <span
                                 key={role}
-                                className="bg-blue-50 text-blue-700 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border border-blue-100"
+                                className="bg-teal-50 text-teal-800 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border border-teal-100"
                               >
                                 ✓ {role}
                               </span>
@@ -1629,13 +1698,13 @@ export default function ProspectingHubDashboard() {
 
               {/* Submit & Launch Hub Button */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100">
-                <div className="text-xs text-slate-500 font-medium flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-teal-500"></span>
-                  <span>Currently targeting: <strong className="text-slate-800">{activeProduct.name}</strong> ({activeProduct.category})</span>
+                <div className="text-xs text-slate-500 font-medium flex items-center gap-1.5 flex-wrap">
+                  <span className="w-2 h-2 rounded-full bg-teal-500 shrink-0"></span>
+                  <span>Currently targeting: <strong className="text-slate-800">{activeProductIds.length} {activeProductIds.length === 1 ? "Product" : "Products"} Selected</strong> ({selectedProducts.map(p => p.name).join(", ")})</span>
                 </div>
                 <button
                   type="submit"
-                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md shadow-teal-600/10 flex items-center gap-2 cursor-pointer active:scale-98"
+                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md shadow-teal-600/10 flex items-center gap-2 cursor-pointer active:scale-98 shrink-0"
                 >
                   <span>Save Profile &amp; Launch Prospect AI Hub</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1654,40 +1723,43 @@ export default function ProspectingHubDashboard() {
             isDarkMode ? "bg-slate-900/90 border-slate-800 text-white" : "bg-white border-slate-200 shadow-2xs text-slate-900"
           }`}>
             {/* Left: Active Targeting Summary */}
-            <div className="flex items-center gap-3">
-              <span className={`flex items-center gap-1.5 font-extrabold px-3 py-1 rounded-full text-xs border ${
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className={`font-extrabold px-3 py-1 rounded-full text-xs border ${
                 isDarkMode ? "bg-teal-950/60 text-teal-400 border-teal-800" : "bg-teal-50 text-teal-700 border-teal-200"
               }`}>
-                <Target className="w-3.5 h-3.5" />
                 Active ICP Match
               </span>
               <div className="text-xs flex items-center gap-1.5">
                 <span className="text-slate-400">Target Company:</span>
                 <strong className="font-bold">{companyProfile.name}</strong>
               </div>
-              <div className="flex items-center gap-1.5 text-xs">
-                <span className="text-slate-400">Product:</span>
-                <select
-                  value={activeProductId}
-                  onChange={(e) => setActiveProductId(e.target.value)}
-                  className="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold px-2 py-1 rounded-lg text-xs border border-slate-200 dark:border-slate-700 cursor-pointer focus:outline-none focus:border-teal-500 shadow-2xs"
-                >
-                  {products.map(p => (
-                    <option key={p.id} value={p.id}>
-                      {p.name} ({p.category})
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {companyProfile.targetLocations && companyProfile.targetLocations.length > 0 && (
-                <div className="hidden xl:flex items-center gap-1 text-[11px] text-slate-600 dark:text-slate-300 bg-slate-100/80 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700">
-                  <MapPin className="w-3 h-3 text-blue-500" />
-                  <span>{companyProfile.targetLocations[0]}</span>
-                  {companyProfile.targetLocations.length > 1 && (
-                    <span className="text-slate-400 font-semibold">+{companyProfile.targetLocations.length - 1}</span>
-                  )}
+              <div className="flex items-center gap-1.5 text-xs flex-wrap">
+                <span className="text-slate-400 font-medium">Products ({activeProductIds.length}):</span>
+                <div className="flex items-center gap-1 flex-wrap">
+                  {products.map(p => {
+                    const isSel = activeProductIds.includes(p.id);
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => handleToggleProductSelection(p.id)}
+                        className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1 ${
+                          isSel
+                            ? "bg-teal-600 text-white border-teal-700 shadow-2xs"
+                            : isDarkMode
+                            ? "bg-slate-800 text-slate-400 border-slate-700 hover:text-white"
+                            : "bg-slate-100 text-slate-600 border-slate-200 hover:border-slate-300"
+                        }`}
+                        title={isSel ? `Active for ICP (${p.name}). Click to toggle.` : `Inactive (${p.name}). Click to enable.`}
+                      >
+                        {isSel && <Check className="w-3 h-3 stroke-[3]" />}
+                        <span className="truncate max-w-[120px] sm:max-w-[160px]">{p.name}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
+              </div>
+
               <button
                 onClick={() => setCurrentView("company_onboarding")}
                 className="text-xs text-[#0066FF] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
