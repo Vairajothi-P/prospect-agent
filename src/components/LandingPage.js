@@ -57,25 +57,30 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
   const [interactiveAngle, setInteractiveAngle] = useState(0);
   const [activeWorkflowCard, setActiveWorkflowCard] = useState(0);
   
-  // Staggered Reveal Sequence: Initially ONLY Step 1 is visible, then Step 2 animates in, then Step 3 animates in
+  // Staggered Reveal Sequence: Step 1 -> Step 2 -> Step 3 (plays ONCE on arrival; replays only on button press)
   const [revealedCount, setRevealedCount] = useState(1);
+  const [activeStep, setActiveStep] = useState(1);
   const workflowSectionRef = useRef(null);
   const timerRef = useRef(null);
+  const hasAnimatedRef = useRef(false);
 
   const startStepSequence = () => {
     if (timerRef.current) clearTimeout(timerRef.current);
-    setRevealedCount(1); // Initially only step 1
+    setRevealedCount(1); // Step 1 alone
+    setActiveStep(1);
 
     timerRef.current = setTimeout(() => {
-      setRevealedCount(2); // Next step 2 animates in
+      setRevealedCount(2); // Step 2 reveals
+      setActiveStep(2);
 
       timerRef.current = setTimeout(() => {
-        setRevealedCount(3); // Next step 3 animates in
+        setRevealedCount(3); // Step 3 reveals
+        setActiveStep(3);
 
-        // Hold all 3 visible, then smoothly restart sequence
+        // After Step 3 completes, settle all 3 cards permanently (NO auto-loop)
         timerRef.current = setTimeout(() => {
-          startStepSequence();
-        }, 4500);
+          setActiveStep(null);
+        }, 1800);
       }, 1500);
     }, 1400);
   };
@@ -83,7 +88,9 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
+        // Runs only ONE time when user reaches this section
+        if (entries[0].isIntersecting && !hasAnimatedRef.current) {
+          hasAnimatedRef.current = true;
           startStepSequence();
         }
       },
@@ -93,6 +100,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
     if (workflowSectionRef.current) {
       observer.observe(workflowSectionRef.current);
     } else {
+      hasAnimatedRef.current = true;
       startStepSequence();
     }
 
@@ -258,28 +266,34 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
           </div>
 
           {/* 3. Hero Visual Showcase - Interactive Mockup of Prospect AI Command Center */}
-          <div className="mt-14 w-full max-w-6xl">
-            <div className="relative rounded-2xl p-2 sm:p-3 bg-gradient-to-b from-slate-200/70 via-slate-100/50 to-slate-200/70 border border-slate-200 shadow-2xl shadow-slate-300/40">
+          <div className="mt-14 w-full max-w-6xl relative group">
+            {/* Ambient Teal Radial Glow to make it pop off the page */}
+            <div className="absolute -inset-2 sm:-inset-4 bg-gradient-to-r from-teal-500/30 via-emerald-400/25 to-teal-500/30 rounded-3xl blur-2xl -z-10 opacity-75 group-hover:opacity-100 transition-opacity duration-700" />
+
+            <div className="relative rounded-3xl p-2.5 sm:p-3.5 bg-gradient-to-b from-teal-100/90 via-slate-100/70 to-teal-100/60 border-2 border-teal-300/90 shadow-[0_20px_60px_-15px_rgba(13,148,136,0.3)] ring-4 ring-teal-500/15">
               {/* Window Bar */}
-              <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
+              <div className="bg-white rounded-2xl border border-teal-200/80 overflow-hidden shadow-sm">
                 {/* Browser Title Bar */}
-                <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                <div className="bg-gradient-to-r from-teal-50/70 via-slate-50 to-teal-50/40 px-4 py-3 border-b border-teal-100/80 flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full bg-red-400" />
                     <div className="w-3 h-3 rounded-full bg-amber-400" />
                     <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                    <span className="text-xs font-semibold text-slate-400 ml-2 hidden sm:inline">
-                      https://smartcrm.pibi.io/prospect-ai
-                    </span>
+                    <div className="ml-2 hidden sm:flex items-center gap-1.5 bg-white/80 border border-teal-200/60 px-3 py-0.5 rounded-full shadow-2xs">
+                      <span className="w-2 h-2 rounded-full bg-teal-500" />
+                      <span className="text-xs font-semibold text-slate-500">
+                        https://smartcrm.pibi.io/prospect-ai
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-bold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
+                    <span className="text-[11px] font-bold text-teal-700 bg-teal-50 border border-teal-300/80 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 shadow-2xs">
+                      <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse" />
                       Live ICP Match Active
                     </span>
                     <button
                       onClick={onLaunchProspectAI}
-                      className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1"
+                      className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1 shadow-sm shadow-teal-600/20"
                     >
                       <span>Open in App</span>
                       <ArrowRight className="w-3 h-3" />
@@ -288,31 +302,32 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 </div>
 
                 {/* Dashboard Showcase Content */}
-                <div className="p-4 sm:p-6 bg-slate-50/50 flex flex-col gap-5 text-left">
+                <div className="p-4 sm:p-6 bg-gradient-to-b from-teal-50/20 via-slate-50/40 to-slate-50/60 flex flex-col gap-5 text-left">
                   {/* Top Bar inside Mockup */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-gradient-to-r from-teal-50/60 via-white to-white p-4 rounded-xl border border-teal-200/80 shadow-2xs">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 font-black">
+                      <div className="w-10 h-10 rounded-xl bg-teal-600 text-white flex items-center justify-center font-black shadow-sm shadow-teal-600/30">
                         AI
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-slate-900 text-sm sm:text-base">Target ICP: Smart CRM &amp; CPQ</h3>
-                          <span className="bg-teal-50 text-teal-700 text-xs font-bold px-2 py-0.5 rounded-full border border-teal-100">
+                          <h3 className="font-extrabold text-slate-900 text-sm sm:text-base">Target ICP: Smart CRM &amp; CPQ</h3>
+                          <span className="bg-teal-100/80 text-teal-800 text-xs font-bold px-2.5 py-0.5 rounded-full border border-teal-200">
                             2 Products Active
                           </span>
                         </div>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-slate-500 mt-0.5">
                           Matching: Software &amp; SaaS, FinTech • Personas: VP of RevOps, Head of Sales
                         </p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 font-semibold">
+                      <div className="text-xs text-slate-700 bg-white px-3 py-1.5 rounded-lg border border-slate-200 font-semibold shadow-2xs">
                         Matched: <strong className="text-slate-900 font-black">12 Hot Prospects</strong>
                       </div>
-                      <div className="text-xs text-teal-700 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 font-bold">
-                        98% Match Rate
+                      <div className="text-xs text-teal-800 bg-teal-100/70 px-3 py-1.5 rounded-lg border border-teal-300/80 font-extrabold shadow-2xs flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                        <span>98% Match Rate</span>
                       </div>
                     </div>
                   </div>
@@ -320,18 +335,18 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                   {/* 2-Column Split: Prospect Signal + AI Scribe Outreach Engine */}
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
                     {/* Left Column: Real-time Buying Signal & Prospect Lead */}
-                    <div className="lg:col-span-5 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col gap-3.5">
-                      <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <div className="lg:col-span-5 bg-white p-4.5 rounded-xl border border-teal-100 shadow-2xs flex flex-col gap-3.5 hover:border-teal-300 transition-colors">
+                      <div className="flex items-center justify-between pb-2 border-b border-teal-50">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                           <Zap className="w-3.5 h-3.5 text-amber-500" />
                           Live Intent Trigger
                         </span>
-                        <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                        <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                           10m ago
                         </span>
                       </div>
 
-                      <div className="p-3 bg-amber-50/70 border border-amber-200/80 rounded-xl">
+                      <div className="p-3 bg-amber-50/80 border border-amber-200/90 rounded-xl">
                         <div className="flex items-start gap-2.5">
                           <div className="w-2 h-2 rounded-full bg-amber-500 mt-1.5 shrink-0" />
                           <div>
@@ -345,23 +360,23 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                         </div>
                       </div>
 
-                      <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                      <div className="p-3 bg-gradient-to-r from-teal-50/40 via-white to-slate-50 rounded-xl border border-teal-200/70 flex items-center justify-between shadow-2xs">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs">
+                          <div className="w-9 h-9 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs shadow-xs">
                             ER
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-slate-900">Elena Rostova</div>
+                            <div className="text-xs font-extrabold text-slate-900">Elena Rostova</div>
                             <div className="text-[11px] text-slate-500">VP of Revenue Operations • CloudNova</div>
                           </div>
                         </div>
-                        <span className="text-xs font-extrabold text-teal-600 bg-white border border-teal-200 px-2.5 py-1 rounded-md shadow-2xs">
+                        <span className="text-xs font-extrabold text-teal-700 bg-teal-50 border border-teal-300 px-2.5 py-1 rounded-md shadow-2xs">
                           98% ICP
                         </span>
                       </div>
 
                       <div className="text-xs text-slate-500 flex items-center justify-between pt-1">
-                        <span>Email: <strong className="text-slate-700">elena.rostova@cloudnova.io</strong></span>
+                        <span>Email: <strong className="text-slate-800">elena.rostova@cloudnova.io</strong></span>
                         <span className="text-emerald-600 font-bold flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5" />
                           Verified
@@ -370,21 +385,21 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                     </div>
 
                     {/* Right Column: AI Scribe Instant Pitch Preview */}
-                    <div className="lg:col-span-7 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col gap-3">
-                      <div className="flex items-center justify-between pb-2 border-b border-slate-100 flex-wrap gap-2">
+                    <div className="lg:col-span-7 bg-white p-4.5 rounded-xl border border-teal-100 shadow-2xs flex flex-col gap-3 hover:border-teal-300 transition-colors">
+                      <div className="flex items-center justify-between pb-2 border-b border-teal-50 flex-wrap gap-2">
                         <div className="flex items-center gap-2">
                           <Sparkles className="w-4 h-4 text-teal-600" />
-                          <span className="text-xs font-bold text-slate-900">AI Scribe Dynamic Multi-Angle Pitch</span>
+                          <span className="text-xs font-extrabold text-slate-900">AI Scribe Dynamic Multi-Angle Pitch</span>
                         </div>
                         <div className="flex items-center gap-1">
                           {samplePitchAngles.map((angle, idx) => (
                             <button
                               key={angle.title}
                               onClick={() => setInteractiveAngle(idx)}
-                              className={`text-[11px] font-bold px-2 py-0.5 rounded cursor-pointer transition-all ${
+                              className={`text-[11px] font-bold px-2.5 py-1 rounded-md cursor-pointer transition-all ${
                                 interactiveAngle === idx
-                                  ? "bg-teal-600 text-white"
-                                  : "text-slate-500 hover:bg-slate-100"
+                                  ? "bg-teal-600 text-white shadow-xs"
+                                  : "text-slate-500 hover:bg-teal-50 hover:text-teal-700"
                               }`}
                             >
                               Angle {idx + 1}
@@ -393,7 +408,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                         </div>
                       </div>
 
-                      <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-200 text-xs flex flex-col gap-2">
+                      <div className="bg-gradient-to-b from-teal-50/30 to-slate-50 rounded-xl p-3.5 border border-teal-200/60 text-xs flex flex-col gap-2">
                         <div className="font-semibold text-slate-600 flex items-center gap-1.5">
                           <span className="text-slate-400">Subject:</span>
                           <span className="text-slate-900 font-bold">{samplePitchAngles[interactiveAngle].subject}</span>
@@ -403,16 +418,16 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                         </p>
                       </div>
 
-                      <div className="flex items-center justify-between pt-2 border-t border-slate-100">
+                      <div className="flex items-center justify-between pt-2 border-t border-teal-50">
                         <div className="flex items-center gap-2">
                           <span className="text-[11px] font-bold text-slate-500">Auto-Push:</span>
-                          <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+                          <span className="text-[11px] font-bold text-teal-800 bg-teal-100/70 px-2.5 py-0.5 rounded border border-teal-300/80">
                             Smart CRM Webhook (200 OK)
                           </span>
                         </div>
                         <button
                           onClick={onLaunchProspectAI}
-                          className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+                          className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm shadow-teal-600/20 active:scale-98"
                         >
                           <span>Generate for Your ICP</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -466,7 +481,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 </span>
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col gap-4">
+              <div className="bg-white rounded-2xl p-5 border-2 border-teal-500 ring-2 ring-teal-500/20 shadow-md hover:shadow-lg hover:scale-[1.01] transition-all flex flex-col gap-4">
                 {/* Integration Logos Row */}
                 <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
                   <div className="w-7 h-7 rounded-lg bg-sky-50 flex items-center justify-center p-1" title="Salesforce">
@@ -694,13 +709,13 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
 
               {/* 3 Action Cards (Clickable Fan Carousel) */}
               <div className="flex flex-col gap-3">
-                {/* Card 1: Push event-related lead data / signals (Active/Front) */}
+                {/* Card 1: Push event-related lead data / signals */}
                 <div
                   onClick={() => setActiveWorkflowCard(0)}
-                  className={`rounded-2xl p-4.5 border transition-all cursor-pointer ${
+                  className={`rounded-2xl p-4.5 border-2 border-teal-500 ring-2 ring-teal-500/20 shadow-md transition-all cursor-pointer ${
                     activeWorkflowCard === 0
-                      ? "bg-white border-teal-500 ring-2 ring-teal-500/20 shadow-md scale-102"
-                      : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
+                      ? "bg-white ring-teal-500/30 shadow-lg scale-102 z-10"
+                      : "bg-white hover:shadow-lg hover:scale-[1.01]"
                   }`}
                 >
                   <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
@@ -720,10 +735,10 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 {/* Card 2: Send job change alerts for AEs/CSMs */}
                 <div
                   onClick={() => setActiveWorkflowCard(1)}
-                  className={`rounded-2xl p-4.5 border transition-all cursor-pointer ${
+                  className={`rounded-2xl p-4.5 border-2 border-teal-500 ring-2 ring-teal-500/20 shadow-md transition-all cursor-pointer ${
                     activeWorkflowCard === 1
-                      ? "bg-white border-teal-500 ring-2 ring-teal-500/20 shadow-md scale-102"
-                      : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
+                      ? "bg-white ring-teal-500/30 shadow-lg scale-102 z-10"
+                      : "bg-white hover:shadow-lg hover:scale-[1.01]"
                   }`}
                 >
                   <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
@@ -742,10 +757,10 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 {/* Card 3: Send audience list and contacts for marketing campaigns */}
                 <div
                   onClick={() => setActiveWorkflowCard(2)}
-                  className={`rounded-2xl p-4.5 border transition-all cursor-pointer ${
+                  className={`rounded-2xl p-4.5 border-2 border-teal-500 ring-2 ring-teal-500/20 shadow-md transition-all cursor-pointer ${
                     activeWorkflowCard === 2
-                      ? "bg-white border-teal-500 ring-2 ring-teal-500/20 shadow-md scale-102"
-                      : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
+                      ? "bg-white ring-teal-500/30 shadow-lg scale-102 z-10"
+                      : "bg-white hover:shadow-lg hover:scale-[1.01]"
                   }`}
                 >
                   <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
@@ -804,13 +819,13 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
             {/* Step 1: Visible initially */}
             <div
               className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${
-                revealedCount === 1
+                activeStep === 1
                   ? "bg-gradient-to-b from-teal-50 via-white to-teal-50/50 border-teal-500 ring-4 ring-teal-500/20 shadow-xl shadow-teal-600/15 scale-[1.02] z-10"
-                  : "bg-white/95 border-teal-200/90 shadow-sm"
+                  : "bg-white/95 border-teal-300/80 shadow-sm hover:border-teal-400 hover:shadow-md"
               }`}
             >
               {/* Progress Line on active reveal */}
-              {revealedCount === 1 && (
+              {activeStep === 1 && (
                 <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-teal-100">
                   <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-full animate-pulse" />
                 </div>
@@ -819,7 +834,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div className="relative">
-                    {revealedCount === 1 && (
+                    {activeStep === 1 && (
                       <span className="absolute -inset-1 rounded-2xl bg-teal-400/40 animate-ping" />
                     )}
                     <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-4 ring-teal-100">
@@ -828,7 +843,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                   </div>
 
                   <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-full border bg-teal-600 text-white border-teal-700 shadow-2xs flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                    {activeStep === 1 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                     <span>Step 01</span>
                   </span>
                 </div>
@@ -858,14 +873,14 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${
                 revealedCount >= 2
                   ? "opacity-100 translate-y-0 scale-100 " +
-                    (revealedCount === 2
+                    (activeStep === 2
                       ? "bg-gradient-to-b from-teal-50 via-white to-teal-50/50 border-teal-500 ring-4 ring-teal-500/20 shadow-xl shadow-teal-600/15 scale-[1.02] z-10"
-                      : "bg-white/95 border-teal-200/90 shadow-sm")
+                      : "bg-white/95 border-teal-300/80 shadow-sm hover:border-teal-400 hover:shadow-md")
                   : "opacity-0 translate-y-8 scale-90 pointer-events-none invisible md:visible"
               }`}
             >
               {/* Progress Line on active reveal */}
-              {revealedCount === 2 && (
+              {activeStep === 2 && (
                 <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-teal-100">
                   <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-full animate-pulse" />
                 </div>
@@ -874,7 +889,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div className="relative">
-                    {revealedCount === 2 && (
+                    {activeStep === 2 && (
                       <span className="absolute -inset-1 rounded-2xl bg-teal-400/40 animate-ping" />
                     )}
                     <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-4 ring-teal-100">
@@ -883,7 +898,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                   </div>
 
                   <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-full border bg-teal-600 text-white border-teal-700 shadow-2xs flex items-center gap-1.5">
-                    {revealedCount === 2 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    {activeStep === 2 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                     <span>Step 02</span>
                   </span>
                 </div>
@@ -913,14 +928,14 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${
                 revealedCount >= 3
                   ? "opacity-100 translate-y-0 scale-100 " +
-                    (revealedCount === 3
+                    (activeStep === 3
                       ? "bg-gradient-to-b from-teal-50 via-white to-teal-50/50 border-teal-500 ring-4 ring-teal-500/20 shadow-xl shadow-teal-600/15 scale-[1.02] z-10"
-                      : "bg-white/95 border-teal-200/90 shadow-sm")
+                      : "bg-white/95 border-teal-300/80 shadow-sm hover:border-teal-400 hover:shadow-md")
                   : "opacity-0 translate-y-8 scale-90 pointer-events-none invisible md:visible"
               }`}
             >
               {/* Progress Line on active reveal */}
-              {revealedCount === 3 && (
+              {activeStep === 3 && (
                 <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-teal-100">
                   <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-full animate-pulse" />
                 </div>
@@ -929,7 +944,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               <div>
                 <div className="flex items-center justify-between mb-5">
                   <div className="relative">
-                    {revealedCount === 3 && (
+                    {activeStep === 3 && (
                       <span className="absolute -inset-1 rounded-2xl bg-teal-400/40 animate-ping" />
                     )}
                     <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-4 ring-teal-100">
@@ -938,7 +953,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                   </div>
 
                   <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-full border bg-teal-600 text-white border-teal-700 shadow-2xs flex items-center gap-1.5">
-                    {revealedCount === 3 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
+                    {activeStep === 3 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                     <span>Step 03</span>
                   </span>
                 </div>
