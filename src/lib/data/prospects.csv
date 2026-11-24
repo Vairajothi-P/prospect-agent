@@ -1,0 +1,101 @@
+Company ID,Company Name,Industry,City,Employee Count,Website,Contact Person,Designation,Email,Phone,Lead Source,Intent Signal,Status
+C001,Vertex Industries,Textiles,Bengaluru,60,www.vertexindustries.example,Arun Das,VP Sales,arun.das@vertexindustries.example,9890779946,LinkedIn,Launched new product,Not Interested
+C002,Apex Infra,IT Services,Madurai,60,www.apexinfra.example,Kavitha Kumar,Head of Procurement,kavitha.kumar@apexinfra.example,9642621108,Cold List,Recently funded,Not Interested
+C003,Orbit Healthcare,Pharma,Delhi NCR,650,www.orbithealthcare.example,Pooja Sharma,CTO,pooja.sharma@orbithealthcare.example,9969119330,LinkedIn,No recent signal,Contacted
+C004,Swift Textiles,Logistics,Bengaluru,120,www.swifttextiles.example,Harish Nair,Managing Director,harish.nair@swifttextiles.example,9199585092,Trade Show,Recently funded,Replied
+C005,Metro Infra,Fintech,Delhi NCR,400,www.metroinfra.example,Vignesh Kumar,Managing Director,vignesh.kumar@metroinfra.example,9506448196,LinkedIn,Leadership change,Replied
+C006,Vertex Infra,Pharma,Kolkata,25,www.vertexinfra.example,Deepa Krishnan,Founder & CEO,deepa.krishnan@vertexinfra.example,9810026086,Website,No recent signal,Replied
+C007,Apex Retail,Healthcare,Hyderabad,250,www.apexretail.example,Lakshmi Raj,Operations Head,lakshmi.raj@apexretail.example,9274648506,Referral,New office expansion,Contacted
+C008,Lotus Logistics,Auto Components,Coimbatore,400,www.lotuslogistics.example,Karthik Krishnan,Head of Procurement,karthik.krishnan@lotuslogistics.example,9275452091,Trade Show,Tech stack change,Replied
+C009,Vertex Healthcare,Auto Components,Mumbai,12,www.vertexhealthcare.example,Pooja Iyer,Head of Procurement,pooja.iyer@vertexhealthcare.example,9982403818,LinkedIn,No recent signal,Replied
+C010,Ultra Logistics,Real Estate,Kolkata,120,www.ultralogistics.example,Karthik Iyer,Head of Procurement,karthik.iyer@ultralogistics.example,9803771909,Trade Show,Tech stack change,Meeting Booked
+C011,Kavya Logistics,Fintech,Tiruchirappalli,400,www.kavyalogistics.example,Suresh Iyer,CTO,suresh.iyer@kavyalogistics.example,9902099969,Cold List,Tech stack change,Not Interested
+C012,Ultra Foods,Retail,Delhi NCR,25,www.ultrafoods.example,Lakshmi Subramanian,Founder & CEO,lakshmi.subramanian@ultrafoods.example,9217734861,Website,Launched new product,Contacted
+C013,Lotus Textiles,Healthcare,Pune,650,www.lotustextiles.example,Nithya Raj,CFO,nithya.raj@lotustextiles.example,9668132202,Referral,Leadership change,New
+C014,Lotus Healthcare,Retail,Hyderabad,120,www.lotushealthcare.example,Divya Patel,Managing Director,divya.patel@lotushealthcare.example,9415143362,Trade Show,Hiring sales team,Meeting Booked
+C015,Sri Healthcare,Logistics,Tiruchirappalli,25,www.srihealthcare.example,Vignesh Menon,CTO,vignesh.menon@srihealthcare.example,9786066793,Cold List,Leadership change,Contacted
+C016,Kavya Foods,Retail,Chennai,650,www.kavyafoods.example,Meena Menon,Operations Head,meena.menon@kavyafoods.example,9624636385,LinkedIn,Recently funded,Replied
+C017,Blue Exports,Real Estate,Madurai,25,www.blueexports.example,Priya Iyer,CFO,priya.iyer@blueexports.example,9976198296,LinkedIn,No recent signal,Not Interested
+C018,Crest Solutions,EdTech,Tiruchirappalli,40,www.crestsolutions.example,Suresh Patel,CTO,suresh.patel@crestsolutions.example,9666585408,Cold List,Tech stack change,Contacted
+C019,Helix Education,Textiles,Pune,120,www.helixeducation.example,Rajesh Das,CFO,rajesh.das@helixeducation.example,9655742829,Trade Show,Recently funded,Contacted
+C020,Veda Industries,Real Estate,Tiruchirappalli,60,www.vedaindustries.example,Harish Kumar,Head of Procurement,harish.kumar@vedaindustries.example,9107721109,LinkedIn,Launched new product,New
+C021,Nova Retail,Retail,Bengaluru,85,www.novaretail.example,Harish Raj,CFO,harish.raj@novaretail.example,9330035022,Cold List,Hiring sales team,Not Interested
+C022,Terra Pharma,Healthcare,Bengaluru,25,www.terrapharma.example,Lakshmi Pillai,Managing Director,lakshmi.pillai@terrapharma.example,9807577342,Trade Show,New office expansion,Meeting Booked
+C023,Prime Pharma,Auto Components,Ahmedabad,25,www.primepharma.example,Priya Patel,Founder & CEO,priya.patel@primepharma.example,9532311310,Google Search,New office expansion,New
+C024,Veda Exports,EdTech,Coimbatore,180,www.vedaexports.example,Rajesh Menon,VP Sales,rajesh.menon@vedaexports.example,9399085574,Trade Show,Hiring sales team,New
+C025,Surya Education,IT Services,Ahmedabad,400,www.suryaeducation.example,Pooja Raj,Founder & CEO,pooja.raj@suryaeducation.example,9200140141,Website,Hiring sales team,Meeting Booked
+C026,Delta Pharma,IT Services,Coimbatore,180,www.deltapharma.example,Rajesh Sharma,Founder & CEO,rajesh.sharma@deltapharma.example,9519212169,Referral,No recent signal,Meeting Booked
+C027,Blue Textiles,Fintech,Delhi NCR,40,www.bluetextiles.example,Pooja Patel,Head of Procurement,pooja.patel@bluetextiles.example,9418587604,Website,Recently funded,Not Interested
+C028,Indus Systems,Food Processing,Chennai,12,www.indussystems.example,Priya Das,CFO,priya.das@indussystems.example,9639931481,Cold List,Hiring sales team,New
+C029,Aura Industries,Real Estate,Madurai,60,www.auraindustries.example,Meena Raj,Marketing Head,meena.raj@auraindustries.example,9228727266,Cold List,Hiring sales team,Not Interested
+C030,Nimbus Technologies,Healthcare,Ahmedabad,650,www.nimbustechnologies.example,Nithya Raj,Operations Head,nithya.raj@nimbustechnologies.example,9379995032,Website,Launched new product,Replied
+C031,Veda Logistics,Auto Components,Ahmedabad,85,www.vedalogistics.example,Manoj Subramanian,CFO,manoj.subramanian@vedalogistics.example,9439492674,LinkedIn,Recently funded,Meeting Booked
+C032,Nimbus Infra,Retail,Bengaluru,400,www.nimbusinfra.example,Divya Raj,CTO,divya.raj@nimbusinfra.example,9242224154,Referral,Recently funded,Contacted
+C033,Metro Logistics,Retail,Kolkata,85,www.metrologistics.example,Meena Pillai,Founder & CEO,meena.pillai@metrologistics.example,9817112652,Cold List,New office expansion,New
+C034,Bright Software,Retail,Coimbatore,85,www.brightsoftware.example,Divya Das,CTO,divya.das@brightsoftware.example,9749431082,Website,Launched new product,Replied
+C035,Orbit Auto Components,EdTech,Hyderabad,12,www.orbitautocomponents.example,Vignesh Menon,Managing Director,vignesh.menon@orbitautocomponents.example,9781057736,Trade Show,No recent signal,Replied
+C036,Nova Technologies,Auto Components,Hyderabad,40,www.novatechnologies.example,Harish Subramanian,CFO,harish.subramanian@novatechnologies.example,9692362342,Google Search,Tech stack change,Not Interested
+C037,Sri Industries,Logistics,Tiruchirappalli,12,www.sriindustries.example,Karthik Das,Operations Head,karthik.das@sriindustries.example,9725464884,Cold List,Hiring sales team,Meeting Booked
+C038,Kavya Technologies,IT Services,Mumbai,60,www.kavyatechnologies.example,Anitha Reddy,Head of Procurement,anitha.reddy@kavyatechnologies.example,9816114302,LinkedIn,New office expansion,Not Interested
+C039,Prime Infra,Logistics,Coimbatore,180,www.primeinfra.example,Suresh Iyer,Founder & CEO,suresh.iyer@primeinfra.example,9292587044,Google Search,New office expansion,Meeting Booked
+C040,Lotus Retail,Logistics,Kolkata,25,www.lotusretail.example,Lakshmi Nair,Marketing Head,lakshmi.nair@lotusretail.example,9141580226,Trade Show,Hiring sales team,Contacted
+C041,Surya Foods,Pharma,Chennai,60,www.suryafoods.example,Anitha Iyer,Marketing Head,anitha.iyer@suryafoods.example,9452468587,Referral,No recent signal,New
+C042,Crest Logistics,Retail,Pune,400,www.crestlogistics.example,Deepa Patel,Operations Head,deepa.patel@crestlogistics.example,9129635852,LinkedIn,New office expansion,Contacted
+C043,Terra Logistics,Real Estate,Pune,120,www.terralogistics.example,Priya Raj,Operations Head,priya.raj@terralogistics.example,9568574364,Cold List,Leadership change,New
+C044,Ultra Software,Textiles,Chennai,180,www.ultrasoftware.example,Sathish Iyer,Founder & CEO,sathish.iyer@ultrasoftware.example,9658260221,Cold List,Launched new product,Contacted
+C045,Metro Textiles,Food Processing,Kochi,120,www.metrotextiles.example,Karthik Patel,Managing Director,karthik.patel@metrotextiles.example,9872830248,Referral,Leadership change,Replied
+C046,Kaveri Textiles,Logistics,Bengaluru,180,www.kaveritextiles.example,Anitha Menon,Marketing Head,anitha.menon@kaveritextiles.example,9827264603,Google Search,Hiring sales team,Not Interested
+C047,Ultra Systems,Textiles,Bengaluru,180,www.ultrasystems.example,Arun Nair,Operations Head,arun.nair@ultrasystems.example,9599277266,Trade Show,Tech stack change,Contacted
+C048,Aura Pharma,Manufacturing,Hyderabad,400,www.aurapharma.example,Meena Patel,Operations Head,meena.patel@aurapharma.example,9200273738,Website,Launched new product,Replied
+C049,Veda Education,IT Services,Chennai,60,www.vedaeducation.example,Rajesh Subramanian,CFO,rajesh.subramanian@vedaeducation.example,9756350429,LinkedIn,Tech stack change,Meeting Booked
+C050,Delta Textiles,Auto Components,Kolkata,12,www.deltatextiles.example,Lakshmi Subramanian,Managing Director,lakshmi.subramanian@deltatextiles.example,9935822550,Trade Show,Hiring sales team,Contacted
+C051,Swift Systems,Retail,Bengaluru,25,www.swiftsystems.example,Naveen Kumar,CFO,naveen.kumar@swiftsystems.example,9243171768,Trade Show,Launched new product,Not Interested
+C052,Helix Infra,Real Estate,Kolkata,400,www.helixinfra.example,Harish Pillai,Marketing Head,harish.pillai@helixinfra.example,9991816852,Cold List,Tech stack change,Contacted
+C053,Indus Retail,Textiles,Bengaluru,85,www.indusretail.example,Swathi Pillai,CFO,swathi.pillai@indusretail.example,9772966010,Website,New office expansion,Meeting Booked
+C054,Apex Healthcare,Textiles,Mumbai,120,www.apexhealthcare.example,Anitha Iyer,Managing Director,anitha.iyer@apexhealthcare.example,9248578017,Website,Hiring sales team,Meeting Booked
+C055,Swift Solutions,Healthcare,Pune,120,www.swiftsolutions.example,Rajesh Raj,CFO,rajesh.raj@swiftsolutions.example,9546434187,LinkedIn,Hiring sales team,Meeting Booked
+C056,Crest Infra,Healthcare,Delhi NCR,12,www.crestinfra.example,Arun Krishnan,Operations Head,arun.krishnan@crestinfra.example,9420632895,Trade Show,No recent signal,Meeting Booked
+C057,Helix Healthcare,Pharma,Delhi NCR,60,www.helixhealthcare.example,Pooja Krishnan,CTO,pooja.krishnan@helixhealthcare.example,9567975319,Trade Show,Recently funded,Meeting Booked
+C058,Kaveri Auto Components,Logistics,Delhi NCR,40,www.kaveriautocomponents.example,Manoj Das,Founder & CEO,manoj.das@kaveriautocomponents.example,9523076025,Cold List,Leadership change,New
+C059,Apex Auto Components,EdTech,Coimbatore,12,www.apexautocomponents.example,Kavitha Subramanian,CTO,kavitha.subramanian@apexautocomponents.example,9507059676,Referral,Hiring sales team,Meeting Booked
+C060,Kaveri Foods,Healthcare,Hyderabad,25,www.kaverifoods.example,Manoj Nair,CFO,manoj.nair@kaverifoods.example,9120812641,Google Search,Leadership change,New
+C061,Metro Exports,IT Services,Chennai,60,www.metroexports.example,Karthik Patel,Head of Procurement,karthik.patel@metroexports.example,9121882877,Cold List,Hiring sales team,Contacted
+C062,Kavya Pharma,Pharma,Delhi NCR,85,www.kavyapharma.example,Divya Krishnan,Operations Head,divya.krishnan@kavyapharma.example,9280162221,Cold List,Leadership change,New
+C063,Crest Retail,Manufacturing,Kochi,12,www.crestretail.example,Meena Nair,CTO,meena.nair@crestretail.example,9718257024,Google Search,Tech stack change,Meeting Booked
+C064,Swift Exports,Fintech,Ahmedabad,60,www.swiftexports.example,Karthik Krishnan,Managing Director,karthik.krishnan@swiftexports.example,9848605284,Referral,No recent signal,Not Interested
+C065,Bright Education,Food Processing,Tiruchirappalli,180,www.brighteducation.example,Sathish Kumar,Operations Head,sathish.kumar@brighteducation.example,9174041730,Cold List,Launched new product,Replied
+C066,Sri Retail,Manufacturing,Pune,120,www.sriretail.example,Kavitha Pillai,CFO,kavitha.pillai@sriretail.example,9859466878,Website,Tech stack change,Contacted
+C067,Vertex Logistics,EdTech,Delhi NCR,180,www.vertexlogistics.example,Nithya Menon,CTO,nithya.menon@vertexlogistics.example,9446071904,Website,No recent signal,New
+C068,Pioneer Software,EdTech,Kochi,650,www.pioneersoftware.example,Naveen Iyer,Marketing Head,naveen.iyer@pioneersoftware.example,9461203124,LinkedIn,Tech stack change,Replied
+C069,Zen Pharma,Textiles,Mumbai,85,www.zenpharma.example,Rajesh Reddy,CTO,rajesh.reddy@zenpharma.example,9696776072,LinkedIn,Leadership change,Contacted
+C070,Apex Exports,Retail,Bengaluru,250,www.apexexports.example,Kavitha Pillai,CFO,kavitha.pillai@apexexports.example,9581223755,LinkedIn,Recently funded,Replied
+C071,Veda Textiles,Auto Components,Kochi,120,www.vedatextiles.example,Lakshmi Nair,CFO,lakshmi.nair@vedatextiles.example,9694287057,Cold List,New office expansion,Meeting Booked
+C072,Swift Pharma,Textiles,Bengaluru,25,www.swiftpharma.example,Vignesh Nair,Head of Procurement,vignesh.nair@swiftpharma.example,9438817025,LinkedIn,Launched new product,Not Interested
+C073,Crest Healthcare,Pharma,Kolkata,250,www.cresthealthcare.example,Meena Iyer,CTO,meena.iyer@cresthealthcare.example,9878017216,Cold List,No recent signal,Not Interested
+C074,Nimbus Logistics,Textiles,Bengaluru,120,www.nimbuslogistics.example,Divya Iyer,VP Sales,divya.iyer@nimbuslogistics.example,9424557359,LinkedIn,Launched new product,Not Interested
+C075,Helix Logistics,EdTech,Madurai,12,www.helixlogistics.example,Suresh Patel,CTO,suresh.patel@helixlogistics.example,9604011128,Trade Show,Tech stack change,Replied
+C076,Zen Technologies,Manufacturing,Madurai,180,www.zentechnologies.example,Vignesh Pillai,CFO,vignesh.pillai@zentechnologies.example,9179545125,Cold List,Launched new product,New
+C077,Kavya Solutions,Manufacturing,Bengaluru,25,www.kavyasolutions.example,Sathish Nair,Marketing Head,sathish.nair@kavyasolutions.example,9751028618,Cold List,No recent signal,Not Interested
+C078,Aura Textiles,Textiles,Kochi,180,www.auratextiles.example,Naveen Pillai,CTO,naveen.pillai@auratextiles.example,9710561240,Cold List,Recently funded,Not Interested
+C079,Indus Industries,Pharma,Hyderabad,25,www.indusindustries.example,Rajesh Patel,VP Sales,rajesh.patel@indusindustries.example,9357553274,Website,Leadership change,New
+C080,Swift Infra,IT Services,Bengaluru,85,www.swiftinfra.example,Swathi Nair,CTO,swathi.nair@swiftinfra.example,9854827139,Trade Show,Recently funded,Contacted
+C081,Pioneer Education,Pharma,Pune,25,www.pioneereducation.example,Sathish Patel,Head of Procurement,sathish.patel@pioneereducation.example,9795392488,Website,New office expansion,Contacted
+C082,Apex Technologies,Real Estate,Kolkata,650,www.apextechnologies.example,Meena Nair,CTO,meena.nair@apextechnologies.example,9571537429,LinkedIn,Tech stack change,Replied
+C083,Pioneer Systems,EdTech,Madurai,650,www.pioneersystems.example,Pooja Pillai,Founder & CEO,pooja.pillai@pioneersystems.example,9563887247,Google Search,New office expansion,Not Interested
+C084,Pioneer Technologies,Auto Components,Kochi,650,www.pioneertechnologies.example,Karthik Iyer,Founder & CEO,karthik.iyer@pioneertechnologies.example,9921155204,Google Search,No recent signal,Replied
+C085,Terra Technologies,Retail,Ahmedabad,250,www.terratechnologies.example,Meena Pillai,CTO,meena.pillai@terratechnologies.example,9294872482,Cold List,Tech stack change,Meeting Booked
+C086,Apex Pharma,Food Processing,Mumbai,25,www.apexpharma.example,Deepa Sharma,VP Sales,deepa.sharma@apexpharma.example,9454123990,Trade Show,Launched new product,Meeting Booked
+C087,Blue Auto Components,IT Services,Delhi NCR,25,www.blueautocomponents.example,Manoj Menon,Operations Head,manoj.menon@blueautocomponents.example,9371011200,Referral,Recently funded,Meeting Booked
+C088,Aura Retail,Retail,Delhi NCR,180,www.auraretail.example,Arun Patel,Founder & CEO,arun.patel@auraretail.example,9301415220,Cold List,New office expansion,Not Interested
+C089,Crest Pharma,Pharma,Hyderabad,400,www.crestpharma.example,Naveen Kumar,VP Sales,naveen.kumar@crestpharma.example,9409268943,Trade Show,Launched new product,Meeting Booked
+C090,Bright Technologies,Fintech,Coimbatore,85,www.brighttechnologies.example,Nithya Iyer,Founder & CEO,nithya.iyer@brighttechnologies.example,9692975437,Trade Show,Recently funded,Contacted
+C091,Bright Pharma,Logistics,Delhi NCR,85,www.brightpharma.example,Divya Patel,CTO,divya.patel@brightpharma.example,9546129354,Trade Show,Tech stack change,Contacted
+C092,Surya Systems,Pharma,Kochi,400,www.suryasystems.example,Suresh Sharma,VP Sales,suresh.sharma@suryasystems.example,9174958005,Referral,No recent signal,Meeting Booked
+C093,Kaveri Software,IT Services,Hyderabad,85,www.kaverisoftware.example,Ramesh Nair,CFO,ramesh.nair@kaverisoftware.example,9259553112,Trade Show,Leadership change,Meeting Booked
+C094,Metro Foods,Healthcare,Delhi NCR,120,www.metrofoods.example,Pooja Menon,Head of Procurement,pooja.menon@metrofoods.example,9848933239,Website,Leadership change,Meeting Booked
+C095,Veda Retail,Food Processing,Kolkata,250,www.vedaretail.example,Kavitha Kumar,Marketing Head,kavitha.kumar@vedaretail.example,9514548900,Google Search,No recent signal,Contacted
+C096,Delta Technologies,Real Estate,Mumbai,25,www.deltatechnologies.example,Suresh Menon,CFO,suresh.menon@deltatechnologies.example,9207064620,Cold List,Tech stack change,New
+C097,Indus Solutions,Logistics,Madurai,250,www.indussolutions.example,Kavitha Patel,CTO,kavitha.patel@indussolutions.example,9463527356,Cold List,Launched new product,Meeting Booked
+C098,Kaveri Retail,Food Processing,Ahmedabad,250,www.kaveriretail.example,Pooja Sharma,Founder & CEO,pooja.sharma@kaveriretail.example,9762992051,LinkedIn,Hiring sales team,Replied
+C099,Veda Healthcare,Manufacturing,Ahmedabad,25,www.vedahealthcare.example,Karthik Sharma,CFO,karthik.sharma@vedahealthcare.example,9278632824,Google Search,New office expansion,New
+C100,Nova Foods,Food Processing,Mumbai,180,www.novafoods.example,Priya Nair,VP Sales,priya.nair@novafoods.example,9362204999,Cold List,Tech stack change,Not Interested
