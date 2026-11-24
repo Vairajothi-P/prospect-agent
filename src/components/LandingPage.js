@@ -56,7 +56,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
   const [activeFeatureTab, setActiveFeatureTab] = useState("signals");
   const [interactiveAngle, setInteractiveAngle] = useState(0);
   const [activeWorkflowCard, setActiveWorkflowCard] = useState(0);
-  
+
   // Staggered Reveal Sequence: Initially ONLY Step 1 is visible, then Step 2 animates in, then Step 3 animates in
   const [revealedCount, setRevealedCount] = useState(1);
   const workflowSectionRef = useRef(null);
@@ -121,144 +121,128 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
   ];
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-teal-500 selection:text-white">
-      {/* 1. Highperformr-Inspired Modern Sticky Navbar */}
-      <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 transition-all">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-          {/* Left: Brand Logo & Tag */}
-          <div className="flex items-center gap-3">
-            <div 
-              onClick={onLaunchProspectAI}
-              className="flex items-center gap-2.5 cursor-pointer group"
-            >
-              <img 
-                src="/pibi-logo.png" 
-                alt="PiBi Logo" 
-                className="h-8 w-auto transition-transform group-hover:scale-105" 
-              />
-              <span className="text-xl font-bold tracking-tight text-slate-900">
-                Prospect AI
-              </span>
-              <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200/80">
-                GTM Engine
-              </span>
+    <div className="min-h-screen bg-[#fdfdfd] text-[#0f172a] flex flex-col font-sans selection:bg-[#059669] selection:text-white relative overflow-x-hidden">
+      {/* Background Dot Texture & Multi-Corner Glow Effects (from reference) */}
+      <div className="fixed inset-0 pointer-events-none -z-20 opacity-35 bg-[radial-gradient(#cbd5e1_0.75px,transparent_0.75px)] [background-size:24px_24px]" />
+      <div className="fixed inset-0 pointer-events-none -z-10 opacity-80 [background-image:radial-gradient(at_0_0,#2563eb08_0,#0000_50%),radial-gradient(at_100%_0,#05966908_0,#0000_50%),radial-gradient(at_100%_100%,#2563eb08_0,#0000_50%),radial-gradient(at_0_100%,#05966908_0,#0000_50%)]" />
+
+      {/* 1. Floating Pill Header (Matching https://landing-page-crm-eosin.vercel.app/) */}
+      <header className="sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="mt-4 flex items-center justify-between rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-xl px-5 py-3.5 shadow-lg shadow-slate-200/40">
+            {/* Left: Brand Logo & Title */}
+            <div className="w-full md:w-auto flex items-center justify-between">
+              <div
+                onClick={onLaunchProspectAI}
+                className="flex items-center gap-3 cursor-pointer group select-none"
+              >
+                <div className="w-10 h-10 rounded-xl overflow-hidden shadow-xs border border-slate-100 flex items-center justify-center bg-white shrink-0">
+                  <img
+                    src="/pibi-logo.png"
+                    alt="Logo"
+                    className="w-full h-full object-contain p-1 transition-transform group-hover:scale-105"
+                  />
+                </div>
+                <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-[#2563eb] to-[#059669] bg-clip-text text-transparent">
+                  Prospect AI
+                </span>
+              </div>
             </div>
-          </div>
 
-          {/* Center: Navigation Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
-            <a href="#features" className="hover:text-teal-600 transition-colors">
-              Platform
-            </a>
-            <a href="#signals" className="hover:text-teal-600 transition-colors flex items-center gap-1.5">
-              <span>Buying Signals</span>
-              <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-            </a>
-            <a href="#how-it-works" className="hover:text-teal-600 transition-colors">
-              How It Works
-            </a>
-            <a href="#roi" className="hover:text-teal-600 transition-colors">
-              ROI &amp; Metrics
-            </a>
-            <a href="#testimonials" className="hover:text-teal-600 transition-colors">
-              Customers
-            </a>
-          </nav>
+            {/* Center: Navigation Links */}
+            <nav className="hidden md:flex items-center gap-8 text-sm font-semibold">
+              <a href="#platform" className="text-slate-600 hover:text-[#059669] transition-colors">
+                Platform
+              </a>
+              <a href="#features" className="text-slate-600 hover:text-[#059669] transition-colors">
+                Features
+              </a>
+              <a href="#how-it-works" className="text-slate-600 hover:text-[#059669] transition-colors">
+                How It Works
+              </a>
+              <a href="#roi" className="text-slate-600 hover:text-[#059669] transition-colors">
+                ROI &amp; Metrics
+              </a>
+              <a href="#testimonials" className="text-slate-600 hover:text-[#059669] transition-colors">
+                Customers
+              </a>
+            </nav>
 
-          {/* Right Corner: The Key "Prospect AI" Action Button */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onExploreHub}
-              className="hidden sm:flex text-xs font-bold text-slate-600 hover:text-slate-900 px-3.5 py-2 rounded-xl transition-colors cursor-pointer"
-            >
-              Live Demo Hub
-            </button>
-            <button
-              onClick={onLaunchProspectAI}
-              className="bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-sm px-5 py-2.5 rounded-xl shadow-md shadow-teal-600/20 hover:shadow-lg hover:shadow-teal-600/30 transition-all flex items-center gap-2 cursor-pointer active:scale-98 group"
-              title="Launch Prospect AI Platform"
-            >
-              <Sparkles className="w-4 h-4 text-teal-200 transition-transform group-hover:rotate-12" />
-              <span>Prospect AI</span>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-            </button>
+            {/* Right: Actions */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={onLaunchProspectAI}
+                className="rounded-xl bg-[#097391] hover:bg-[#075f78] px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-[#097391]/25 hover:scale-105 transition-all cursor-pointer flex items-center gap-2 group active:scale-95"
+                title="Launch Prospect AI Platform"
+              >
+                <Sparkles className="w-4 h-4 text-cyan-200 transition-transform group-hover:rotate-12" />
+                <span>Launch Prospect AI</span>
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* 2. Hero Section */}
-      <section className="relative pt-12 pb-8 sm:pt-20 sm:pb-10 overflow-hidden bg-gradient-to-b from-slate-50/70 via-white to-white">
-        {/* Subtle Decorative Background Glows */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-teal-200/30 via-teal-100/20 to-blue-200/20 rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* 2. Hero Section (Matching https://landing-page-crm-eosin.vercel.app/ styling & typography) */}
+      <section id="platform" className="relative pt-8 pb-12 sm:pt-14 sm:pb-16 overflow-hidden">
+        {/* Radial Ambient Glow Layers from Reference */}
+        <div className="absolute inset-0 -z-10 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(43,155,126,0.1),transparent_40%),radial-gradient(circle_at_80%_25%,rgba(13,91,145,0.1),transparent_40%)]" />
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          {/* Top Announcement Pill */}
-          <div 
-            onClick={onLaunchProspectAI}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white border border-teal-200/80 shadow-2xs text-xs font-semibold text-slate-700 hover:border-teal-400 transition-all cursor-pointer mb-8 group"
-          >
-            <span className="flex h-2 w-2 rounded-full bg-teal-500 animate-pulse" />
-            <span className="text-teal-800 font-bold">Autonomous GTM Intelligence</span>
-            <span className="text-slate-300">|</span>
-            <span className="text-slate-600 group-hover:text-teal-600 transition-colors">
-              Discover High-Intent ICP Buyers in Seconds
-            </span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400 group-hover:translate-x-0.5 transition-transform" />
-          </div>
-
           {/* Main Hero Headline */}
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-slate-950 tracking-tight max-w-5xl leading-[1.1] text-balance">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black leading-tight tracking-tight text-[#1e293b] max-w-5xl text-balance">
             Turn Live Buying Signals into{" "}
-            <span className="bg-gradient-to-r from-teal-600 via-teal-500 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#2563eb] to-[#059669] bg-clip-text text-transparent">
               Predictable Revenue Pipeline
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-3xl leading-relaxed text-balance">
-            Stop wasting hours on stale lead databases. PiBi Prospect AI identifies verified B2B decision-makers 
-            tracking executive promotions, funding rounds, and hiring sprints — with instant multi-angle AI outreach 
-            and 1-click CRM deduplication.
+          <p className="mt-6 text-slate-500 max-w-2xl text-base md:text-lg font-medium leading-relaxed text-balance">
+            A unified platform that connects autonomous prospect discovery, waterfall enrichment, and multi-angle AI outreach into one powerful system. Scale faster and stay profitable.
           </p>
 
-          {/* Hero CTAs */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          {/* Hero CTAs (Exact Button Styles from Reference) */}
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
             <button
               onClick={onLaunchProspectAI}
-              className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white font-extrabold text-base px-8 py-4 rounded-xl shadow-lg shadow-teal-600/25 hover:shadow-xl hover:shadow-teal-600/35 transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-98 group"
+              className="inline-flex items-center justify-center gap-3 rounded-full bg-[#097391] hover:bg-[#075f78] text-white px-8 py-4 font-black shadow-xl hover:shadow-[#097391]/35 transition-all hover:scale-105 cursor-pointer active:scale-95"
             >
-              <Sparkles className="w-5 h-5 text-teal-200" />
+              <Sparkles className="w-5 h-5 text-cyan-200" />
               <span>Launch Prospect AI</span>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="w-5 h-5" />
             </button>
 
             <button
               onClick={onExploreHub}
-              className="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-800 font-bold text-base px-7 py-4 rounded-xl border border-slate-200 shadow-2xs hover:border-slate-300 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="inline-flex items-center justify-center gap-3 rounded-full border-2 border-slate-200 px-8 py-4 text-[#1e293b] font-black hover:bg-slate-50 transition-all cursor-pointer active:scale-95 shadow-xs"
             >
-              <Zap className="w-4 h-4 text-teal-600" />
-              <span>Explore Live Prospect Hub</span>
+              <Zap className="w-4 h-4 text-[#097391]" />
+              <span>Explore Live Hub</span>
             </button>
           </div>
 
-          {/* Micro Trust Indicators */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-xs font-semibold text-slate-500">
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>450M+ Verified Decision-Makers</span>
+          {/* Micro Stat Highlights with Left Border (Direct Reference Pattern) */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 md:gap-12 text-left">
+            <div className="border-l-4 border-[#059669] pl-4">
+              <p className="text-2xl md:text-4xl font-black text-[#1e293b]">3x</p>
+              <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">Pipeline Growth</p>
             </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>100% CRM Deduplication</span>
+            <div className="border-l-4 border-[#2563eb] pl-4">
+              <p className="text-2xl md:text-4xl font-black text-[#1e293b]">98%</p>
+              <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">Verified Accuracy</p>
             </div>
-            <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-teal-600" />
-              <span>AI Multi-Angle Scribe Pitches</span>
+            <div className="border-l-4 border-[#1e293b] pl-4">
+              <p className="text-2xl md:text-4xl font-black text-[#1e293b]">Zero</p>
+              <p className="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest">Manual SDR Admin</p>
             </div>
           </div>
 
           {/* 3. Hero Visual Showcase - Interactive Mockup of Prospect AI Command Center */}
-          <div className="mt-14 w-full max-w-6xl">
+          <div className="mt-12 w-full max-w-6xl">
             <div className="relative rounded-2xl p-2 sm:p-3 bg-gradient-to-b from-slate-200/70 via-slate-100/50 to-slate-200/70 border border-slate-200 shadow-2xl shadow-slate-300/40">
               {/* Window Bar */}
               <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs">
@@ -268,22 +252,9 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                     <div className="w-3 h-3 rounded-full bg-red-400" />
                     <div className="w-3 h-3 rounded-full bg-amber-400" />
                     <div className="w-3 h-3 rounded-full bg-emerald-400" />
-                    <span className="text-xs font-semibold text-slate-400 ml-2 hidden sm:inline">
+                    <span className="text-xs font-semibold text-slate-400 ml-2 hidden sm:inline font-mono">
                       https://smartcrm.pibi.io/prospect-ai
                     </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-bold text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
-                      Live ICP Match Active
-                    </span>
-                    <button
-                      onClick={onLaunchProspectAI}
-                      className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3 py-1 rounded-lg transition-colors cursor-pointer flex items-center gap-1"
-                    >
-                      <span>Open in App</span>
-                      <ArrowRight className="w-3 h-3" />
-                    </button>
                   </div>
                 </div>
 
@@ -292,13 +263,13 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                   {/* Top Bar inside Mockup */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-700 font-black">
+                      <div className="w-10 h-10 rounded-xl bg-[#059669]/10 border border-[#059669]/20 flex items-center justify-center text-[#059669] font-black">
                         AI
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-slate-900 text-sm sm:text-base">Target ICP: Smart CRM &amp; CPQ</h3>
-                          <span className="bg-teal-50 text-teal-700 text-xs font-bold px-2 py-0.5 rounded-full border border-teal-100">
+                          <h3 className="font-bold text-[#1e293b] text-sm sm:text-base">Target ICP: Smart CRM &amp; CPQ</h3>
+                          <span className="bg-[#059669]/10 text-[#059669] text-xs font-bold px-2 py-0.5 rounded-lg border border-[#059669]/20">
                             2 Products Active
                           </span>
                         </div>
@@ -309,9 +280,9 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 font-semibold">
-                        Matched: <strong className="text-slate-900 font-black">12 Hot Prospects</strong>
+                        Matched: <strong className="text-[#1e293b] font-black">12 Hot Prospects</strong>
                       </div>
-                      <div className="text-xs text-teal-700 bg-teal-50 px-3 py-1.5 rounded-lg border border-teal-200 font-bold">
+                      <div className="text-xs text-[#059669] bg-[#059669]/10 px-3 py-1.5 rounded-lg border border-[#059669]/20 font-bold">
                         98% Match Rate
                       </div>
                     </div>
@@ -320,13 +291,13 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                   {/* 2-Column Split: Prospect Signal + AI Scribe Outreach Engine */}
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
                     {/* Left Column: Real-time Buying Signal & Prospect Lead */}
-                    <div className="lg:col-span-5 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col gap-3.5">
+                    <div className="lg:col-span-5 bg-white p-4 rounded-xl border border-[#2563eb]/20 shadow-2xs flex flex-col gap-3.5">
                       <div className="flex items-center justify-between pb-2 border-b border-slate-100">
                         <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                           <Zap className="w-3.5 h-3.5 text-amber-500" />
                           Live Intent Trigger
                         </span>
-                        <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                        <span className="text-[11px] font-bold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded border border-[#059669]/20">
                           10m ago
                         </span>
                       </div>
@@ -347,22 +318,22 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
 
                       <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-teal-600 text-white font-bold flex items-center justify-center text-xs">
+                          <div className="w-9 h-9 rounded-full bg-[#097391] text-white font-bold flex items-center justify-center text-xs">
                             ER
                           </div>
                           <div>
-                            <div className="text-xs font-bold text-slate-900">Elena Rostova</div>
+                            <div className="text-xs font-bold text-[#1e293b]">Elena Rostova</div>
                             <div className="text-[11px] text-slate-500">VP of Revenue Operations • CloudNova</div>
                           </div>
                         </div>
-                        <span className="text-xs font-extrabold text-teal-600 bg-white border border-teal-200 px-2.5 py-1 rounded-md shadow-2xs">
+                        <span className="text-xs font-extrabold text-[#059669] bg-[#059669]/10 border border-[#059669]/20 px-2.5 py-1 rounded-md shadow-2xs">
                           98% ICP
                         </span>
                       </div>
 
                       <div className="text-xs text-slate-500 flex items-center justify-between pt-1">
-                        <span>Email: <strong className="text-slate-700">elena.rostova@cloudnova.io</strong></span>
-                        <span className="text-emerald-600 font-bold flex items-center gap-1">
+                        <span>Email: <strong className="text-slate-700 font-mono">elena.rostova@cloudnova.io</strong></span>
+                        <span className="text-[#059669] font-bold flex items-center gap-1">
                           <ShieldCheck className="w-3.5 h-3.5" />
                           Verified
                         </span>
@@ -370,22 +341,21 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                     </div>
 
                     {/* Right Column: AI Scribe Instant Pitch Preview */}
-                    <div className="lg:col-span-7 bg-white p-4 rounded-xl border border-slate-200 shadow-2xs flex flex-col gap-3">
+                    <div className="lg:col-span-7 bg-white p-4 rounded-xl border border-[#059669]/20 shadow-2xs flex flex-col gap-3">
                       <div className="flex items-center justify-between pb-2 border-b border-slate-100 flex-wrap gap-2">
                         <div className="flex items-center gap-2">
-                          <Sparkles className="w-4 h-4 text-teal-600" />
-                          <span className="text-xs font-bold text-slate-900">AI Scribe Dynamic Multi-Angle Pitch</span>
+                          <Sparkles className="w-4 h-4 text-[#059669]" />
+                          <span className="text-xs font-bold text-[#1e293b]">AI Scribe Dynamic Multi-Angle Pitch</span>
                         </div>
                         <div className="flex items-center gap-1">
                           {samplePitchAngles.map((angle, idx) => (
                             <button
                               key={angle.title}
                               onClick={() => setInteractiveAngle(idx)}
-                              className={`text-[11px] font-bold px-2 py-0.5 rounded cursor-pointer transition-all ${
-                                interactiveAngle === idx
-                                  ? "bg-teal-600 text-white"
-                                  : "text-slate-500 hover:bg-slate-100"
-                              }`}
+                              className={`text-[11px] font-bold px-2.5 py-1 rounded-lg cursor-pointer transition-all ${interactiveAngle === idx
+                                ? "bg-[#097391] text-white shadow-2xs"
+                                : "text-slate-500 hover:bg-slate-100"
+                                }`}
                             >
                               Angle {idx + 1}
                             </button>
@@ -396,7 +366,7 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                       <div className="bg-slate-50 rounded-xl p-3.5 border border-slate-200 text-xs flex flex-col gap-2">
                         <div className="font-semibold text-slate-600 flex items-center gap-1.5">
                           <span className="text-slate-400">Subject:</span>
-                          <span className="text-slate-900 font-bold">{samplePitchAngles[interactiveAngle].subject}</span>
+                          <span className="text-[#1e293b] font-bold">{samplePitchAngles[interactiveAngle].subject}</span>
                         </div>
                         <p className="text-slate-700 leading-relaxed text-[11px] sm:text-xs">
                           {samplePitchAngles[interactiveAngle].body}
@@ -406,13 +376,13 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                       <div className="flex items-center justify-between pt-2 border-t border-slate-100">
                         <div className="flex items-center gap-2">
                           <span className="text-[11px] font-bold text-slate-500">Auto-Push:</span>
-                          <span className="text-[11px] font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
+                          <span className="text-[11px] font-bold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded border border-[#059669]/20">
                             Smart CRM Webhook (200 OK)
                           </span>
                         </div>
                         <button
                           onClick={onLaunchProspectAI}
-                          className="bg-teal-600 hover:bg-teal-700 text-white text-xs font-bold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 cursor-pointer"
+                          className="rounded-lg bg-[#097391] hover:bg-[#075f78] text-white text-xs font-bold px-4 py-1.5 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs hover:scale-105"
                         >
                           <span>Generate for Your ICP</span>
                           <ArrowRight className="w-3.5 h-3.5" />
@@ -427,38 +397,29 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
         </div>
       </section>
 
-      {/* 5. Workflow Visualization (Highperformr-style Intent Pipeline: Siloed Data -> Actionable Intent Data) */}
-      <section id="features" className="pt-6 pb-6 sm:pt-8 sm:pb-8 bg-gradient-to-b from-slate-50/80 via-white to-slate-50/50 border-y border-slate-100 overflow-hidden">
+      {/* 4. Workflow Visualization (Features & Bento Section - Styling matching Section 2 of reference) */}
+      <section id="features" className="py-12 bg-transparent">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header with Exact Badge from Image 1 */}
-          <div className="flex flex-col items-center text-center max-w-3xl mx-auto mb-8 sm:mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50/90 border border-emerald-300 text-xs font-bold text-emerald-800 shadow-2xs mb-5">
-              <span className="flex items-center gap-1.5 text-emerald-700">
-                <Database className="w-3.5 h-3.5" />
-                <span>FROM SILOED DATA</span>
-              </span>
-              <ArrowRight className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="flex items-center gap-1.5 text-emerald-800">
-                <Zap className="w-3.5 h-3.5 text-amber-500" />
-                <span>TO ACTIONABLE INTENT DATA</span>
-              </span>
-            </div>
-
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-              Keep existing workflows intact. Prospect AI signals enriches your CRM with its data &amp; trusted sources you bring.
+          {/* Section Header */}
+          <div className="text-center mb-10 max-w-3xl mx-auto">
+            <span className="inline-block px-4 py-2 rounded-lg text-xs font-bold mb-4 bg-[#059669]/10 text-[#059669] border border-[#059669]/20 uppercase tracking-widest">
+              Autonomous Intent Pipeline
+            </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1e293b] leading-tight tracking-tight">
+              Keep existing workflows intact. Prospect AI enriches your stack with live signals.
             </h2>
-            <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl">
+            <p className="mt-4 text-base md:text-lg text-slate-600 font-medium">
               Consolidate existing accounts, continuously enrich contacts with high-intent buying signals, and automatically trigger outreach across your revenue stack.
             </p>
           </div>
 
-          {/* Interactive 3-Stage Pipeline Diagram (Image 1 Reference) */}
-          <div className="relative flex flex-col xl:flex-row items-center justify-between gap-6 lg:gap-4 my-6">
-            
+          {/* 3-Stage Pipeline Diagram (Direct Ref Style) */}
+          <div className="relative flex flex-col xl:flex-row items-center justify-between gap-4 lg:gap-3 my-4">
+
             {/* STAGE 1 (LEFT): Centralize account data from multiple sources */}
-            <div className="w-full xl:w-72 shrink-0 flex flex-col">
-              <div className="text-center xl:text-left mb-3">
-                <span className="text-xs font-extrabold text-slate-700 block">
+            <div className="w-full xl:w-64 shrink-0 flex flex-col">
+              <div className="text-center xl:text-left mb-2">
+                <span className="text-xs font-extrabold text-[#1e293b] block">
                   Centralize account data
                 </span>
                 <span className="text-[11px] font-medium text-slate-400 block">
@@ -466,40 +427,40 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 </span>
               </div>
 
-              <div className="bg-white rounded-2xl p-5 border border-slate-200/90 shadow-sm hover:shadow-md transition-all flex flex-col gap-4">
+              <div className="group relative p-4 sm:p-4.5 rounded-2xl border transition-all duration-300 bg-white shadow-md hover:shadow-lg flex flex-col gap-3 border-[#2563eb]/20 hover:border-[#2563eb]/40">
                 {/* Integration Logos Row */}
-                <div className="flex items-center gap-2.5 pb-3 border-b border-slate-100">
-                  <div className="w-7 h-7 rounded-lg bg-sky-50 flex items-center justify-center p-1" title="Salesforce">
-                    <SalesforceLogo className="w-5 h-5" />
+                <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
+                  <div className="w-6 h-6 rounded-lg bg-sky-50 flex items-center justify-center p-1 shadow-2xs" title="Salesforce">
+                    <SalesforceLogo className="w-4 h-4" />
                   </div>
-                  <div className="w-7 h-7 rounded-lg bg-orange-50 flex items-center justify-center p-1" title="HubSpot">
-                    <HubSpotLogo className="w-5 h-5" />
+                  <div className="w-6 h-6 rounded-lg bg-orange-50 flex items-center justify-center p-1 shadow-2xs" title="HubSpot">
+                    <HubSpotLogo className="w-4 h-4" />
                   </div>
-                  <div className="w-7 h-7 rounded-lg bg-slate-900 text-white font-black text-[10px] flex items-center justify-center" title="Pipedrive">
+                  <div className="w-6 h-6 rounded-lg bg-slate-900 text-white font-black text-[9px] flex items-center justify-center shadow-2xs" title="Pipedrive">
                     P
                   </div>
-                  <div className="w-7 h-7 rounded-lg bg-purple-50 flex items-center justify-center p-1" title="Slack">
-                    <SlackLogo className="w-5 h-5" />
+                  <div className="w-6 h-6 rounded-lg bg-purple-50 flex items-center justify-center p-1 shadow-2xs" title="Slack">
+                    <SlackLogo className="w-4 h-4" />
                   </div>
                 </div>
 
                 <div>
-                  <h4 className="text-base font-bold text-slate-900">CRM / Existing leads</h4>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                  <h4 className="text-sm font-bold text-[#1e293b]">CRM &amp; Existing Leads</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
                     Automatically ingests existing accounts, cleans duplicates, and synchronizes status in real-time.
                   </p>
                 </div>
 
-                <div className="pt-2 border-t border-slate-100 flex flex-col gap-1.5 text-[11px]">
+                <div className="pt-2 border-t border-slate-100 flex flex-col gap-1 text-[11px]">
                   <div className="flex items-center justify-between text-slate-600 font-semibold">
                     <span>Database Status:</span>
-                    <span className="text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded font-bold border border-emerald-200">
+                    <span className="text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded font-bold border border-[#059669]/20 whitespace-nowrap">
                       ✓ Deduplication Active
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-slate-600 font-semibold">
                     <span>2-Way Webhook:</span>
-                    <span className="text-teal-700 bg-teal-50 px-2 py-0.5 rounded font-bold border border-teal-200">
+                    <span className="text-[#2563eb] bg-[#2563eb]/10 px-2 py-0.5 rounded font-bold border border-[#2563eb]/20 whitespace-nowrap">
                       200 OK Live
                     </span>
                   </div>
@@ -508,34 +469,34 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
             </div>
 
             {/* CONNECTOR 1: Flow into Center with Circular Node Icons */}
-            <div className="hidden xl:flex items-center justify-center px-2 relative">
-              <div className="flex flex-col items-center gap-2">
-                <div className="grid grid-cols-2 gap-2 p-2 bg-slate-100/90 rounded-2xl border border-slate-200 shadow-2xs">
-                  <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-teal-600 shadow-2xs hover:scale-105 transition-transform" title="Multi-Source Ingestion">
-                    <Layers className="w-4 h-4" />
+            <div className="hidden xl:flex items-center justify-center px-1 relative">
+              <div className="flex flex-col items-center gap-1.5">
+                <div className="grid grid-cols-2 gap-1.5 p-1.5 bg-slate-100/90 rounded-xl border border-slate-200 shadow-2xs">
+                  <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#059669] shadow-2xs hover:scale-105 transition-transform" title="Multi-Source Ingestion">
+                    <Layers className="w-3.5 h-3.5" />
                   </div>
-                  <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-blue-600 shadow-2xs hover:scale-105 transition-transform" title="Data Enrichment">
-                    <Database className="w-4 h-4" />
+                  <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#2563eb] shadow-2xs hover:scale-105 transition-transform" title="Data Enrichment">
+                    <Database className="w-3.5 h-3.5" />
                   </div>
-                  <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-amber-600 shadow-2xs hover:scale-105 transition-transform" title="Signal Intelligence">
-                    <Zap className="w-4 h-4" />
+                  <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-amber-500 shadow-2xs hover:scale-105 transition-transform" title="Signal Intelligence">
+                    <Zap className="w-3.5 h-3.5" />
                   </div>
-                  <div className="w-8 h-8 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-emerald-600 shadow-2xs hover:scale-105 transition-transform" title="ICP Qualification">
-                    <Target className="w-4 h-4" />
+                  <div className="w-7 h-7 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-[#059669] shadow-2xs hover:scale-105 transition-transform" title="ICP Qualification">
+                    <Target className="w-3.5 h-3.5" />
                   </div>
                 </div>
                 {/* Connecting Line with Arrow */}
-                <div className="flex items-center gap-1 text-emerald-600">
-                  <div className="h-0.5 w-12 bg-emerald-500 rounded-full" />
-                  <ArrowRight className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="flex items-center gap-1 text-[#059669]">
+                  <div className="h-0.5 w-8 bg-[#097391] rounded-full" />
+                  <ArrowRight className="w-3.5 h-3.5 text-[#059669] shrink-0" />
                 </div>
               </div>
             </div>
 
             {/* STAGE 2 (CENTER): Enrich and prioritize contacts (Main Window Mockup) */}
-            <div className="flex-1 max-w-2xl w-full">
-              <div className="text-center xl:text-left mb-3">
-                <span className="text-xs font-extrabold text-slate-700 block">
+            <div className="flex-1 max-w-xl w-full">
+              <div className="text-center xl:text-left mb-2">
+                <span className="text-xs font-extrabold text-[#1e293b] block">
                   Enrich and prioritize contacts
                 </span>
                 <span className="text-[11px] font-medium text-slate-400 block">
@@ -543,114 +504,119 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 </span>
               </div>
 
-              {/* Center Window Mockup with Green Border from Image 1 */}
-              <div className="bg-white rounded-2xl border-2 border-emerald-500/80 shadow-xl overflow-hidden">
+              {/* Center Window Mockup with Teal Border */}
+              <div className="bg-white rounded-2xl border-2 border-[#059669] shadow-lg overflow-hidden ring-4 ring-[#059669]/10">
                 {/* Window Header */}
-                <div className="bg-slate-50 px-4 py-2.5 border-b border-slate-200 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                <div className="bg-slate-50 px-3.5 py-2 border-b border-slate-200 flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
                     <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
                     <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
                     <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-                    <span className="text-xs font-bold text-slate-700 ml-1.5 flex items-center gap-1.5">
-                      <Sparkles className="w-3.5 h-3.5 text-teal-600" />
-                      <span>Prospect AI</span>
+                    <span className="text-xs font-bold text-[#1e293b] ml-1.5 flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-[#059669]" />
+                      <span>Prospect AI Engine</span>
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  <span className="text-[10px] font-bold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded-md border border-[#059669]/20 whitespace-nowrap">
                     Live ICP Engine
                   </span>
                 </div>
 
                 {/* Window Body */}
-                <div className="p-4 sm:p-5 flex flex-col gap-3">
+                <div className="p-3.5 sm:p-4 flex flex-col gap-2.5">
                   <div className="text-center sm:text-left">
-                    <h5 className="text-sm sm:text-base font-extrabold text-slate-900">
+                    <h5 className="text-xs sm:text-sm font-extrabold text-[#1e293b]">
                       Consolidate accounts and build list with ICP contacts
                     </h5>
-                    <p className="text-xs text-slate-500 mt-0.5">
+                    <p className="text-[11px] text-slate-500 mt-0.5">
                       Matches multi-product personas against real-time verified company signals
                     </p>
                   </div>
 
-                  {/* Micro Table of Enriched Contacts */}
+                  {/* Micro Table of Enriched Contacts (All column values strictly on 1 single line) */}
                   <div className="overflow-x-auto rounded-xl border border-slate-200 bg-slate-50/50">
                     <table className="w-full text-left text-xs">
                       <thead>
                         <tr className="border-b border-slate-200 bg-slate-100/70 text-[10px] font-extrabold text-slate-500 uppercase tracking-wider">
-                          <th className="py-2 px-3">Contact</th>
-                          <th className="py-2 px-3">Company</th>
-                          <th className="py-2 px-3">Role</th>
-                          <th className="py-2 px-3">ICP Match</th>
-                          <th className="py-2 px-3 text-right">Intent Trigger</th>
+                          <th className="py-2 px-2.5 whitespace-nowrap">Contact</th>
+                          <th className="py-2 px-2.5 whitespace-nowrap">Company</th>
+                          <th className="py-2 px-2.5 whitespace-nowrap">Role</th>
+                          <th className="py-2 px-2.5 whitespace-nowrap">ICP Match</th>
+                          <th className="py-2 px-2.5 text-right whitespace-nowrap">Intent Trigger</th>
+                          <th className="py-2 px-2.5 text-right whitespace-nowrap">ICP Match</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-200/70 bg-white">
-                        <tr className="hover:bg-teal-50/30 transition-colors">
-                          <td className="py-2 px-3 font-bold text-slate-900 flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-full bg-teal-600 text-white font-extrabold text-[10px] flex items-center justify-center">ER</span>
-                            <span>Elena Rostova</span>
+                        <tr className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-2 px-2.5 font-bold text-[#1e293b] flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="w-5 h-5 rounded-full bg-[#097391] text-white font-extrabold text-[9px] flex items-center justify-center shrink-0">ER</span>
+                            <span className="whitespace-nowrap">Elena Rostova</span>
                           </td>
-                          <td className="py-2 px-3 text-slate-700 font-semibold">CloudNova Systems</td>
-                          <td className="py-2 px-3 text-slate-500">VP of RevOps</td>
-                          <td className="py-2 px-3">
-                            <span className="text-[10px] font-extrabold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
-                              98% ICP
-                            </span>
-                          </td>
-                          <td className="py-2 px-3 text-right font-semibold text-emerald-600 text-[11px]">
-                            🔥 Promoted (10m ago)
-                          </td>
+                          <td className="py-2 px-2.5 text-slate-700 font-semibold whitespace-nowrap">CloudNova Systems</td>
+                          <td className="py-2 px-2.5 text-slate-500 whitespace-nowrap">VP of RevOps</td>
+                          <td className="py-2 px-2.5 whitespace-nowrap">
+                            <td className="py-2 px-2.5 text-right whitespace-nowrap">
+                              <span className="text-[10px] font-extrabold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded border border-[#059669]/20 whitespace-nowrap">
+                                98% ICP
+                              </span>
+                            </td>
+                            <td className="py-2 px-2.5 text-right font-semibold text-[#059669] text-[11px] whitespace-nowrap">
+                              🔥 Promoted (10m ago)
+                            </td>
                         </tr>
 
-                        <tr className="hover:bg-teal-50/30 transition-colors">
-                          <td className="py-2 px-3 font-bold text-slate-900 flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-extrabold text-[10px] flex items-center justify-center">AP</span>
-                            <span>Arthur Pendelton</span>
+                        <tr className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-2 px-2.5 font-bold text-[#1e293b] flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="w-5 h-5 rounded-full bg-[#2563eb] text-white font-extrabold text-[9px] flex items-center justify-center shrink-0">AP</span>
+                            <span className="whitespace-nowrap">Arthur Pendelton</span>
                           </td>
-                          <td className="py-2 px-3 text-slate-700 font-semibold">Acme Corp</td>
-                          <td className="py-2 px-3 text-slate-500">Target Lead</td>
-                          <td className="py-2 px-3">
-                            <span className="text-[10px] font-extrabold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
-                              95% ICP
-                            </span>
-                          </td>
-                          <td className="py-2 px-3 text-right font-semibold text-amber-600 text-[11px]">
-                            ⚡ $35M Series B
-                          </td>
+                          <td className="py-2 px-2.5 text-slate-700 font-semibold whitespace-nowrap">Acme Corp</td>
+                          <td className="py-2 px-2.5 text-slate-500 whitespace-nowrap">Target Lead</td>
+                          <td className="py-2 px-2.5 whitespace-nowrap">
+                            <td className="py-2 px-2.5 text-right whitespace-nowrap">
+                              <span className="text-[10px] font-extrabold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded border border-[#059669]/20 whitespace-nowrap">
+                                95% ICP
+                              </span>
+                            </td>
+                            <td className="py-2 px-2.5 text-right font-semibold text-amber-600 text-[11px] whitespace-nowrap">
+                              ⚡ $35M Series B
+                            </td>
                         </tr>
 
-                        <tr className="hover:bg-teal-50/30 transition-colors">
-                          <td className="py-2 px-3 font-bold text-slate-900 flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-full bg-purple-600 text-white font-extrabold text-[10px] flex items-center justify-center">SL</span>
-                            <span>Sarah Lin</span>
+                        <tr className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-2 px-2.5 font-bold text-[#1e293b] flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="w-5 h-5 rounded-full bg-purple-600 text-white font-extrabold text-[9px] flex items-center justify-center shrink-0">SL</span>
+                            <span className="whitespace-nowrap">Sarah Lin</span>
                           </td>
-                          <td className="py-2 px-3 text-slate-700 font-semibold">LogiFlow Logistics</td>
-                          <td className="py-2 px-3 text-slate-500">CIO</td>
-                          <td className="py-2 px-3">
-                            <span className="text-[10px] font-extrabold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
-                              92% ICP
-                            </span>
-                          </td>
-                          <td className="py-2 px-3 text-right font-semibold text-blue-600 text-[11px]">
-                            💼 Tech Eval RFQ
-                          </td>
+                          <td className="py-2 px-2.5 text-slate-700 font-semibold whitespace-nowrap">LogiFlow Logistics</td>
+                          <td className="py-2 px-2.5 text-slate-500 whitespace-nowrap">CIO</td>
+                          <td className="py-2 px-2.5 whitespace-nowrap">
+                            <td className="py-2 px-2.5 text-right whitespace-nowrap">
+                              <span className="text-[10px] font-extrabold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded border border-[#059669]/20 whitespace-nowrap">
+                                92% ICP
+                              </span>
+                            </td>
+                            <td className="py-2 px-2.5 text-right font-semibold text-[#2563eb] text-[11px] whitespace-nowrap">
+                              💼 Tech Eval RFQ
+                            </td>
                         </tr>
 
-                        <tr className="hover:bg-teal-50/30 transition-colors">
-                          <td className="py-2 px-3 font-bold text-slate-900 flex items-center gap-2">
-                            <span className="w-6 h-6 rounded-full bg-amber-600 text-white font-extrabold text-[10px] flex items-center justify-center">MV</span>
-                            <span>Marcus Vance</span>
+                        <tr className="hover:bg-slate-50/80 transition-colors">
+                          <td className="py-2 px-2.5 font-bold text-[#1e293b] flex items-center gap-1.5 whitespace-nowrap">
+                            <span className="w-5 h-5 rounded-full bg-[#1e293b] text-white font-extrabold text-[9px] flex items-center justify-center shrink-0">MV</span>
+                            <span className="whitespace-nowrap">Marcus Vance</span>
                           </td>
-                          <td className="py-2 px-3 text-slate-700 font-semibold">DataScale IO</td>
-                          <td className="py-2 px-3 text-slate-500">Director Product</td>
-                          <td className="py-2 px-3">
-                            <span className="text-[10px] font-extrabold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
-                              90% ICP
-                            </span>
-                          </td>
-                          <td className="py-2 px-3 text-right font-semibold text-slate-600 text-[11px]">
-                            👥 Hiring 12 SDRs
-                          </td>
+                          <td className="py-2 px-2.5 text-slate-700 font-semibold whitespace-nowrap">DataScale IO</td>
+                          <td className="py-2 px-2.5 text-slate-500 whitespace-nowrap">Director Product</td>
+                          <td className="py-2 px-2.5 whitespace-nowrap">
+                            <td className="py-2 px-2.5 text-right whitespace-nowrap">
+                              <span className="text-[10px] font-extrabold text-[#059669] bg-[#059669]/10 px-2 py-0.5 rounded border border-[#059669]/20 whitespace-nowrap">
+                                90% ICP
+                              </span>
+                            </td>
+                            <td className="py-2 px-2.5 text-right font-semibold text-slate-600 text-[11px] whitespace-nowrap">
+                              👥 Hiring 12 SDRs
+                            </td>
                         </tr>
                       </tbody>
                     </table>
@@ -658,12 +624,12 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
 
                   {/* Window Bottom Actions */}
                   <div className="flex items-center justify-between pt-1">
-                    <span className="text-xs text-slate-500 font-medium">
+                    <span className="text-[11px] text-slate-500 font-medium whitespace-nowrap">
                       Showing 4 of <strong>1,420 Enriched ICP Contacts</strong>
                     </span>
                     <button
                       onClick={onLaunchProspectAI}
-                      className="text-xs font-bold text-teal-700 hover:text-teal-800 flex items-center gap-1 cursor-pointer"
+                      className="text-xs font-bold text-[#059669] hover:underline flex items-center gap-1 cursor-pointer whitespace-nowrap"
                     >
                       <span>Launch Prospect AI</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -675,16 +641,16 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
 
             {/* CONNECTOR 2: Arrow leading into Action Cards */}
             <div className="hidden xl:flex items-center justify-center px-1">
-              <div className="flex items-center gap-1 text-emerald-600">
-                <div className="h-0.5 w-8 bg-emerald-500 rounded-full" />
-                <ArrowRight className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="flex items-center gap-1 text-[#059669]">
+                <div className="h-0.5 w-6 bg-[#097391] rounded-full" />
+                <ArrowRight className="w-3.5 h-3.5 text-[#059669] shrink-0" />
               </div>
             </div>
 
-            {/* STAGE 3 (RIGHT): Action Cards Stack (Exact Fan Layout from Image 1) */}
-            <div className="w-full xl:w-80 shrink-0 flex flex-col">
-              <div className="text-center xl:text-left mb-3">
-                <span className="text-xs font-extrabold text-slate-700 block">
+            {/* STAGE 3 (RIGHT): Action Cards Stack */}
+            <div className="w-full xl:w-72 shrink-0 flex flex-col">
+              <div className="text-center xl:text-left mb-2">
+                <span className="text-xs font-extrabold text-[#1e293b] block">
                   Actionable Revenue Handoff
                 </span>
                 <span className="text-[11px] font-medium text-slate-400 block">
@@ -693,67 +659,64 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               </div>
 
               {/* 3 Action Cards (Clickable Fan Carousel) */}
-              <div className="flex flex-col gap-3">
-                {/* Card 1: Push event-related lead data / signals (Active/Front) */}
+              <div className="flex flex-col gap-2.5">
+                {/* Card 1 */}
                 <div
                   onClick={() => setActiveWorkflowCard(0)}
-                  className={`rounded-2xl p-4.5 border transition-all cursor-pointer ${
-                    activeWorkflowCard === 0
-                      ? "bg-white border-teal-500 ring-2 ring-teal-500/20 shadow-md scale-102"
-                      : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
-                  }`}
+                  className={`rounded-2xl p-3.5 sm:p-4 border transition-all cursor-pointer ${activeWorkflowCard === 0
+                    ? "bg-white border-[#059669] ring-2 ring-[#059669]/20 shadow-md scale-102"
+                    : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
+                    }`}
                 >
-                  <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
-                    <SalesforceLogo className="w-4 h-4" />
-                    <HubSpotLogo className="w-4 h-4" />
-                    <span className="w-4 h-4 rounded-full bg-slate-900 text-white font-black text-[9px] flex items-center justify-center">P</span>
-                    <SlackLogo className="w-4 h-4" />
+                  <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                    <SalesforceLogo className="w-3.5 h-3.5" />
+                    <HubSpotLogo className="w-3.5 h-3.5" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-slate-900 text-white font-black text-[8px] flex items-center justify-center">P</span>
+                    <SlackLogo className="w-3.5 h-3.5" />
                   </div>
-                  <h4 className="text-sm font-extrabold text-slate-900 mt-2.5 leading-snug">
+                  <h4 className="text-xs font-extrabold text-[#1e293b] mt-2 leading-snug">
                     Push event-related lead data/ signals to event attendees in your company
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                  <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
                     Instantly notifies assigned account owners with verified mobile numbers and LinkedIn URLs.
                   </p>
                 </div>
 
-                {/* Card 2: Send job change alerts for AEs/CSMs */}
+                {/* Card 2 */}
                 <div
                   onClick={() => setActiveWorkflowCard(1)}
-                  className={`rounded-2xl p-4.5 border transition-all cursor-pointer ${
-                    activeWorkflowCard === 1
-                      ? "bg-white border-teal-500 ring-2 ring-teal-500/20 shadow-md scale-102"
-                      : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
-                  }`}
+                  className={`rounded-2xl p-3.5 sm:p-4 border transition-all cursor-pointer ${activeWorkflowCard === 1
+                    ? "bg-white border-[#059669] ring-2 ring-[#059669]/20 shadow-md scale-102"
+                    : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
+                    }`}
                 >
-                  <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
-                    <SalesforceLogo className="w-4 h-4" />
-                    <HubSpotLogo className="w-4 h-4" />
-                    <span className="w-4 h-4 rounded-full bg-slate-900 text-white font-black text-[9px] flex items-center justify-center">P</span>
+                  <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                    <SalesforceLogo className="w-3.5 h-3.5" />
+                    <HubSpotLogo className="w-3.5 h-3.5" />
+                    <span className="w-3.5 h-3.5 rounded-full bg-slate-900 text-white font-black text-[8px] flex items-center justify-center">P</span>
                   </div>
-                  <h4 className="text-sm font-extrabold text-slate-900 mt-2.5 leading-snug">
+                  <h4 className="text-xs font-extrabold text-[#1e293b] mt-2 leading-snug">
                     Send job change alerts for AEs/ CSMs to follow up
                   </h4>
-                  <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                  <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
                     Monitors former champions joining target accounts to accelerate warm intro opportunities.
                   </p>
                 </div>
 
-                {/* Card 3: Send audience list and contacts for marketing campaigns */}
+                {/* Card 3 */}
                 <div
                   onClick={() => setActiveWorkflowCard(2)}
-                  className={`rounded-2xl p-4.5 border transition-all cursor-pointer ${
-                    activeWorkflowCard === 2
-                      ? "bg-white border-teal-500 ring-2 ring-teal-500/20 shadow-md scale-102"
-                      : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
-                  }`}
+                  className={`rounded-2xl p-3.5 sm:p-4 border transition-all cursor-pointer ${activeWorkflowCard === 2
+                    ? "bg-white border-[#059669] ring-2 ring-[#059669]/20 shadow-md scale-102"
+                    : "bg-white/80 border-slate-200 opacity-80 hover:opacity-100 hover:border-slate-300"
+                    }`}
                 >
-                  <div className="flex items-center gap-2 pb-2.5 border-b border-slate-100">
-                    <SalesforceLogo className="w-4 h-4" />
+                  <div className="flex items-center gap-2 pb-2 border-b border-slate-100">
+                    <SalesforceLogo className="w-3.5 h-3.5" />
                     <HubSpotLogo className="w-4 h-4" />
                     <span className="w-4 h-4 rounded-full bg-slate-900 text-white font-black text-[9px] flex items-center justify-center">P</span>
                   </div>
-                  <h4 className="text-sm font-extrabold text-slate-900 mt-2.5 leading-snug">
+                  <h4 className="text-sm font-extrabold text-[#1e293b] mt-2.5 leading-snug">
                     Send audience list and contacts for marketing &amp; SDR campaigns
                   </h4>
                   <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
@@ -767,30 +730,30 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
         </div>
       </section>
 
-      {/* 6. How It Works (3 Simple Steps) - Staggered Reveal Sequence (Step 1 -> Step 2 -> Step 3) */}
-      <section 
-        id="how-it-works" 
+      {/* 5. How It Works (3 Steps Sequence - Exact Design & Palette from Reference) */}
+      <section
+        id="how-it-works"
         ref={workflowSectionRef}
-        className="pt-8 pb-16 sm:pt-10 sm:pb-20 bg-white border-t border-slate-100 overflow-hidden"
+        className="py-16 sm:py-20 bg-white/60 border-t border-slate-100 overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-8">
-            <span className="text-xs font-bold text-teal-600 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full uppercase tracking-wider">
+          <div className="text-center max-w-3xl mx-auto mb-10">
+            <span className="inline-block px-4 py-2 rounded-lg text-xs font-bold mb-4 bg-[#059669]/10 text-[#059669] border border-[#059669]/20 uppercase tracking-widest">
               Workflow Sequence
             </span>
-            <h2 className="mt-4 text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#1e293b] tracking-tight leading-tight">
               From Company Setup to Booked Meetings in 3 Steps
             </h2>
-            <p className="mt-3 text-base text-slate-600">
-              Designed for sales leaders, founders, and SDR teams who want results without complexity.
+            <p className="mt-4 text-base md:text-lg text-slate-600 font-medium">
+              Designed for revenue leaders, founders, and SDR teams who want predictable pipeline without complexity.
             </p>
 
             {/* Replay Sequence Button */}
-            <div className="mt-4 flex items-center justify-center">
+            <div className="mt-5 flex items-center justify-center">
               <button
                 type="button"
                 onClick={startStepSequence}
-                className="w-9 h-9 rounded-full bg-teal-50 hover:bg-teal-100/90 text-teal-700 hover:text-teal-800 border border-teal-200 transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95"
+                className="w-10 h-10 rounded-xl bg-[#059669]/10 hover:bg-[#059669]/20 text-[#059669] border border-[#059669]/20 transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95"
                 title="Replay sequence"
               >
                 <RotateCcw className="w-4 h-4 stroke-[2.5]" />
@@ -798,21 +761,19 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
             </div>
           </div>
 
-          {/* Flow Container: 3 Teal Cards Revealing Sequentially (Step 1 alone initially, then Step 2, then Step 3) */}
+          {/* 3 Step Cards */}
           <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch pt-2 min-h-[380px]">
-            
-            {/* Step 1: Visible initially */}
+
+            {/* Step 1 */}
             <div
-              className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${
-                revealedCount === 1
-                  ? "bg-gradient-to-b from-teal-50 via-white to-teal-50/50 border-teal-500 ring-4 ring-teal-500/20 shadow-xl shadow-teal-600/15 scale-[1.02] z-10"
-                  : "bg-white/95 border-teal-200/90 shadow-sm"
-              }`}
+              className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${revealedCount === 1
+                ? "bg-gradient-to-b from-[#097391]/10 via-white to-white border-[#097391] ring-4 ring-[#097391]/20 shadow-xl shadow-[#097391]/15 scale-[1.02] z-10"
+                : "bg-white border-slate-200/90 shadow-sm"
+                }`}
             >
-              {/* Progress Line on active reveal */}
               {revealedCount === 1 && (
-                <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-teal-100">
-                  <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-full animate-pulse" />
+                <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-[#097391]/20">
+                  <div className="h-full bg-[#097391] w-full animate-pulse" />
                 </div>
               )}
 
@@ -820,54 +781,52 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 <div className="flex items-center justify-between mb-5">
                   <div className="relative">
                     {revealedCount === 1 && (
-                      <span className="absolute -inset-1 rounded-2xl bg-teal-400/40 animate-ping" />
+                      <span className="absolute -inset-1 rounded-2xl bg-[#097391]/40 animate-ping" />
                     )}
-                    <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-4 ring-teal-100">
+                    <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-[#097391] text-white shadow-md shadow-[#097391]/30 ring-4 ring-[#097391]/15">
                       1
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-full border bg-teal-600 text-white border-teal-700 shadow-2xs flex items-center gap-1.5">
+                  <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-lg border bg-[#097391] text-white border-transparent shadow-xs flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                     <span>Step 01</span>
                   </span>
                 </div>
 
-                <h4 className="text-xl font-black text-slate-900">
+                <h4 className="text-xl font-black text-[#1e293b]">
                   Setup Company &amp; Products
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed font-medium">
                   Enter your company profile, website, and portfolio. Select your target industries, buyer roles, locations, and customer tiers.
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-teal-100 flex flex-col gap-1.5 text-xs font-semibold text-teal-800">
+              <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-1.5 text-xs font-semibold text-[#097391]">
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-teal-600 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#097391] stroke-[3]" />
                   <span>Target Industries &amp; Personas</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-teal-600 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#097391] stroke-[3]" />
                   <span>Multi-Product ICP Matrix</span>
                 </div>
               </div>
             </div>
 
-            {/* Step 2: Animates in next */}
+            {/* Step 2 */}
             <div
-              className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${
-                revealedCount >= 2
-                  ? "opacity-100 translate-y-0 scale-100 " +
-                    (revealedCount === 2
-                      ? "bg-gradient-to-b from-teal-50 via-white to-teal-50/50 border-teal-500 ring-4 ring-teal-500/20 shadow-xl shadow-teal-600/15 scale-[1.02] z-10"
-                      : "bg-white/95 border-teal-200/90 shadow-sm")
-                  : "opacity-0 translate-y-8 scale-90 pointer-events-none invisible md:visible"
-              }`}
+              className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${revealedCount >= 2
+                ? "opacity-100 translate-y-0 scale-100 " +
+                (revealedCount === 2
+                  ? "bg-gradient-to-b from-[#097391]/10 via-white to-white border-[#097391] ring-4 ring-[#097391]/20 shadow-xl shadow-[#097391]/15 scale-[1.02] z-10"
+                  : "bg-white border-slate-200/90 shadow-sm")
+                : "opacity-0 translate-y-8 scale-90 pointer-events-none invisible md:visible"
+                }`}
             >
-              {/* Progress Line on active reveal */}
               {revealedCount === 2 && (
-                <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-teal-100">
-                  <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-full animate-pulse" />
+                <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-[#097391]/20">
+                  <div className="h-full bg-[#097391] w-full animate-pulse" />
                 </div>
               )}
 
@@ -875,54 +834,52 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 <div className="flex items-center justify-between mb-5">
                   <div className="relative">
                     {revealedCount === 2 && (
-                      <span className="absolute -inset-1 rounded-2xl bg-teal-400/40 animate-ping" />
+                      <span className="absolute -inset-1 rounded-2xl bg-[#097391]/40 animate-ping" />
                     )}
-                    <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-4 ring-teal-100">
+                    <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-[#097391] text-white shadow-md shadow-[#097391]/30 ring-4 ring-[#097391]/15">
                       2
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-full border bg-teal-600 text-white border-teal-700 shadow-2xs flex items-center gap-1.5">
+                  <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-lg border bg-[#097391] text-white border-transparent shadow-xs flex items-center gap-1.5">
                     {revealedCount === 2 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                     <span>Step 02</span>
                   </span>
                 </div>
 
-                <h4 className="text-xl font-black text-slate-900">
+                <h4 className="text-xl font-black text-[#1e293b]">
                   Match ICP &amp; Buying Signals
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed font-medium">
                   Prospect AI dynamically scans 450M+ verified profiles matching your criteria, filtering by job change triggers and live funding alerts.
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-teal-100 flex flex-col gap-1.5 text-xs font-semibold text-teal-800">
+              <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-1.5 text-xs font-semibold text-[#097391]">
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-teal-600 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#097391] stroke-[3]" />
                   <span>Real-Time Job Change Triggers</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-teal-600 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#097391] stroke-[3]" />
                   <span>98% High-Intent ICP Score</span>
                 </div>
               </div>
             </div>
 
-            {/* Step 3: Animates in next */}
+            {/* Step 3 */}
             <div
-              className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${
-                revealedCount >= 3
-                  ? "opacity-100 translate-y-0 scale-100 " +
-                    (revealedCount === 3
-                      ? "bg-gradient-to-b from-teal-50 via-white to-teal-50/50 border-teal-500 ring-4 ring-teal-500/20 shadow-xl shadow-teal-600/15 scale-[1.02] z-10"
-                      : "bg-white/95 border-teal-200/90 shadow-sm")
-                  : "opacity-0 translate-y-8 scale-90 pointer-events-none invisible md:visible"
-              }`}
+              className={`relative rounded-3xl p-7 sm:p-8 border-2 transition-all duration-700 flex flex-col justify-between overflow-hidden ${revealedCount >= 3
+                ? "opacity-100 translate-y-0 scale-100 " +
+                (revealedCount === 3
+                  ? "bg-gradient-to-b from-[#097391]/10 via-white to-white border-[#097391] ring-4 ring-[#097391]/20 shadow-xl shadow-[#097391]/15 scale-[1.02] z-10"
+                  : "bg-white border-slate-200/90 shadow-sm")
+                : "opacity-0 translate-y-8 scale-90 pointer-events-none invisible md:visible"
+                }`}
             >
-              {/* Progress Line on active reveal */}
               {revealedCount === 3 && (
-                <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-teal-100">
-                  <div className="h-full bg-gradient-to-r from-teal-500 to-emerald-500 w-full animate-pulse" />
+                <div className="absolute top-0 left-0 right-0 h-1.5 overflow-hidden bg-[#097391]/20">
+                  <div className="h-full bg-[#097391] w-full animate-pulse" />
                 </div>
               )}
 
@@ -930,34 +887,34 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
                 <div className="flex items-center justify-between mb-5">
                   <div className="relative">
                     {revealedCount === 3 && (
-                      <span className="absolute -inset-1 rounded-2xl bg-teal-400/40 animate-ping" />
+                      <span className="absolute -inset-1 rounded-2xl bg-[#097391]/40 animate-ping" />
                     )}
-                    <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-teal-600 text-white shadow-md shadow-teal-600/30 ring-4 ring-teal-100">
+                    <div className="w-12 h-12 rounded-2xl font-black text-xl flex items-center justify-center bg-[#097391] text-white shadow-md shadow-[#097391]/30 ring-4 ring-[#097391]/15">
                       3
                     </div>
                   </div>
 
-                  <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-full border bg-teal-600 text-white border-teal-700 shadow-2xs flex items-center gap-1.5">
+                  <span className="text-[11px] font-black tracking-widest uppercase px-3 py-1 rounded-lg border bg-[#097391] text-white border-transparent shadow-xs flex items-center gap-1.5">
                     {revealedCount === 3 && <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />}
                     <span>Step 03</span>
                   </span>
                 </div>
 
-                <h4 className="text-xl font-black text-slate-900">
+                <h4 className="text-xl font-black text-[#1e293b]">
                   Generate Pitches &amp; Sync CRM
                 </h4>
-                <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed font-medium">
                   Review tailored AI Scribe outreach angles. Push verified contacts directly to your CRM with automatic duplicate skipping and owner routing.
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-teal-100 flex flex-col gap-1.5 text-xs font-semibold text-teal-800">
+              <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-1.5 text-xs font-semibold text-[#097391]">
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-teal-600 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#097391] stroke-[3]" />
                   <span>3 Tailored AI Scribe Angles</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Check className="w-4 h-4 text-teal-600 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#097391] stroke-[3]" />
                   <span>100% Clean CRM Deduplication</span>
                 </div>
               </div>
@@ -972,11 +929,10 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
               {[1, 2, 3].map((stepNum) => (
                 <div
                   key={stepNum}
-                  className={`h-2.5 rounded-full transition-all duration-500 ${
-                    revealedCount >= stepNum
-                      ? "w-8 bg-teal-600"
-                      : "w-2.5 bg-slate-200"
-                  }`}
+                  className={`h-2.5 rounded-full transition-all duration-500 ${revealedCount >= stepNum
+                    ? "w-8 bg-[#097391]"
+                    : "w-2.5 bg-slate-200"
+                    }`}
                 />
               ))}
             </div>
@@ -984,95 +940,140 @@ export default function LandingPage({ onLaunchProspectAI, onExploreHub, isDarkMo
         </div>
       </section>
 
-      {/* 7. Numbers & ROI Section - Boxed Card Container */}
-      <section id="roi" className="pt-6 pb-2 sm:pt-8 sm:pb-4 bg-white">
+      {/* 6. Numbers & ROI Section (Button Color Container) */}
+      <section id="roi" className="pt-6 pb-6 sm:pt-8 sm:pb-8 bg-transparent">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-teal-950 via-slate-900 to-slate-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl border border-teal-800/50 relative overflow-hidden ring-1 ring-white/10">
-            {/* Subtle inner decorative glow */}
-            <div className="absolute top-0 right-0 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="bg-[#097391] rounded-3xl p-8 sm:p-12 text-white shadow-2xl border border-teal-600/40 relative overflow-hidden">
+            {/* Subtle inner decorative glows */}
+            <div className="absolute top-0 right-0 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-slate-800/80">
+            <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
               <div className="pt-4 md:pt-0">
-                <div className="text-3xl sm:text-5xl font-black text-teal-400 tracking-tight">450M+</div>
-                <div className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">Verified B2B Decision-Makers</div>
+                <div className="text-3xl sm:text-5xl font-black text-white tracking-tight">450M+</div>
+                <div className="text-xs sm:text-sm font-semibold text-teal-100 mt-2">Verified Decision-Makers</div>
               </div>
               <div className="pt-4 md:pt-0 md:pl-6">
-                <div className="text-3xl sm:text-5xl font-black text-teal-400 tracking-tight">3.8x</div>
-                <div className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">Average Response Rate Increase</div>
+                <div className="text-3xl sm:text-5xl font-black text-white tracking-tight">3.8x</div>
+                <div className="text-xs sm:text-sm font-semibold text-teal-100 mt-2">Response Rate Increase</div>
               </div>
               <div className="pt-4 md:pt-0 md:pl-6">
-                <div className="text-3xl sm:text-5xl font-black text-teal-400 tracking-tight">&lt; 15s</div>
-                <div className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">Signal Detection to Outreach</div>
+                <div className="text-3xl sm:text-5xl font-black text-white tracking-tight">&lt; 15s</div>
+                <div className="text-xs sm:text-sm font-semibold text-teal-100 mt-2">Signal to Outreach</div>
               </div>
               <div className="pt-4 md:pt-0 md:pl-6">
-                <div className="text-3xl sm:text-5xl font-black text-teal-400 tracking-tight">100%</div>
-                <div className="text-xs sm:text-sm font-semibold text-slate-300 mt-2">Automated CRM Deduplication</div>
+                <div className="text-3xl sm:text-5xl font-black text-white tracking-tight">100%</div>
+                <div className="text-xs sm:text-sm font-semibold text-teal-100 mt-2">CRM Deduplication</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 8. Testimonials Section */}
-      <section id="testimonials" className="pt-4 pb-5 sm:pt-6 sm:pb-6 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="w-12 h-12 mx-auto rounded-full bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600 mb-6">
-            <Users className="w-6 h-6" />
-          </div>
-          <blockquote className="text-xl sm:text-2xl font-bold text-slate-900 leading-relaxed">
-            &ldquo;PiBi Prospect AI completely replaced our tedious SDR research workflows. Catching executive role changes and generating custom pitch angles in seconds has doubled our qualified pipeline within 30 days.&rdquo;
-          </blockquote>
-        </div>
-      </section>
-
-      {/* 9. Final High-Impact CTA Banner */}
-      <section className="pt-6 pb-14 sm:pt-8 sm:pb-16 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-gradient-to-br from-teal-700 via-teal-800 to-slate-900 rounded-3xl p-8 sm:p-14 text-white shadow-xl relative overflow-hidden">
-            <div className="relative z-10 max-w-2xl mx-auto">
-              <span className="text-xs font-bold text-teal-300 bg-teal-900/60 border border-teal-500/30 px-3 py-1 rounded-full uppercase tracking-wider">
-                Get Started Today
-              </span>
-              <h2 className="mt-4 text-3xl sm:text-4xl font-black tracking-tight">
-                Ready to Experience Prospect AI?
-              </h2>
-              <p className="mt-3 text-slate-200 text-sm sm:text-base leading-relaxed">
-                Setup your company profile in under 2 minutes and start discovering verified high-intent prospects right now.
+      {/* 7. Testimonials Section (Styled like Section 3 of reference) */}
+      <section id="testimonials" className="scroll-mt-28 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h3 className="text-3xl sm:text-4xl font-extrabold text-[#1e293b] mb-10">
+            What customers say
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <blockquote className="p-8 rounded-2xl bg-white border border-slate-200 text-left shadow-lg relative overflow-hidden group transition-all hover:shadow-xl">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#059669]/5 rounded-full -mr-12 -mt-12 group-hover:bg-[#059669]/10 transition-colors" />
+              <p className="text-slate-700 text-lg italic leading-relaxed font-medium relative z-10">
+                &ldquo;PiBi Prospect AI scaled our qualified pipeline 3x in 60 days. The automated buying signal alerts and instant multi-angle AI pitches are a dream for our SDR team.&rdquo;
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button
-                  onClick={onLaunchProspectAI}
-                  className="w-full sm:w-auto bg-white hover:bg-slate-100 text-teal-900 font-extrabold text-base px-8 py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-98"
-                >
-                  <Sparkles className="w-4 h-4 text-teal-600" />
-                  <span>Launch Prospect AI</span>
-                  <ArrowRight className="w-4 h-4 text-teal-600" />
-                </button>
-              </div>
-            </div>
+              <footer className="mt-6 text-base font-bold text-[#1e293b] relative z-10">
+                — Elena R., <span className="text-[#059669] font-bold">VP of Revenue Operations</span>
+              </footer>
+            </blockquote>
+
+            <blockquote className="p-8 rounded-2xl bg-white border border-slate-200 text-left shadow-lg relative overflow-hidden group transition-all hover:shadow-xl">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#2563eb]/5 rounded-full -mr-12 -mt-12 group-hover:bg-[#2563eb]/10 transition-colors" />
+              <p className="text-slate-700 text-lg italic leading-relaxed font-medium relative z-10">
+                &ldquo;Beautiful UI and 100% clean CRM deduplication. Our reps spend zero time manually scouring LinkedIn and enter every sales call with tailored context.&rdquo;
+              </p>
+              <footer className="mt-6 text-base font-bold text-[#1e293b] relative z-10">
+                — Marcus V., <span className="text-[#2563eb] font-bold">Head of Global Sales</span>
+              </footer>
+            </blockquote>
           </div>
         </div>
       </section>
 
-      {/* 10. Footer */}
-      <footer className="bg-white border-t border-slate-200 py-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <img src="/pibi-logo.png" alt="PiBi Logo" className="h-6 w-auto" />
-            <span className="font-bold text-slate-800">PiBi Prospect AI</span>
-            <span>&copy; {new Date().getFullYear()} PiBi Technologies Inc. All rights reserved.</span>
+      {/* 8. Final High-Impact CTA Banner (Styled directly like Section 4 of reference) */}
+      <section id="demo" className="mt-4 pb-12">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gradient-to-br from-[#1e293b] to-[#2563eb] rounded-3xl p-10 md:p-14 text-center shadow-2xl relative overflow-hidden">
+            {/* Corner glowing blur orbs from reference */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#059669]/20 rounded-full -ml-32 -mb-32 blur-3xl pointer-events-none" />
+            <div className="bg-[#097391] rounded-3xl p-10 md:p-14 text-center shadow-2xl relative overflow-hidden border border-teal-600/40">
+              {/* Corner glowing blur orbs */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-400/15 rounded-full -ml-32 -mb-32 blur-3xl pointer-events-none" />
+
+              <h3 className="text-3xl md:text-4xl font-bold text-white relative z-10">
+                Ready to grow with PiBi Prospect AI?
+              </h3>
+              <p className="mt-4 text-blue-100 max-w-xl mx-auto relative z-10 font-medium leading-relaxed">
+                <p className="mt-4 text-teal-100 max-w-xl mx-auto relative z-10 font-medium leading-relaxed">
+                  Setup your company profile in under 2 minutes and start discovering verified high-intent prospects right now. Join high-performing revenue teams already scaling with PiBi.
+                </p>
+                <div className="mt-8 relative z-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <button
+                    onClick={onLaunchProspectAI}
+                    className="inline-flex items-center gap-3 rounded-xl bg-[#097391] hover:bg-[#075f78] text-white border-2 border-white/20 px-8 py-3.5 font-bold shadow-2xl transform-gpu hover:scale-105 transition-all cursor-pointer active:scale-95"
+                    className="inline-flex items-center gap-3 rounded-xl bg-white hover:bg-slate-100 text-[#097391] px-8 py-3.5 font-black shadow-2xl transform-gpu hover:scale-105 transition-all cursor-pointer active:scale-95 border border-white"
+                  >
+                    <span>Launch Prospect AI ↗</span>
+                  </button>
+                </div>
+            </div>
           </div>
-          <div className="flex items-center gap-6 font-semibold">
-            <button onClick={onLaunchProspectAI} className="hover:text-teal-600 transition-colors cursor-pointer">
-              Company Profile
-            </button>
-            <button onClick={onExploreHub} className="hover:text-teal-600 transition-colors cursor-pointer">
-              Prospect Hub
-            </button>
-            <a href="#features" className="hover:text-teal-600 transition-colors">
-              Platform Features
+      </section>
+
+      {/* 9. Clean Modern Multi-Column Footer (Matching Reference Footer) */}
+      <footer className="px-6 py-14 border-t border-slate-200 bg-white/60 backdrop-blur-sm" id="footer">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="space-y-4">
+            <h3 className="text-xs tracking-[0.2em] text-slate-400 uppercase font-black">Contact</h3>
+            <p className="text-xl font-extrabold text-[#1e293b]">business@pibitech.com</p>
+            <div className="flex flex-wrap items-center gap-4 text-sm">
+              <button onClick={onLaunchProspectAI} className="text-[#059669] font-bold hover:underline underline-offset-4 cursor-pointer">
+                Get Started
+              </button>
+              <span className="text-slate-200">/</span>
+              <a href="https://www.pibitech.com" target="_blank" rel="noreferrer" className="text-slate-500 font-bold hover:underline underline-offset-4">
+                Company Website
+              </a>
+            </div>
+          </div>
+
+          <div className="space-y-4 md:border-x border-slate-100 md:px-10">
+            <h3 className="text-xs tracking-[0.2em] text-slate-400 uppercase font-black">Platform</h3>
+            <div className="flex flex-col gap-2.5 text-sm">
+              <button onClick={onLaunchProspectAI} className="text-slate-600 font-semibold hover:text-[#059669] transition-colors text-left cursor-pointer">
+                Company Onboarding &amp; ICP Setup
+              </button>
+              <button onClick={onExploreHub} className="text-slate-600 font-semibold hover:text-[#059669] transition-colors text-left cursor-pointer">
+                Live Prospect Hub &amp; Signals
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-4 md:text-right">
+            <h3 className="text-xs tracking-[0.2em] text-slate-400 uppercase font-black">Follow</h3>
+            <a
+              href="https://in.linkedin.com/company/pi-bi-technologies"
+              target="_blank"
+              rel="noreferrer"
+              className="text-xl font-extrabold text-[#2563eb] hover:text-[#059669] transition-colors inline-block"
+            >
+              LinkedIn ↗
             </a>
+            <p className="text-xs text-slate-400">
+              &copy; {new Date().getFullYear()} Pi-Bi info Technologies LLP. All rights reserved.
+            </p>
           </div>
         </div>
       </footer>

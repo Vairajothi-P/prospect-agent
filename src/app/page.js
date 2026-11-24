@@ -44,7 +44,9 @@ import {
   Users,
   Compass,
   MapPin,
-  Globe
+  Globe,
+  Info,
+  ChevronDown
 } from "lucide-react";
 import LandingPage from "../components/LandingPage";
 
@@ -303,6 +305,8 @@ export default function ProspectingHubDashboard() {
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [settingsSavedToast, setSettingsSavedToast] = useState(false);
+  const [showProductDropdown, setShowProductDropdown] = useState(false);
+  const [productFilterSearch, setProductFilterSearch] = useState("");
 
   // Settings Configuration State
   const [settingsForm, setSettingsForm] = useState({
@@ -681,13 +685,11 @@ export default function ProspectingHubDashboard() {
   }
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
-      isDarkMode ? "bg-[#0B0F19] text-slate-100" : "bg-[#F8FAFC] text-slate-900"
-    }`}>
-      {/* 1. Global PiBi Prospect AI Top Navigation Bar */}
-      <header className={`border-b sticky top-0 z-50 px-6 py-2.5 shadow-2xs transition-colors duration-200 ${
-        isDarkMode ? "bg-[#0D1117] border-slate-800" : "bg-white border-slate-200"
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${isDarkMode ? "bg-[#0B0F19] text-slate-100" : "bg-[#F8FAFC] text-slate-900"
       }`}>
+      {/* 1. Global PiBi Prospect AI Top Navigation Bar */}
+      <header className={`border-b sticky top-0 z-50 px-6 py-2.5 shadow-2xs transition-colors duration-200 ${isDarkMode ? "bg-[#0D1117] border-slate-800" : "bg-white border-slate-200"
+        }`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           {/* Left: Brand Logo & Growth AI */}
           <div className="flex items-center gap-3.5 shrink-0">
@@ -701,41 +703,22 @@ export default function ProspectingHubDashboard() {
                 Prospect AI
               </span>
             </div>
-
-            <button
-              type="button"
-              onClick={() => setCurrentView("landing")}
-              className="hidden lg:flex items-center gap-1 text-[11px] font-bold text-slate-500 hover:text-teal-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer"
-              title="Back to Landing Page"
-            >
-              <span>← Landing</span>
-            </button>
-
-            {/* Growth AI Indicator */}
-            <div className={`hidden sm:flex items-center gap-1.5 font-extrabold px-3 py-1 rounded-full text-xs shadow-2xs border ${
-              isDarkMode ? "bg-teal-950/60 text-teal-400 border-teal-800/60" : "bg-teal-50 text-teal-700 border-teal-200"
-            }`}>
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
-              <span>Growth AI</span>
-            </div>
           </div>
 
           {/* Center: The 2 Main Steps (Company Profile & Prospect AI Hub) - Made Bigger & Centered */}
           <div className="flex items-center justify-center flex-1 max-w-xl px-2">
-            <div className={`flex items-center p-1 rounded-xl border shadow-2xs w-full max-w-md ${
-              isDarkMode ? "bg-slate-900 border-slate-800" : "bg-slate-100/90 border-slate-200/90"
-            }`}>
+            <div className={`flex items-center p-1 rounded-xl border shadow-2xs w-full max-w-md ${isDarkMode ? "bg-slate-900 border-slate-800" : "bg-slate-100/90 border-slate-200/90"
+              }`}>
               <button
                 onClick={() => setCurrentView("company_onboarding")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all text-xs sm:text-sm cursor-pointer ${
-                  currentView === "company_onboarding"
-                    ? isDarkMode
-                      ? "bg-slate-800 text-white shadow-sm border border-slate-700 font-black"
-                      : "bg-white text-slate-900 shadow-sm border border-slate-200/70 font-black"
-                    : isDarkMode
+                className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all text-xs sm:text-sm cursor-pointer ${currentView === "company_onboarding"
+                  ? isDarkMode
+                    ? "bg-slate-800 text-white shadow-sm border border-slate-700 font-black"
+                    : "bg-white text-slate-900 shadow-sm border border-slate-200/70 font-black"
+                  : isDarkMode
                     ? "text-slate-400 hover:text-white font-semibold"
                     : "text-slate-600 hover:text-slate-950 font-semibold"
-                }`}
+                  }`}
               >
                 <Building2 className={`w-4 h-4 ${currentView === "company_onboarding" ? "text-[#0066FF]" : "text-slate-400"}`} />
                 <span>1. Company Profile</span>
@@ -743,15 +726,14 @@ export default function ProspectingHubDashboard() {
 
               <button
                 onClick={() => setCurrentView("prospect_hub")}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all text-xs sm:text-sm cursor-pointer ${
-                  currentView === "prospect_hub"
-                    ? isDarkMode
-                      ? "bg-slate-800 text-white shadow-sm border border-slate-700 font-black"
-                      : "bg-white text-slate-900 shadow-sm border border-slate-200/70 font-black"
-                    : isDarkMode
+                className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-lg transition-all text-xs sm:text-sm cursor-pointer ${currentView === "prospect_hub"
+                  ? isDarkMode
+                    ? "bg-slate-800 text-white shadow-sm border border-slate-700 font-black"
+                    : "bg-white text-slate-900 shadow-sm border border-slate-200/70 font-black"
+                  : isDarkMode
                     ? "text-slate-400 hover:text-white font-semibold"
                     : "text-slate-600 hover:text-slate-950 font-semibold"
-                }`}
+                  }`}
               >
                 <Zap className={`w-4 h-4 ${currentView === "prospect_hub" ? "text-teal-600" : "text-slate-400"}`} />
                 <span>2. Prospect AI Hub</span>
@@ -772,13 +754,12 @@ export default function ProspectingHubDashboard() {
                     setShowProfile(false);
                   }}
                   title="System & Signal Alerts"
-                  className={`p-1.5 rounded-lg border transition-all cursor-pointer relative ${
-                    showAlerts
-                      ? "bg-amber-500/20 text-amber-500 border-amber-500/40"
-                      : isDarkMode
+                  className={`p-1.5 rounded-lg border transition-all cursor-pointer relative ${showAlerts
+                    ? "bg-amber-500/20 text-amber-500 border-amber-500/40"
+                    : isDarkMode
                       ? "hover:bg-slate-800 text-slate-300 border-transparent"
                       : "hover:bg-slate-100 text-slate-600 border-transparent"
-                  }`}
+                    }`}
                 >
                   <AlertTriangle className="w-4 h-4 text-amber-500" />
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center shadow-xs">
@@ -788,9 +769,8 @@ export default function ProspectingHubDashboard() {
 
                 {/* Alerts Popover Panel */}
                 {showAlerts && (
-                  <div className={`absolute right-0 mt-2 w-80 rounded-2xl shadow-2xl border p-4 z-50 animate-in fade-in zoom-in-95 duration-150 ${
-                    isDarkMode ? "bg-slate-900 border-slate-800 text-slate-100" : "bg-white border-slate-200 text-slate-900"
-                  }`}>
+                  <div className={`absolute right-0 mt-2 w-80 rounded-2xl shadow-2xl border p-4 z-50 animate-in fade-in zoom-in-95 duration-150 ${isDarkMode ? "bg-slate-900 border-slate-800 text-slate-100" : "bg-white border-slate-200 text-slate-900"
+                    }`}>
                     <div className="flex items-center justify-between pb-2.5 border-b border-slate-100 dark:border-slate-800">
                       <div className="flex items-center gap-1.5">
                         <Bell className="w-4 h-4 text-amber-500" />
@@ -848,13 +828,12 @@ export default function ProspectingHubDashboard() {
                     setShowProfile(false);
                   }}
                   title="CRM & Prospect AI Settings"
-                  className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                    showSettings
-                      ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-300 dark:border-slate-700"
-                      : isDarkMode
+                  className={`p-1.5 rounded-lg border transition-all cursor-pointer ${showSettings
+                    ? "bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white border-slate-300 dark:border-slate-700"
+                    : isDarkMode
                       ? "hover:bg-slate-800 text-slate-300 border-transparent"
                       : "hover:bg-slate-100 text-slate-600 border-transparent"
-                  }`}
+                    }`}
                 >
                   <Settings className="w-4 h-4" />
                 </button>
@@ -865,11 +844,10 @@ export default function ProspectingHubDashboard() {
                 type="button"
                 onClick={() => setIsDarkMode(!isDarkMode)}
                 title={isDarkMode ? "Switch to LeadIQ Light Mode" : "Switch to Dark Mode"}
-                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${
-                  isDarkMode
-                    ? "bg-slate-800 text-amber-400 border-slate-700 hover:bg-slate-700"
-                    : "hover:bg-slate-100 text-slate-600 border-transparent"
-                }`}
+                className={`p-1.5 rounded-lg border transition-all cursor-pointer ${isDarkMode
+                  ? "bg-slate-800 text-amber-400 border-slate-700 hover:bg-slate-700"
+                  : "hover:bg-slate-100 text-slate-600 border-transparent"
+                  }`}
               >
                 {isDarkMode ? (
                   <Sun className="w-4 h-4 text-amber-400" />
@@ -895,9 +873,8 @@ export default function ProspectingHubDashboard() {
 
                 {/* Profile Dropdown Menu */}
                 {showProfile && (
-                  <div className={`absolute right-0 mt-2 w-72 rounded-2xl shadow-2xl border p-4 z-50 animate-in fade-in zoom-in-95 duration-150 ${
-                    isDarkMode ? "bg-slate-900 border-slate-800 text-slate-100" : "bg-white border-slate-200 text-slate-900"
-                  }`}>
+                  <div className={`absolute right-0 mt-2 w-72 rounded-2xl shadow-2xl border p-4 z-50 animate-in fade-in zoom-in-95 duration-150 ${isDarkMode ? "bg-slate-900 border-slate-800 text-slate-100" : "bg-white border-slate-200 text-slate-900"
+                    }`}>
                     {/* User Header */}
                     <div className="flex items-center gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
                       <div className="w-10 h-10 rounded-full bg-purple-600 text-white font-black text-sm flex items-center justify-center shadow-xs">
@@ -972,9 +949,8 @@ export default function ProspectingHubDashboard() {
       {/* MODAL 3: FULLY WORKING SETTINGS MODAL */}
       {showSettings && (
         <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
-          <div className={`rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-150 border my-auto ${
-            isDarkMode ? "bg-slate-900 border-slate-800 text-white" : "bg-white border-slate-200 text-slate-900"
-          }`}>
+          <div className={`rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl flex flex-col gap-5 animate-in fade-in zoom-in-95 duration-150 border my-auto ${isDarkMode ? "bg-slate-900 border-slate-800 text-white" : "bg-white border-slate-200 text-slate-900"
+            }`}>
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2.5">
                 <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-[#0066FF] flex items-center justify-center">
@@ -1185,11 +1161,10 @@ export default function ProspectingHubDashboard() {
                             : [...productForm.targetIndustries, ind];
                           setProductForm({ ...productForm, targetIndustries: next });
                         }}
-                        className={`px-2.5 py-1 rounded-md text-xs font-semibold border transition-all cursor-pointer ${
-                          isSel
-                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
-                            : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
-                        }`}
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold border transition-all cursor-pointer ${isSel
+                          ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
+                          : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
+                          }`}
                       >
                         {isSel ? "✓ " : "+ "}{ind}
                       </button>
@@ -1216,11 +1191,10 @@ export default function ProspectingHubDashboard() {
                             : [...productForm.targetRoles, role];
                           setProductForm({ ...productForm, targetRoles: next });
                         }}
-                        className={`px-2.5 py-1 rounded-md text-xs font-semibold border transition-all cursor-pointer ${
-                          isSel
-                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
-                            : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
-                        }`}
+                        className={`px-2.5 py-1 rounded-md text-xs font-semibold border transition-all cursor-pointer ${isSel
+                          ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
+                          : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300"
+                          }`}
                       >
                         {isSel ? "✓ " : "+ "}{role}
                       </button>
@@ -1253,40 +1227,63 @@ export default function ProspectingHubDashboard() {
 
       {/* VIEW 1: COMPANY PROFILE & PRODUCTS ONBOARDING SCREEN (Exact replica of Image 1) */}
       {currentView === "company_onboarding" && (
-        <div className="max-w-5xl w-full mx-auto p-6 flex flex-col gap-6 animate-in fade-in duration-200">
+        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-6 flex flex-col gap-6 animate-in fade-in duration-200">
           {/* Step 1 Title Header */}
-          <div className={`border rounded-2xl p-5 shadow-xs transition-colors ${
-            isDarkMode ? "bg-slate-900 border-slate-800 text-white" : "bg-white border-slate-200 text-slate-900"
-          }`}>
-            <div className="text-xs font-bold uppercase text-[#0066FF] tracking-wider mb-1">
-              Step 1: Onboard Your Company &amp; Products
+          <div className={`border rounded-2xl p-6 shadow-xs transition-colors flex flex-col md:flex-row md:items-center justify-between gap-4 ${isDarkMode ? "bg-slate-900 border-slate-800 text-white" : "bg-white border-slate-200 text-slate-900"
+            }`}>
+            <div>
+              <h2 className="text-2xl lg:text-3xl font-black tracking-tight">
+                Setup Company Profile to Generate Tailored Prospects
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                Configure company details, product offerings, and target ICP criteria to drive high-precision prospect discovery.
+              </p>
             </div>
-            <h2 className="text-2xl font-black tracking-tight">
-              Setup Company Profile to Generate Tailored Prospects
-            </h2>
+            <div className="flex items-center gap-2 self-start md:self-center shrink-0">
+              <span className="text-xs font-bold px-3 py-1.5 rounded-xl bg-teal-50 text-teal-700 border border-teal-200 flex items-center gap-1.5 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                {activeProductIds.length} {activeProductIds.length === 1 ? "Product" : "Products"} Active for ICP
+              </span>
+            </div>
           </div>
 
           <form onSubmit={handleSaveAndLaunchHub} className="flex flex-col gap-6">
             {/* CARD 1: Company Profile (Matching Image 1) */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs flex flex-col gap-5">
-              <h3 className="text-lg font-bold text-slate-900 pb-2 border-b border-slate-100 flex items-center gap-2">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-8 shadow-xs flex flex-col gap-6">
+              <h3 className="text-lg font-bold text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2.5">
                 <Building2 className="w-5 h-5 text-slate-600" />
-                Company Profile
+                <span>Company Profile</span>
               </h3>
 
-              {/* Company Name */}
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">
-                  Company Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={companyProfile.name}
-                  onChange={(e) => setCompanyProfile({ ...companyProfile, name: e.target.value })}
-                  placeholder="Your Company Name"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all shadow-2xs"
-                />
+              {/* Company Name & Website side-by-side for full width */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-xs font-bold text-slate-700 block mb-1.5">
+                    Company Name <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={companyProfile.name}
+                    onChange={(e) => setCompanyProfile({ ...companyProfile, name: e.target.value })}
+                    placeholder="Your Company Name"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:bg-white focus:ring-2 focus:ring-teal-500/15 transition-all shadow-2xs"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-700 block mb-1.5">
+                    Company Website <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="url"
+                    required
+                    value={companyProfile.website}
+                    onChange={(e) => setCompanyProfile({ ...companyProfile, website: e.target.value })}
+                    placeholder="https://example.com"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:bg-white focus:ring-2 focus:ring-teal-500/15 transition-all shadow-2xs"
+                  />
+                </div>
               </div>
 
               {/* Company Description */}
@@ -1300,46 +1297,33 @@ export default function ProspectingHubDashboard() {
                   value={companyProfile.description}
                   onChange={(e) => setCompanyProfile({ ...companyProfile, description: e.target.value })}
                   placeholder="Describe your company, key value proposition, and problems you solve for clients..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all shadow-2xs leading-relaxed"
-                />
-              </div>
-
-              {/* Company Website */}
-              <div>
-                <label className="text-xs font-bold text-slate-700 block mb-1.5">
-                  Company Website <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="url"
-                  required
-                  value={companyProfile.website}
-                  onChange={(e) => setCompanyProfile({ ...companyProfile, website: e.target.value })}
-                  placeholder="https://example.com"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white transition-all shadow-2xs"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:bg-white focus:ring-2 focus:ring-teal-500/15 transition-all shadow-2xs leading-relaxed"
                 />
               </div>
 
               {/* Company ICP & Targeting Criteria Divider */}
-              <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <Target className="w-3.5 h-3.5 text-teal-600" />
                   Target ICP Criteria &amp; Market Alignment
                 </span>
                 <span className="text-[11px] text-slate-400 font-medium">Used for company-wide prospect qualification</span>
               </div>
 
               {/* 1. Target Industry */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-slate-50/60 border border-slate-200/70">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                     <Building2 className="w-3.5 h-3.5 text-teal-600" />
                     <span>Target Industry</span>
                     <span className="text-red-500">*</span>
                   </label>
-                  <span className="text-[11px] font-semibold text-slate-500">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
                     {(companyProfile.targetIndustries || []).length} selected
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                {/* Column & Row Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {DEFAULT_COMPANY_INDUSTRIES.map((ind) => {
                     const isSel = (companyProfile.targetIndustries || []).includes(ind);
                     return (
@@ -1347,13 +1331,16 @@ export default function ProspectingHubDashboard() {
                         type="button"
                         key={ind}
                         onClick={() => handleToggleCompanyIndustry(ind)}
-                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
-                          isSel
-                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
-                            : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
-                        }`}
+                        className={`w-full min-h-[42px] px-3 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-2xs ${isSel
+                          ? "bg-teal-600 text-white border-teal-700 font-bold shadow-xs hover:bg-teal-700"
+                          : "bg-white hover:bg-slate-100/80 text-slate-700 border-slate-200 hover:border-slate-300"
+                          }`}
                       >
-                        {isSel ? "✓ " : "+ "}{ind}
+                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 font-bold ${isSel ? "bg-teal-700 text-white" : "bg-slate-100 text-slate-500"
+                          }`}>
+                          {isSel ? "✓" : "+"}
+                        </span>
+                        <span className="truncate text-left" title={ind}>{ind}</span>
                       </button>
                     );
                   })}
@@ -1362,15 +1349,21 @@ export default function ProspectingHubDashboard() {
                       type="button"
                       key={custom}
                       onClick={() => handleToggleCompanyIndustry(custom)}
-                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-teal-600 text-white border-teal-700 shadow-2xs cursor-pointer flex items-center gap-1"
+                      className="w-full min-h-[42px] px-3 py-2 rounded-xl border bg-teal-600 text-white border-teal-700 font-bold text-xs flex items-center justify-between gap-1.5 shadow-xs cursor-pointer hover:bg-teal-700"
+                      title={`Click to remove ${custom}`}
                     >
-                      <span>✓ {custom}</span>
-                      <X className="w-3 h-3 ml-0.5 opacity-80 hover:opacity-100" />
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="w-4 h-4 rounded-full bg-teal-700 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
+                          ✓
+                        </span>
+                        <span className="truncate">{custom}</span>
+                      </div>
+                      <X className="w-3.5 h-3.5 shrink-0 opacity-80 hover:opacity-100" />
                     </button>
                   ))}
                 </div>
-                {/* Custom Industry Add Input */}
-                <div className="flex items-center gap-2 max-w-sm mt-0.5">
+                {/* Custom Industry Add Input Row */}
+                <div className="flex items-center gap-2 max-w-sm pt-1">
                   <input
                     type="text"
                     value={customIndustryInput}
@@ -1382,12 +1375,12 @@ export default function ProspectingHubDashboard() {
                       }
                     }}
                     placeholder="Add custom industry..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-500/15"
                   />
                   <button
                     type="button"
                     onClick={handleAddCustomIndustry}
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg shrink-0 cursor-pointer transition-colors"
+                    className="px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 shrink-0 cursor-pointer transition-colors shadow-2xs"
                   >
                     + Add
                   </button>
@@ -1395,18 +1388,19 @@ export default function ProspectingHubDashboard() {
               </div>
 
               {/* 2. Target Location */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-slate-50/60 border border-slate-200/70">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                     <MapPin className="w-3.5 h-3.5 text-teal-600" />
                     <span>Target Location</span>
                     <span className="text-red-500">*</span>
                   </label>
-                  <span className="text-[11px] font-semibold text-slate-500">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
                     {(companyProfile.targetLocations || []).length} selected
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                {/* Column & Row Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {DEFAULT_COMPANY_LOCATIONS.map((loc) => {
                     const isSel = (companyProfile.targetLocations || []).includes(loc);
                     return (
@@ -1414,13 +1408,16 @@ export default function ProspectingHubDashboard() {
                         type="button"
                         key={loc}
                         onClick={() => handleToggleCompanyLocation(loc)}
-                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
-                          isSel
-                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
-                            : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
-                        }`}
+                        className={`w-full min-h-[42px] px-3 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-2xs ${isSel
+                          ? "bg-teal-600 text-white border-teal-700 font-bold shadow-xs hover:bg-teal-700"
+                          : "bg-white hover:bg-slate-100/80 text-slate-700 border-slate-200 hover:border-slate-300"
+                          }`}
                       >
-                        {isSel ? "✓ " : "+ "}{loc}
+                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 font-bold ${isSel ? "bg-teal-700 text-white" : "bg-slate-100 text-slate-500"
+                          }`}>
+                          {isSel ? "✓" : "+"}
+                        </span>
+                        <span className="truncate text-left" title={loc}>{loc}</span>
                       </button>
                     );
                   })}
@@ -1429,15 +1426,21 @@ export default function ProspectingHubDashboard() {
                       type="button"
                       key={custom}
                       onClick={() => handleToggleCompanyLocation(custom)}
-                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-teal-600 text-white border-teal-700 shadow-2xs cursor-pointer flex items-center gap-1"
+                      className="w-full min-h-[42px] px-3 py-2 rounded-xl border bg-teal-600 text-white border-teal-700 font-bold text-xs flex items-center justify-between gap-1.5 shadow-xs cursor-pointer hover:bg-teal-700"
+                      title={`Click to remove ${custom}`}
                     >
-                      <span>✓ {custom}</span>
-                      <X className="w-3 h-3 ml-0.5 opacity-80 hover:opacity-100" />
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="w-4 h-4 rounded-full bg-teal-700 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
+                          ✓
+                        </span>
+                        <span className="truncate">{custom}</span>
+                      </div>
+                      <X className="w-3.5 h-3.5 shrink-0 opacity-80 hover:opacity-100" />
                     </button>
                   ))}
                 </div>
-                {/* Custom Location Add Input */}
-                <div className="flex items-center gap-2 max-w-sm mt-0.5">
+                {/* Custom Location Add Input Row */}
+                <div className="flex items-center gap-2 max-w-sm pt-1">
                   <input
                     type="text"
                     value={customLocationInput}
@@ -1449,12 +1452,12 @@ export default function ProspectingHubDashboard() {
                       }
                     }}
                     placeholder="Add custom location/country..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-500/15"
                   />
                   <button
                     type="button"
                     onClick={handleAddCustomLocation}
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg shrink-0 cursor-pointer transition-colors"
+                    className="px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 shrink-0 cursor-pointer transition-colors shadow-2xs"
                   >
                     + Add
                   </button>
@@ -1462,18 +1465,19 @@ export default function ProspectingHubDashboard() {
               </div>
 
               {/* 3. Target Customer Type */}
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5 p-4 rounded-2xl bg-slate-50/60 border border-slate-200/70">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
                     <Users className="w-3.5 h-3.5 text-teal-600" />
                     <span>Target Customer Type</span>
                     <span className="text-red-500">*</span>
                   </label>
-                  <span className="text-[11px] font-semibold text-slate-500">
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
                     {(companyProfile.targetCustomerTypes || []).length} selected
                   </span>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                {/* Column & Row Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
                   {DEFAULT_CUSTOMER_TYPES.map((type) => {
                     const isSel = (companyProfile.targetCustomerTypes || []).includes(type);
                     return (
@@ -1481,13 +1485,16 @@ export default function ProspectingHubDashboard() {
                         type="button"
                         key={type}
                         onClick={() => handleToggleCompanyCustomerType(type)}
-                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
-                          isSel
-                            ? "bg-teal-600 text-white border-teal-700 font-bold shadow-2xs"
-                            : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
-                        }`}
+                        className={`w-full min-h-[42px] px-3 py-2 rounded-xl border text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-2xs ${isSel
+                          ? "bg-teal-600 text-white border-teal-700 font-bold shadow-xs hover:bg-teal-700"
+                          : "bg-white hover:bg-slate-100/80 text-slate-700 border-slate-200 hover:border-slate-300"
+                          }`}
                       >
-                        {isSel ? "✓ " : "+ "}{type}
+                        <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] shrink-0 font-bold ${isSel ? "bg-teal-700 text-white" : "bg-slate-100 text-slate-500"
+                          }`}>
+                          {isSel ? "✓" : "+"}
+                        </span>
+                        <span className="truncate text-left" title={type}>{type}</span>
                       </button>
                     );
                   })}
@@ -1496,15 +1503,21 @@ export default function ProspectingHubDashboard() {
                       type="button"
                       key={custom}
                       onClick={() => handleToggleCompanyCustomerType(custom)}
-                      className="text-xs font-bold px-3 py-1.5 rounded-lg border bg-teal-600 text-white border-teal-700 shadow-2xs cursor-pointer flex items-center gap-1"
+                      className="w-full min-h-[42px] px-3 py-2 rounded-xl border bg-teal-600 text-white border-teal-700 font-bold text-xs flex items-center justify-between gap-1.5 shadow-xs cursor-pointer hover:bg-teal-700"
+                      title={`Click to remove ${custom}`}
                     >
-                      <span>✓ {custom}</span>
-                      <X className="w-3 h-3 ml-0.5 opacity-80 hover:opacity-100" />
+                      <div className="flex items-center gap-1.5 truncate">
+                        <span className="w-4 h-4 rounded-full bg-teal-700 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">
+                          ✓
+                        </span>
+                        <span className="truncate">{custom}</span>
+                      </div>
+                      <X className="w-3.5 h-3.5 shrink-0 opacity-80 hover:opacity-100" />
                     </button>
                   ))}
                 </div>
-                {/* Custom Customer Type Add Input */}
-                <div className="flex items-center gap-2 max-w-sm mt-0.5">
+                {/* Custom Customer Type Add Input Row */}
+                <div className="flex items-center gap-2 max-w-sm pt-1">
                   <input
                     type="text"
                     value={customCustomerTypeInput}
@@ -1516,12 +1529,12 @@ export default function ProspectingHubDashboard() {
                       }
                     }}
                     placeholder="Add custom customer segment..."
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-1.5 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-teal-600 focus:ring-2 focus:ring-teal-500/15"
                   />
                   <button
                     type="button"
                     onClick={handleAddCustomCustomerType}
-                    className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg shrink-0 cursor-pointer transition-colors"
+                    className="px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs rounded-xl border border-slate-200 shrink-0 cursor-pointer transition-colors shadow-2xs"
                   >
                     + Add
                   </button>
@@ -1530,20 +1543,20 @@ export default function ProspectingHubDashboard() {
             </div>
 
             {/* CARD 2: Products & Services Portfolio (List Each Product Separately) */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-xs flex flex-col gap-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 shadow-xs flex flex-col gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
                 <div>
                   <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2 flex-wrap">
                     <Briefcase className="w-5 h-5 text-slate-700" />
                     <span>Company Products &amp; Services</span>
-                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
                       {products.length} {products.length === 1 ? "Product" : "Products"}
                     </span>
-                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-600 text-white shadow-2xs">
+                    <span className="text-xs font-bold px-2.5 py-0.5 rounded-lg bg-teal-600 text-white shadow-2xs">
                       {activeProductIds.length} Active for ICP
                     </span>
                   </h3>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-slate-500 mt-1">
                     Select one or more products to combine target industries and buyer roles for multi-product ICP matching.
                   </p>
                 </div>
@@ -1551,14 +1564,14 @@ export default function ProspectingHubDashboard() {
                   <button
                     type="button"
                     onClick={handleSelectAllProducts}
-                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3 py-2 rounded-xl border border-slate-200 transition-all cursor-pointer"
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs px-3.5 py-2 rounded-xl border border-slate-200 transition-all cursor-pointer"
                   >
                     {activeProductIds.length === products.length ? "Deselect Others" : "Select All Products"}
                   </button>
                   <button
                     type="button"
                     onClick={handleOpenAddProduct}
-                    className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-all active:scale-98 cursor-pointer shrink-0"
+                    className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-xs transition-all active:scale-98 cursor-pointer shrink-0"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add Product / Service</span>
@@ -1566,48 +1579,49 @@ export default function ProspectingHubDashboard() {
                 </div>
               </div>
 
-              {/* Products List - Each product with multi-select checkbox */}
-              <div className="flex flex-col gap-3.5">
+              {/* Products List - Spatially enhanced cards with column-and-row based components */}
+              <div className="flex flex-col gap-5">
                 {products.map((prod, index) => {
                   const isSelected = activeProductIds.includes(prod.id);
                   return (
                     <div
                       key={prod.id}
                       onClick={() => handleToggleProductSelection(prod.id)}
-                      className={`rounded-xl p-4.5 transition-all border cursor-pointer ${
-                        isSelected
-                          ? "bg-teal-50/25 border-teal-500 ring-2 ring-teal-500/15 shadow-2xs"
-                          : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/40"
-                      }`}
+                      className={`rounded-2xl p-6 sm:p-7 transition-all border cursor-pointer ${isSelected
+                        ? "bg-gradient-to-b from-teal-50/30 to-white border-teal-500 ring-2 ring-teal-500/15 shadow-sm"
+                        : "bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 shadow-2xs"
+                        }`}
                     >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-                        {/* Left: Checkbox Selector & Title */}
-                        <div className="flex items-start gap-3">
+                      {/* Top Bar: Checkbox + Title + Category & Actions */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pb-4 border-b border-slate-100">
+                        {/* Left: Checkbox Selector, Index, Name & Category */}
+                        <div className="flex items-start gap-3.5">
                           <button
                             type="button"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleToggleProductSelection(prod.id);
                             }}
-                            className={`mt-0.5 w-5 h-5 rounded-md flex items-center justify-center border transition-all cursor-pointer shrink-0 ${
-                              isSelected
-                                ? "border-teal-600 bg-teal-600 text-white shadow-2xs"
-                                : "border-slate-300 bg-white hover:border-teal-500"
-                            }`}
+                            className={`mt-0.5 w-6 h-6 rounded-lg flex items-center justify-center border-2 transition-all cursor-pointer shrink-0 ${isSelected
+                              ? "border-teal-600 bg-teal-600 text-white shadow-2xs"
+                              : "border-slate-300 bg-white hover:border-teal-500"
+                              }`}
                             title={isSelected ? "Click to deselect" : "Click to select"}
                           >
                             {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                           </button>
                           <div>
-                            <div className="flex items-center flex-wrap gap-2">
-                              <span className="text-xs font-bold text-slate-400">#{index + 1}</span>
-                              <h4 className="text-sm font-bold text-slate-900">{prod.name}</h4>
-                              <span className="text-[11px] font-semibold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full">
+                            <div className="flex items-center flex-wrap gap-2.5">
+                              <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-md">
+                                #{index + 1}
+                              </span>
+                              <h4 className="text-base font-bold text-slate-900 tracking-tight">{prod.name}</h4>
+                              <span className="text-xs font-semibold bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-lg border border-slate-200/60">
                                 {prod.category}
                               </span>
                             </div>
                             {prod.description && (
-                              <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                              <p className="text-xs sm:text-sm text-slate-500 mt-2 leading-relaxed max-w-3xl">
                                 {prod.description}
                               </p>
                             )}
@@ -1619,14 +1633,14 @@ export default function ProspectingHubDashboard() {
                           <button
                             type="button"
                             onClick={() => handleToggleProductSelection(prod.id)}
-                            className={`flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-lg border transition-all cursor-pointer ${
-                              isSelected
-                                ? "bg-teal-50 text-teal-700 border-teal-300 hover:bg-teal-100/60"
-                                : "text-slate-600 hover:text-teal-700 hover:bg-teal-50 border-slate-200"
-                            }`}
+                            className={`flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-xl border transition-all cursor-pointer ${isSelected
+                              ? "bg-teal-50 text-teal-700 border-teal-300 hover:bg-teal-100/70 shadow-2xs"
+                              : "text-slate-600 hover:text-teal-700 hover:bg-teal-50 border-slate-200"
+                              }`}
                           >
                             {isSelected ? (
                               <>
+                                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse" />
                                 <Check className="w-3.5 h-3.5 text-teal-600 stroke-[3]" />
                                 <span>Active ICP Product</span>
                               </>
@@ -1638,55 +1652,77 @@ export default function ProspectingHubDashboard() {
                           <button
                             type="button"
                             onClick={() => handleOpenEditProduct(prod)}
-                            className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                            className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-xl transition-colors cursor-pointer"
                             title="Edit Product"
                           >
-                            <Edit3 className="w-3.5 h-3.5" />
+                            <Edit3 className="w-4 h-4" />
                           </button>
 
                           {products.length > 1 && (
                             <button
                               type="button"
                               onClick={() => handleDeleteProduct(prod.id)}
-                              className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                              className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors cursor-pointer"
                               title="Delete Product"
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           )}
                         </div>
                       </div>
 
-                      {/* Tags: Industries & Personas */}
-                      <div className="pt-3 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                        <div>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
-                            Target Buyer Industries (ICP Focus):
-                          </span>
-                          <div className="flex flex-wrap gap-1.5">
+                      {/* Selected Components: Structured Column & Row Grid */}
+                      <div className="mt-5 pt-1 grid grid-cols-1 xl:grid-cols-2 gap-5 sm:gap-6 sm:pl-9">
+                        {/* Column 1: Target Buyer Industries */}
+                        <div className="flex flex-col gap-2.5 p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200/70">
+                          <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                              <Building2 className="w-3.5 h-3.5 text-teal-600" />
+                              Target Buyer Industries (ICP Focus)
+                            </span>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
+                              {prod.targetIndustries.length} Selected
+                            </span>
+                          </div>
+                          {/* Inner Grid: 2*2 Rows & Columns */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1">
                             {prod.targetIndustries.map(ind => (
-                              <span
+                              <div
                                 key={ind}
-                                className="bg-teal-50 text-teal-800 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border border-teal-100"
+                                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-teal-50/80 text-teal-900 text-xs font-semibold border border-teal-200/90 shadow-2xs"
                               >
-                                ✓ {ind}
-                              </span>
+                                <span className="w-4 h-4 rounded-full bg-teal-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                                  ✓
+                                </span>
+                                <span className="truncate" title={ind}>{ind}</span>
+                              </div>
                             ))}
                           </div>
                         </div>
 
-                        <div>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
-                            Target Buyer Personas / Roles:
-                          </span>
-                          <div className="flex flex-wrap gap-1.5">
+                        {/* Column 2: Target Buyer Personas / Roles */}
+                        <div className="flex flex-col gap-2.5 p-4 sm:p-5 rounded-2xl bg-slate-50/70 border border-slate-200/70">
+                          <div className="flex items-center justify-between pb-2 border-b border-slate-200/60">
+                            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
+                              <Users className="w-3.5 h-3.5 text-teal-600" />
+                              Target Buyer Personas / Roles
+                            </span>
+                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-lg bg-teal-50 text-teal-700 border border-teal-200">
+                              {prod.targetRoles.length} Selected
+                            </span>
+                          </div>
+                          {/* Inner Grid: 2*2 Rows & Columns */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-1">
                             {prod.targetRoles.map(role => (
-                              <span
+                              <div
                                 key={role}
-                                className="bg-teal-50 text-teal-800 text-[11px] font-semibold px-2.5 py-0.5 rounded-md border border-teal-100"
+                                className="flex items-center gap-2 px-3 py-2 rounded-xl bg-teal-50/80 text-teal-900 text-xs font-semibold border border-teal-200/90 shadow-2xs"
                               >
-                                ✓ {role}
-                              </span>
+                                <span className="w-4 h-4 rounded-full bg-teal-600 text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                                  ✓
+                                </span>
+                                <span className="truncate" title={role}>{role}</span>
+                              </div>
                             ))}
                           </div>
                         </div>
@@ -1718,171 +1754,264 @@ export default function ProspectingHubDashboard() {
       {/* VIEW 2: PROSPECT AI DASHBOARD - STREAMLINED & FOCUSED ON CORE PROSPECTS */}
       {currentView === "prospect_hub" && (
         <div className="flex-1 flex flex-col animate-in fade-in duration-200">
-          {/* Compact ICP & Quick Action Bar (Replaces all redundant hero banners) */}
-          <div className={`px-6 py-3 border-b flex flex-wrap items-center justify-between gap-4 transition-colors ${
-            isDarkMode ? "bg-slate-900/90 border-slate-800 text-white" : "bg-white border-slate-200 shadow-2xs text-slate-900"
-          }`}>
-            {/* Left: Active Targeting Summary */}
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className={`font-extrabold px-3 py-1 rounded-full text-xs border ${
-                isDarkMode ? "bg-teal-950/60 text-teal-400 border-teal-800" : "bg-teal-50 text-teal-700 border-teal-200"
-              }`}>
-                Active ICP Match
-              </span>
-              <div className="text-xs flex items-center gap-1.5">
-                <span className="text-slate-400">Target Company:</span>
-                <strong className="font-bold">{companyProfile.name}</strong>
-              </div>
-              <div className="flex items-center gap-1.5 text-xs flex-wrap">
-                <span className="text-slate-400 font-medium">Products ({activeProductIds.length}):</span>
-                <div className="flex items-center gap-1 flex-wrap">
-                  {products.map(p => {
-                    const isSel = activeProductIds.includes(p.id);
-                    return (
-                      <button
+          {/* Top ICP Control & Metric Overview Bar */}
+          <div className="w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xs">
+            <div className="w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-3.5 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+              {/* Left Column: Scalable Product Filter (Dropdown & Popover) */}
+              <div className="relative">
+                <div className="flex items-center gap-2.5 flex-wrap sm:flex-nowrap">
+                  <span className="text-xs text-slate-500 dark:text-slate-400 font-bold whitespace-nowrap">
+                    Target Products:
+                  </span>
+
+                  {/* Dropdown Trigger Pill */}
+                  <button
+                    type="button"
+                    onClick={() => setShowProductDropdown(!showProductDropdown)}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700/80 text-xs font-bold text-slate-800 dark:text-slate-100 transition-all shadow-2xs cursor-pointer active:scale-98"
+                    title="Click to select products for ICP matching"
+                  >
+                    <Layers className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 shrink-0" />
+                    <span className="font-extrabold text-teal-700 dark:text-teal-300">
+                      {activeProductIds.length === products.length
+                        ? `All Products (${products.length})`
+                        : `${activeProductIds.length} of ${products.length} Active`}
+                    </span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${showProductDropdown ? "rotate-180" : ""}`} />
+                  </button>
+
+                  {/* Preview Chips: Displays up to 2 active products + compact counter if 10+ */}
+                  <div className="hidden md:flex items-center gap-1.5 flex-nowrap">
+                    {products.filter(p => activeProductIds.includes(p.id)).slice(0, 2).map(p => (
+                      <span
                         key={p.id}
-                        type="button"
-                        onClick={() => handleToggleProductSelection(p.id)}
-                        className={`text-[11px] font-bold px-2.5 py-1 rounded-lg border transition-all cursor-pointer flex items-center gap-1 ${
-                          isSel
-                            ? "bg-teal-600 text-white border-teal-700 shadow-2xs"
-                            : isDarkMode
-                            ? "bg-slate-800 text-slate-400 border-slate-700 hover:text-white"
-                            : "bg-slate-100 text-slate-600 border-slate-200 hover:border-slate-300"
-                        }`}
-                        title={isSel ? `Active for ICP (${p.name}). Click to toggle.` : `Inactive (${p.name}). Click to enable.`}
+                        className="inline-flex items-center gap-1 text-[11px] font-semibold bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 px-2.5 py-0.5 rounded-lg border border-teal-200 dark:border-teal-800 whitespace-nowrap max-w-[150px] truncate"
+                        title={p.name}
                       >
-                        {isSel && <Check className="w-3 h-3 stroke-[3]" />}
-                        <span className="truncate max-w-[120px] sm:max-w-[160px]">{p.name}</span>
+                        <Check className="w-2.5 h-2.5 stroke-[3] text-teal-600 shrink-0" />
+                        <span className="truncate">{p.name}</span>
+                      </span>
+                    ))}
+                    {activeProductIds.length > 2 && (
+                      <button
+                        type="button"
+                        onClick={() => setShowProductDropdown(true)}
+                        className="text-[11px] font-extrabold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer whitespace-nowrap transition-colors"
+                        title="Click to view all active products"
+                      >
+                        +{activeProductIds.length - 2} more
                       </button>
-                    );
-                  })}
+                    )}
+                  </div>
                 </div>
+
+                {/* Dropdown Menu Popover (Supports 10+ products smoothly) */}
+                {showProductDropdown && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-40"
+                      onClick={() => setShowProductDropdown(false)}
+                    />
+                    <div className="absolute left-0 top-full mt-2 z-50 w-80 sm:w-96 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 p-4 flex flex-col gap-3 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+                        <div>
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-white flex items-center gap-1.5">
+                            <Layers className="w-3.5 h-3.5 text-teal-600" />
+                            <span>Target Products Portfolio</span>
+                          </h4>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Select products to align with high-intent buyers
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[11px]">
+                          <button
+                            type="button"
+                            onClick={() => setActiveProductIds(products.map(p => p.id))}
+                            className="text-teal-600 hover:text-teal-700 dark:text-teal-400 font-bold px-1.5 py-0.5 hover:bg-teal-50 dark:hover:bg-teal-950/50 rounded cursor-pointer transition-colors"
+                          >
+                            All
+                          </button>
+                          <span className="text-slate-300 dark:text-slate-700">|</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (products.length > 0) setActiveProductIds([products[0].id]);
+                            }}
+                            className="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-bold px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded cursor-pointer transition-colors"
+                          >
+                            Reset
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Search box if 4+ products exist */}
+                      {products.length > 3 && (
+                        <div className="relative">
+                          <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="text"
+                            value={productFilterSearch}
+                            onChange={(e) => setProductFilterSearch(e.target.value)}
+                            placeholder="Filter product list..."
+                            className="w-full text-xs pl-8 pr-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:border-teal-500"
+                          />
+                        </div>
+                      )}
+
+                      {/* Scrollable Products List with clean Checkboxes */}
+                      <div className="flex flex-col gap-1.5 max-h-60 overflow-y-auto pr-1">
+                        {products
+                          .filter(p => !productFilterSearch || p.name.toLowerCase().includes(productFilterSearch.toLowerCase()) || (p.category && p.category.toLowerCase().includes(productFilterSearch.toLowerCase())))
+                          .map(p => {
+                            const isSel = activeProductIds.includes(p.id);
+                            return (
+                              <div
+                                key={p.id}
+                                onClick={() => handleToggleProductSelection(p.id)}
+                                className={`flex items-start gap-2.5 p-2 rounded-xl border transition-all cursor-pointer ${isSel
+                                  ? "bg-teal-50/80 dark:bg-teal-950/40 border-teal-200 dark:border-teal-800"
+                                  : "hover:bg-slate-50 dark:hover:bg-slate-800/60 border-transparent hover:border-slate-200 dark:hover:border-slate-700"
+                                  }`}
+                              >
+                                <div className={`w-4 h-4 rounded mt-0.5 flex items-center justify-center shrink-0 border transition-colors ${isSel
+                                  ? "bg-teal-600 border-teal-600 text-white"
+                                  : "border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800"
+                                  }`}>
+                                  {isSel && <Check className="w-3 h-3 stroke-[3]" />}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between gap-2">
+                                    <span className={`text-xs font-bold truncate ${isSel ? "text-teal-900 dark:text-teal-200" : "text-slate-800 dark:text-slate-200"}`}>
+                                      {p.name}
+                                    </span>
+                                    <span className="text-[10px] text-slate-400 font-medium shrink-0">
+                                      {p.category}
+                                    </span>
+                                  </div>
+                                  {p.description && (
+                                    <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                                      {p.description}
+                                    </p>
+                                  )}
+                                </div>
+                              </div>
+                            );
+                          })}
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px]">
+                        <span className="text-slate-500 dark:text-slate-400">
+                          <strong>{activeProductIds.length}</strong> active product{activeProductIds.length === 1 ? "" : "s"}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setShowProductDropdown(false)}
+                          className="font-bold text-teal-600 hover:text-teal-700 dark:text-teal-400 cursor-pointer"
+                        >
+                          Done
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
 
-              <button
-                onClick={() => setCurrentView("company_onboarding")}
-                className="text-xs text-[#0066FF] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
-              >
-                <Edit3 className="w-3 h-3" />
-                Manage Profile &amp; ICP
-              </button>
-            </div>
+              {/* Right Column: Stat Badges & Quick Action */}
+              <div className="flex items-center justify-between xl:justify-end gap-3 pt-2 xl:pt-0 border-t xl:border-t-0 border-slate-100 dark:border-slate-800 shrink-0">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700">
+                    <span className="text-slate-400">Matched Prospects:</span>
+                    <strong className="font-bold text-slate-900 dark:text-white">{prospects.length}</strong>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-teal-50/70 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800">
+                    <span className="text-teal-600 dark:text-teal-400 font-medium">Unlocked:</span>
+                    <strong className="font-bold text-teal-900 dark:text-teal-200">{unlockedCount} / {prospects.length}</strong>
+                  </div>
+                  <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs bg-amber-50/70 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800">
+                    <span className="text-amber-600 dark:text-amber-400 font-medium">Signals:</span>
+                    <strong className="font-bold text-amber-900 dark:text-amber-200">{signals.length}</strong>
+                  </div>
+                </div>
 
-            {/* Right: Essential Stat Badges & Quick Unlock */}
-            <div className="flex items-center gap-2.5">
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border ${
-                isDarkMode ? "bg-slate-800 border-slate-700 text-slate-300" : "bg-slate-50 border-slate-200 text-slate-700"
-              }`}>
-                <span className="text-slate-400">Matched Prospects:</span>
-                <span className="font-black text-slate-900 dark:text-white">{prospects.length}</span>
+                <button
+                  onClick={handleBatchUnlock}
+                  disabled={loading}
+                  className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition-all shadow-xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50 active:scale-98 shrink-0"
+                >
+                  <Unlock className="w-3.5 h-3.5" />
+                  <span>Unlock All ({prospects.length})</span>
+                </button>
               </div>
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border ${
-                isDarkMode ? "bg-teal-950/40 border-teal-800 text-teal-300" : "bg-teal-50 border-teal-200 text-teal-800"
-              }`}>
-                <span className="text-teal-600 dark:text-teal-400 font-medium">Unlocked:</span>
-                <span className="font-black">{unlockedCount} / {prospects.length}</span>
-              </div>
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border ${
-                isDarkMode ? "bg-amber-950/40 border-amber-800 text-amber-300" : "bg-amber-50 border-amber-200 text-amber-800"
-              }`}>
-                <span className="text-amber-600 dark:text-amber-400 font-medium">Signals:</span>
-                <span className="font-black">{signals.length}</span>
-              </div>
-              <button
-                onClick={handleBatchUnlock}
-                disabled={loading}
-                className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg transition-all shadow-2xs flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-              >
-                <Unlock className="w-3.5 h-3.5" />
-                Unlock All ({prospects.length})
-              </button>
             </div>
           </div>
 
           {/* Main Dashboard Tabs & Table Area (Core Prospects Workspace) */}
-          <main className="flex-1 max-w-7xl w-full mx-auto p-6 flex flex-col gap-6">
-            <div className={`flex items-center justify-center gap-3 border-b pb-3 transition-colors ${
-              isDarkMode ? "border-slate-800" : "border-slate-200"
-            }`}>
-              <button
-                onClick={() => setActiveTab("prospects")}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
-                  activeTab === "prospects"
-                    ? "bg-[#176A9E] text-white shadow-sm"
-                    : isDarkMode
-                    ? "text-slate-400 hover:text-white hover:bg-slate-800"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                }`}
-              >
-                <Search className="w-4 h-4" />
-                Prospect Discovery &amp; Enrichment
-              </button>
+          <main className="flex-1 w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-6 flex flex-col gap-6">
+            {/* View Navigation Tabs */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-200 dark:border-slate-800">
+              <div className="inline-flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/80 self-start">
+                <button
+                  onClick={() => setActiveTab("prospects")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === "prospects"
+                    ? "bg-white dark:bg-slate-900 text-teal-700 dark:text-teal-400 shadow-xs border border-slate-200/60 dark:border-slate-700"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                >
+                  <span>Prospect Discovery &amp; Enrichment</span>
+                  <span className={`text-[10px] font-extrabold px-1.5 py-0.2 rounded-md ${activeTab === "prospects" ? "bg-teal-50 text-teal-700 border border-teal-200" : "bg-slate-200 text-slate-600"}`}>
+                    {prospects.length}
+                  </span>
+                </button>
 
-              <button
-                onClick={() => setActiveTab("signals")}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
-                  activeTab === "signals"
-                    ? "bg-[#176A9E] text-white shadow-sm"
-                    : isDarkMode
-                    ? "text-slate-400 hover:text-white hover:bg-slate-800"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                }`}
-              >
-                <TrendingUp className="w-4 h-4" />
-                Buying Signals Radar
-                <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-                  activeTab === "signals"
-                    ? "bg-white/20 text-white"
-                    : "bg-amber-100 text-amber-900"
-                }`}>
-                  {signals.length}
-                </span>
-              </button>
+                <button
+                  onClick={() => setActiveTab("signals")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === "signals"
+                    ? "bg-white dark:bg-slate-900 text-teal-700 dark:text-teal-400 shadow-xs border border-slate-200/60 dark:border-slate-700"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                >
+                  <span>Buying Signals Radar</span>
+                  <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                    {signals.length}
+                  </span>
+                </button>
 
-              <button
-                onClick={() => setActiveTab("crm")}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold transition-all ${
-                  activeTab === "crm"
-                    ? "bg-[#176A9E] text-white shadow-sm"
-                    : isDarkMode
-                    ? "text-slate-400 hover:text-white hover:bg-slate-800"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                }`}
-              >
-                <Database className="w-4 h-4" />
-                CRM Database Sync
-                <span className={`text-xs px-2 py-0.5 rounded-full font-bold ${
-                  activeTab === "crm"
-                    ? "bg-white/20 text-white"
-                    : "bg-teal-100 text-teal-800"
-                }`}>
-                  {crmRecords.length}
-                </span>
-              </button>
+                <button
+                  onClick={() => setActiveTab("crm")}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${activeTab === "crm"
+                    ? "bg-white dark:bg-slate-900 text-teal-700 dark:text-teal-400 shadow-xs border border-slate-200/60 dark:border-slate-700"
+                    : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                    }`}
+                >
+                  <span>CRM Database Sync</span>
+                  <span className="text-[10px] font-extrabold px-1.5 py-0.2 rounded-md bg-teal-100 text-teal-800 border border-teal-200">
+                    {crmRecords.length}
+                  </span>
+                </button>
+              </div>
             </div>
 
             {/* TAB 1: PROSPECTS DISCOVERY & ENRICHMENT */}
             {activeTab === "prospects" && (
               <div className="flex flex-col gap-4">
-                {/* Filter Bar */}
-                <div className="bg-white border border-slate-200/90 rounded-xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
+                {/* Filter & Search Bar */}
+                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-3.5 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-3 sm:gap-4">
                   <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
-                    <div className="relative flex-1 min-w-[220px]">
-                      <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <div className="relative flex-1 min-w-[240px]">
+                      <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by title, name, company, or tech (e.g. RevOps, Salesforce)..."
-                        className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white transition-colors"
+                        className="w-full h-10 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-3.5 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 focus:bg-white transition-all"
                       />
                     </div>
 
                     <select
                       value={selectedSeniority}
                       onChange={(e) => setSelectedSeniority(e.target.value)}
-                      className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-medium focus:outline-none focus:border-[#0066FF]"
+                      className="h-10 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 cursor-pointer"
                     >
                       <option value="all">All Seniorities</option>
                       <option value="c_level">C-Level (CIO, CTO)</option>
@@ -1893,7 +2022,7 @@ export default function ProspectingHubDashboard() {
                     <select
                       value={selectedIndustry}
                       onChange={(e) => setSelectedIndustry(e.target.value)}
-                      className="bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-medium focus:outline-none focus:border-[#0066FF]"
+                      className="h-10 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/10 cursor-pointer"
                     >
                       <option value="all">All Industries</option>
                       <option value="Software & SaaS">Software &amp; SaaS</option>
@@ -1904,204 +2033,288 @@ export default function ProspectingHubDashboard() {
                     </select>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     <button
                       onClick={handleBatchUnlock}
                       disabled={loading}
-                      className="flex items-center gap-1.5 text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-lg transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
+                      className="h-10 flex items-center gap-2 text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white px-4 rounded-xl transition-all shadow-xs disabled:opacity-50 cursor-pointer active:scale-98"
                     >
                       <Unlock className="w-3.5 h-3.5" />
-                      Unlock All Filtered
+                      <span>Unlock All Filtered</span>
                     </button>
                   </div>
                 </div>
 
                 {/* Prospects Table */}
-                <div className="bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-xs">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm text-slate-700">
-                      <thead className="bg-slate-50/80 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                    <table className="w-full text-left text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+                      <thead className="bg-slate-50/90 dark:bg-slate-800/60 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                         <tr>
-                          <th className="px-5 py-3.5">Prospect &amp; ICP Fit</th>
-                          <th className="px-5 py-3.5">Company &amp; Industry</th>
-                          <th className="px-5 py-3.5">Contact Verification</th>
-                          <th className="px-5 py-3.5">Active Signals</th>
-                          <th className="px-5 py-3.5 text-right">Actions</th>
+                          <th className="px-2 py-3 w-10 text-center text-xs font-bold text-slate-400">#</th>
+                          <th className="px-3 py-3 text-xs font-bold text-slate-500 dark:text-slate-400">Prospect &amp; ICP Fit</th>
+                          <th className="px-3 py-3 text-xs font-bold text-slate-500 dark:text-slate-400">Company &amp; Industry</th>
+                          <th className="px-2 py-3 w-16 text-center text-xs font-bold text-slate-500 dark:text-slate-400">Signals</th>
+                          <th className="px-3 py-3 text-xs font-bold text-slate-500 dark:text-slate-400">Contact</th>
+                          <th className="px-2 py-3 w-[230px] text-center text-xs font-bold text-slate-500 dark:text-slate-400">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
-                        {prospects.map((prospect) => {
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
+                        {prospects.map((prospect, idx) => {
                           const isUnlocked = prospect.contact.isUnlocked;
                           const isSynced = prospect.crmStatus.isSynced;
                           const icpScore = prospect.icpScore || 90;
+                          const isFirstRows = idx < 4;
+                          const tooltipPlacement = isFirstRows ? "top-full mt-2" : "bottom-full mb-2";
 
                           return (
-                            <tr key={prospect.id} className="hover:bg-slate-50/70 transition-colors">
-                              {/* Prospect Column with ICP Match Badge */}
-                              <td className="px-5 py-4">
-                                <div className="flex items-start gap-3">
-                                  <div className="w-10 h-10 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center font-bold text-[#0066FF] text-xs shrink-0 shadow-2xs">
+                            <tr key={prospect.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
+                              {/* S.No Column */}
+                              <td className="px-2 py-3 text-center font-mono text-xs font-bold text-slate-400 dark:text-slate-500 align-middle w-10">
+                                {idx + 1}
+                              </td>
+
+                              {/* Prospect Column with ICP Match Badge - Strictly 2 Rows */}
+                              <td className="px-3 py-3 align-middle">
+                                <div className="flex items-center gap-2.5">
+                                  <div className="w-8 h-8 rounded-lg bg-teal-50 dark:bg-teal-950/60 border border-teal-200/90 dark:border-teal-800 flex items-center justify-center font-bold text-teal-700 dark:text-teal-300 text-xs shrink-0 shadow-2xs">
                                     {prospect.firstName[0]}{prospect.lastName[0]}
                                   </div>
-                                  <div>
-                                    <div className="flex items-center gap-2">
-                                      <span className="font-bold text-slate-900">{prospect.fullName}</span>
+                                  <div className="min-w-0 flex-1 flex flex-col justify-center">
+                                    {/* ROW 1: Name, LinkedIn, ICP Fit Badge */}
+                                    <div className="flex items-center gap-1.5 flex-nowrap">
+                                      <span className="font-bold text-slate-900 dark:text-white text-xs sm:text-sm whitespace-nowrap truncate max-w-[120px]">
+                                        {prospect.fullName}
+                                      </span>
                                       <a
                                         href={prospect.linkedinUrl}
                                         target="_blank"
                                         rel="noreferrer"
-                                        className="text-slate-400 hover:text-[#0066FF] transition-colors"
+                                        className="text-slate-400 hover:text-teal-600 transition-colors shrink-0"
+                                        title="View LinkedIn Profile"
                                       >
-                                        <LinkedInIcon className="w-3.5 h-3.5" />
+                                        <LinkedInIcon className="w-3 h-3" />
                                       </a>
 
                                       {/* Smart ICP Fit Badge */}
                                       <span
-                                        className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${
-                                          icpScore >= 90
-                                            ? "bg-teal-50 text-teal-700 border-teal-200"
-                                            : "bg-blue-50 text-blue-700 border-blue-200"
-                                        }`}
-                                        title={prospect.icpReason}
+                                        className="text-[10px] font-extrabold px-1.5 py-0.5 rounded-md border bg-teal-50 text-teal-700 dark:bg-teal-950/70 dark:text-teal-300 border-teal-200 dark:border-teal-800 shrink-0 whitespace-nowrap"
                                       >
-                                        🎯 {icpScore}% ICP Fit
+                                        🎯 {icpScore}% ICP
                                       </span>
                                     </div>
-                                    <p className="text-xs text-slate-600 font-medium">{prospect.title}</p>
-                                    <span className="inline-block text-[11px] text-slate-400 mt-0.5">
-                                      {prospect.location} • <span className="text-slate-500 font-medium">{prospect.icpReason}</span>
-                                    </span>
+
+                                    {/* ROW 2: Title, Location, and Hover Tooltip Icon for remaining ICP criteria */}
+                                    <div className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5 flex-nowrap">
+                                      <span className="truncate max-w-[110px] font-semibold text-slate-700 dark:text-slate-200" title={prospect.title}>
+                                        {prospect.title}
+                                      </span>
+                                      <span className="text-slate-300 dark:text-slate-600 text-[10px] shrink-0">•</span>
+                                      <span className="inline-flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[95px] shrink-0">
+                                        <MapPin className="w-2.5 h-2.5 text-slate-400 shrink-0" />
+                                        <span className="truncate">{prospect.location}</span>
+                                      </span>
+
+                                      {/* Hover tooltip icon showing full ICP breakdown */}
+                                      <div className="relative group inline-flex items-center shrink-0">
+                                        <div
+                                          className="w-3.5 h-3.5 rounded-full bg-slate-100 hover:bg-teal-50 dark:bg-slate-800 dark:hover:bg-teal-950 text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 flex items-center justify-center transition-colors cursor-pointer"
+                                          title="Hover to view ICP match details"
+                                        >
+                                          <Info className="w-2.5 h-2.5" />
+                                        </div>
+                                        <div className={`hidden group-hover:flex absolute left-0 ${tooltipPlacement} z-[60] w-64 p-3 bg-slate-900 text-white text-xs rounded-xl shadow-2xl flex-col gap-1.5 pointer-events-none animate-in fade-in zoom-in-95 duration-150 border border-slate-700`}>
+                                          <div className="font-bold text-[11px] text-teal-300 flex items-center gap-1">
+                                            <Target className="w-3.5 h-3.5 text-teal-400" />
+                                            <span>ICP Match Breakdown ({icpScore}%)</span>
+                                          </div>
+                                          <div className="flex flex-col gap-1 text-[11px] text-slate-200 mt-0.5">
+                                            {prospect.icpReason.split('•').map((part, pIdx) => (
+                                              <div key={pIdx} className="flex items-start gap-1.5">
+                                                <span className="text-teal-400 font-bold shrink-0">✓</span>
+                                                <span className="leading-tight">{part.trim()}</span>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
                               </td>
 
-                              {/* Company Column */}
-                              <td className="px-5 py-4">
-                                <div>
-                                  <div className="flex items-center gap-1.5 font-bold text-slate-800">
-                                    <Building2 className="w-3.5 h-3.5 text-slate-400" />
-                                    {prospect.company.name}
-                                  </div>
-                                  <p className="text-xs text-slate-500">{prospect.company.industry}</p>
-                                  <div className="flex items-center gap-1.5 mt-1.5">
-                                    <span className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded border border-slate-200">
+                              {/* Company Column - Strictly 2 Rows */}
+                              <td className="px-3 py-3 align-middle">
+                                <div className="flex flex-col justify-center">
+                                  {/* ROW 1: Company Name & Size */}
+                                  <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white text-xs sm:text-sm flex-nowrap">
+                                    <Building2 className="w-3 h-3 text-teal-600 shrink-0" />
+                                    <span className="truncate max-w-[110px]">{prospect.company.name}</span>
+                                    <span className="text-[9px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-1 py-0.2 rounded border border-slate-200 dark:border-slate-700 shrink-0 whitespace-nowrap">
                                       {prospect.company.size} emp
                                     </span>
+                                  </div>
+
+                                  {/* ROW 2: Industry & Hover Funding Icon */}
+                                  <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 flex-nowrap">
+                                    <span className="truncate max-w-[100px] text-xs">{prospect.company.industry}</span>
                                     {prospect.company.funding && (
-                                      <span className="text-[10px] font-semibold bg-teal-50 text-teal-800 px-1.5 py-0.5 rounded border border-teal-200">
-                                        {prospect.company.funding.stage} ({prospect.company.funding.amount})
-                                      </span>
+                                      <div className="relative group inline-flex items-center shrink-0">
+                                        <div
+                                          className="inline-flex items-center gap-0.5 text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 transition-colors cursor-pointer"
+                                          title="Hover to view funding details"
+                                        >
+                                          <Zap className="w-2.5 h-2.5 text-amber-500 shrink-0" />
+                                          <span>Funding</span>
+                                        </div>
+                                        <div className={`hidden group-hover:flex absolute left-0 ${tooltipPlacement} z-[60] w-52 p-2.5 bg-slate-900 text-white text-xs rounded-xl shadow-2xl flex-col gap-1 pointer-events-none animate-in fade-in zoom-in-95 duration-150 border border-slate-700`}>
+                                          <div className="font-bold text-[11px] text-teal-300 flex items-center gap-1">
+                                            <Zap className="w-3 h-3 text-amber-400" />
+                                            <span>Funding Details</span>
+                                          </div>
+                                          <p className="text-[11px] text-slate-200 leading-tight">
+                                            Stage: <strong className="text-white">{prospect.company.funding.stage}</strong>
+                                          </p>
+                                          <p className="text-[11px] text-slate-200 leading-tight">
+                                            Raised: <strong className="text-teal-300">{prospect.company.funding.amount}</strong>
+                                          </p>
+                                        </div>
+                                      </div>
                                     )}
                                   </div>
                                 </div>
                               </td>
 
+                              {/* Buying Signals - Icon Only with Hover Card (Moved to Left of Contact) */}
+                              <td className="px-2 py-3 align-middle text-center w-16">
+                                {prospect.signals && prospect.signals.length > 0 ? (
+                                  <div className="relative group inline-flex items-center justify-center">
+                                    <div
+                                      className="relative w-7 h-7 rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-amber-600 dark:text-amber-400 flex items-center justify-center transition-all shadow-2xs cursor-pointer group-hover:scale-105 active:scale-95"
+                                      title={prospect.signals[0].title}
+                                    >
+                                      <TrendingUp className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
+                                      {prospect.signals.length > 1 && (
+                                        <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 rounded-full bg-amber-500 text-white text-[8px] font-black flex items-center justify-center shadow-xs">
+                                          {prospect.signals.length}
+                                        </span>
+                                      )}
+                                    </div>
+
+                                    {/* Hover Popover with Full Signals Breakdown */}
+                                    <div
+                                      className={`hidden group-hover:flex absolute left-1/2 -translate-x-1/2 ${tooltipPlacement} z-[60] w-72 p-3 bg-slate-900 text-white text-xs rounded-xl shadow-2xl flex-col gap-2 pointer-events-none animate-in fade-in zoom-in-95 duration-150 border border-slate-700 text-left`}
+                                    >
+                                      <div className="font-bold text-[11px] text-amber-300 flex items-center justify-between border-b border-slate-800 pb-1.5">
+                                        <div className="flex items-center gap-1.5">
+                                          <TrendingUp className="w-3.5 h-3.5 text-amber-400" />
+                                          <span>Active Buying Signals ({prospect.signals.length})</span>
+                                        </div>
+                                        <span className="text-[10px] text-amber-300 bg-amber-950/80 px-1.5 py-0.2 rounded border border-amber-800">Verified</span>
+                                      </div>
+                                      <div className="flex flex-col gap-2">
+                                        {prospect.signals.map((sig) => (
+                                          <div key={sig.id} className="flex flex-col gap-0.5">
+                                            <div className="font-bold text-xs text-amber-200 flex items-center gap-1.5">
+                                              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0"></span>
+                                              <span>{sig.title}</span>
+                                            </div>
+                                            <p className="text-[11px] text-slate-300 leading-normal pl-3">
+                                              {sig.description}
+                                            </p>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <span className="text-slate-300 dark:text-slate-600 font-mono text-xs block text-center">—</span>
+                                )}
+                              </td>
+
                               {/* Contact Info (Waterfall Locked/Unlocked) */}
-                              <td className="px-5 py-4">
-                                <div className="flex flex-col gap-1.5">
+                              <td className="px-3 py-3 align-middle">
+                                <div className="flex flex-col gap-1">
                                   {/* Work Email */}
-                                  <div className="flex items-center gap-2 text-xs">
-                                    <Mail className="w-3.5 h-3.5 text-slate-400" />
-                                    <span className={isUnlocked ? "font-mono font-medium text-slate-900" : "font-mono text-slate-400"}>
+                                  <div className="flex items-center gap-1.5 text-xs">
+                                    <Mail className="w-3 h-3 text-slate-400 shrink-0" />
+                                    <span className={isUnlocked ? "font-mono font-medium text-slate-900 dark:text-white text-[11px] truncate max-w-[125px]" : "font-mono text-slate-400 text-[11px] truncate max-w-[125px]"}>
                                       {prospect.contact.workEmail}
                                     </span>
                                     {isUnlocked ? (
-                                      <span className="text-[10px] bg-teal-50 text-teal-700 font-bold px-1.5 py-0.2 rounded border border-teal-200">
+                                      <span className="text-[9px] bg-teal-50 dark:bg-teal-950 text-teal-700 dark:text-teal-400 font-bold px-1.5 py-0.2 rounded border border-teal-200 dark:border-teal-800 shrink-0 whitespace-nowrap">
                                         {prospect.contact.deliverabilityScore}% Valid
                                       </span>
                                     ) : (
-                                      <span className="text-[10px] bg-slate-100 text-slate-500 px-1.5 py-0.2 rounded flex items-center gap-0.5 border border-slate-200">
-                                        <Lock className="w-2.5 h-2.5" /> Locked
+                                      <span className="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-500 font-medium px-1.5 py-0.2 rounded flex items-center gap-0.5 border border-slate-200 dark:border-slate-700 shrink-0 whitespace-nowrap">
+                                        <Lock className="w-2 h-2" /> Locked
                                       </span>
                                     )}
                                   </div>
 
                                   {/* Phone */}
-                                  <div className="flex items-center gap-2 text-xs">
-                                    <Phone className="w-3.5 h-3.5 text-slate-400" />
-                                    <span className={isUnlocked ? "font-mono font-medium text-slate-900" : "font-mono text-slate-400"}>
+                                  <div className="flex items-center gap-1.5 text-xs">
+                                    <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                                    <span className={isUnlocked ? "font-mono font-medium text-slate-900 dark:text-white text-[11px]" : "font-mono text-slate-400 text-[11px]"}>
                                       {prospect.contact.phone}
                                     </span>
                                     {isUnlocked && (
-                                      <span className="text-[10px] text-slate-500">({prospect.contact.phoneType})</span>
+                                      <span className="text-[9px] text-slate-500">({prospect.contact.phoneType})</span>
                                     )}
                                   </div>
                                 </div>
                               </td>
 
-                              {/* Buying Signals */}
-                              <td className="px-5 py-4">
-                                {prospect.signals && prospect.signals.length > 0 ? (
-                                  <div className="flex flex-col gap-1">
-                                    {prospect.signals.map((sig) => (
-                                      <div
-                                        key={sig.id}
-                                        className="text-xs bg-amber-50 border border-amber-200 text-amber-900 px-2 py-1 rounded-md max-w-xs shadow-2xs"
-                                      >
-                                        <span className="font-bold block text-amber-950">{sig.title}</span>
-                                        <span className="text-[11px] text-amber-800 line-clamp-1">
-                                          {sig.description}
-                                        </span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                ) : (
-                                  <span className="text-xs text-slate-400 italic">No triggers detected</span>
-                                )}
-                              </td>
-
-                              {/* Actions */}
-                              <td className="px-5 py-4 text-right">
-                                <div className="flex items-center justify-end gap-2">
+                              {/* Actions - Strictly 1 Row, Balanced Center Alignment */}
+                              <td className="px-2 py-3 align-middle text-center whitespace-nowrap w-[230px]">
+                                <div className="flex items-center justify-center gap-1.5 flex-nowrap whitespace-nowrap">
                                   {!isUnlocked ? (
                                     <button
                                       onClick={() => handleEnrich(prospect.id)}
                                       disabled={enrichingId === prospect.id}
-                                      className="flex items-center gap-1 text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white px-2.5 py-1.5 rounded-lg transition-colors shadow-2xs cursor-pointer"
+                                      className="inline-flex items-center gap-1 text-[11px] font-bold bg-[#097391] hover:bg-[#075a72] text-white px-2.5 py-1.5 rounded-lg transition-all shadow-xs cursor-pointer active:scale-95 disabled:opacity-50 whitespace-nowrap shrink-0"
                                       title="Waterfall Unlock verified email & phone"
                                     >
                                       {enrichingId === prospect.id ? (
-                                        <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                        <RefreshCw className="w-3 h-3 animate-spin" />
                                       ) : (
-                                        <Unlock className="w-3.5 h-3.5" />
+                                        <Unlock className="w-3 h-3" />
                                       )}
-                                      Unlock
+                                      <span className="whitespace-nowrap">Unlock</span>
                                     </button>
                                   ) : (
-                                    <span className="text-[11px] text-teal-700 bg-teal-50 px-2 py-1 rounded-md border border-teal-200 font-bold">
-                                      Enriched
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/60 px-2 py-1.5 rounded-lg border border-teal-200 dark:border-teal-800 whitespace-nowrap shrink-0">
+                                      <Check className="w-2.5 h-2.5 stroke-[3]" /> <span className="whitespace-nowrap">Enriched</span>
                                     </span>
                                   )}
 
-                                  {/* AI Scribe Button (Pitches their company product!) */}
+                                  {/* AI Scribe Button (Pitches their company product! - without Sparkles icon) */}
                                   <button
                                     onClick={() => handleOpenScribe(prospect)}
-                                    className="flex items-center gap-1 text-xs font-semibold bg-blue-50 hover:bg-blue-100 text-[#0066FF] border border-blue-200 px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer"
+                                    className="inline-flex items-center gap-1 text-[11px] font-bold bg-white dark:bg-slate-800 hover:bg-teal-50/60 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 hover:text-[#097391] dark:hover:text-teal-300 border border-slate-200 dark:border-slate-700 hover:border-teal-300 px-2 py-1.5 rounded-lg transition-all shadow-2xs cursor-pointer active:scale-95 whitespace-nowrap shrink-0"
                                     title={`Generate Personalized Pitch for ${companyProfile.name}`}
                                   >
-                                    <Sparkles className="w-3.5 h-3.5 text-[#0066FF]" />
-                                    Scribe AI
+                                    <span className="whitespace-nowrap">Scribe AI</span>
                                   </button>
 
                                   {/* Push to CRM Button */}
                                   <button
                                     onClick={() => handlePushToCrm(prospect)}
                                     disabled={pushingId === prospect.id}
-                                    className={`flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg transition-colors border shadow-2xs cursor-pointer ${
-                                      isSynced
-                                        ? "bg-blue-50 hover:bg-blue-100 text-[#0066FF] border-blue-200 font-semibold"
-                                        : "bg-teal-600 hover:bg-teal-700 text-white border-teal-700 font-bold active:scale-98"
-                                    }`}
+                                    className={`inline-flex items-center gap-1 text-[11px] px-2 py-1.5 rounded-lg transition-all border shadow-2xs cursor-pointer active:scale-95 whitespace-nowrap shrink-0 ${isSynced
+                                      ? "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 font-semibold"
+                                      : "bg-slate-900 hover:bg-slate-800 dark:bg-[#097391] dark:hover:bg-[#075a72] text-white border-slate-900 dark:border-[#097391] font-bold"
+                                      }`}
                                     title={isSynced ? "Lead is synced to CRM" : "Push Lead to CRM with duplicate validation"}
                                   >
                                     {pushingId === prospect.id ? (
-                                      <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                                      <RefreshCw className="w-3 h-3 animate-spin" />
                                     ) : isSynced ? (
-                                      <Check className="w-3.5 h-3.5 text-[#0066FF]" />
+                                      <Check className="w-3 h-3 text-[#097391]" />
                                     ) : (
-                                      <Send className="w-3.5 h-3.5" />
+                                      <Send className="w-3 h-3" />
                                     )}
-                                    <span>{isSynced ? "In CRM" : "Push CRM"}</span>
+                                    <span className="whitespace-nowrap">{isSynced ? "In CRM" : "Push CRM"}</span>
                                   </button>
                                 </div>
                               </td>
@@ -2118,12 +2331,12 @@ export default function ProspectingHubDashboard() {
             {/* TAB 2: BUYING SIGNALS RADAR */}
             {activeTab === "signals" && (
               <div className="flex flex-col gap-4">
-                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
-                  <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 shadow-xs">
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                     <TrendingUp className="w-5 h-5 text-amber-500" />
                     Actionable Buying Signals &amp; Trigger Tracking
                   </h2>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                     Real-time trigger alerts: job transitions of past champions, new executive hires, funding rounds, and hiring surges.
                   </p>
                 </div>
@@ -2132,37 +2345,37 @@ export default function ProspectingHubDashboard() {
                   {signals.map((sig) => (
                     <div
                       key={sig.id}
-                      className="bg-white border border-slate-200/90 rounded-xl p-5 flex flex-col justify-between hover:border-slate-300 transition-colors shadow-sm"
+                      className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-teal-300 dark:hover:border-teal-700 transition-colors shadow-xs"
                     >
                       <div>
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-200">
+                          <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100 dark:bg-amber-950/60 dark:text-amber-300 px-2.5 py-0.5 rounded-lg border border-amber-200 dark:border-amber-800">
                             {sig.type.replace("_", " ")}
                           </span>
                           <span className="text-xs text-slate-400 font-medium">{sig.date}</span>
                         </div>
 
-                        <h3 className="font-bold text-slate-900 text-base mt-2">{sig.title}</h3>
-                        <p className="text-xs text-slate-600 mt-1">{sig.description}</p>
+                        <h3 className="font-bold text-slate-900 dark:text-white text-base mt-2.5">{sig.title}</h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">{sig.description}</p>
 
-                        <div className="mt-4 p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
+                        <div className="mt-4 p-3.5 bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                           <div>
-                            <p className="text-xs font-bold text-slate-900">{sig.prospect.fullName}</p>
-                            <p className="text-[11px] text-slate-500">{sig.prospect.title} at <span className="font-semibold text-[#0066FF]">{sig.company.name}</span></p>
+                            <p className="text-xs font-bold text-slate-900 dark:text-white">{sig.prospect.fullName}</p>
+                            <p className="text-[11px] text-slate-500 dark:text-slate-400">{sig.prospect.title} at <span className="font-semibold text-teal-600 dark:text-teal-400">{sig.company.name}</span></p>
                           </div>
-                          <span className="text-[11px] font-semibold text-slate-500">{sig.company.size} employees</span>
+                          <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-200/60 dark:bg-slate-700 px-2 py-0.5 rounded">{sig.company.size} employees</span>
                         </div>
 
-                        <div className="mt-3 text-xs bg-blue-50/80 border border-blue-200 p-2.5 rounded-lg text-blue-900">
-                          <span className="font-bold block text-[#0055D6]">Recommended Action:</span>
-                          {sig.recommendedAction}
+                        <div className="mt-3 text-xs bg-teal-50/70 dark:bg-teal-950/40 border border-teal-200/90 dark:border-teal-800 p-3 rounded-xl text-teal-950 dark:text-teal-200">
+                          <span className="font-bold block text-teal-800 dark:text-teal-300">Recommended Action:</span>
+                          <span className="mt-0.5 block leading-relaxed">{sig.recommendedAction}</span>
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
+                      <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleEnrich(sig.prospect.id)}
-                          className="text-xs font-semibold bg-white hover:bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg transition-colors border border-slate-300"
+                          className="text-xs font-semibold bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-3.5 py-1.5 rounded-xl transition-colors border border-slate-200 dark:border-slate-700 cursor-pointer shadow-2xs"
                         >
                           Enrich Contact
                         </button>
@@ -2171,10 +2384,9 @@ export default function ProspectingHubDashboard() {
                             const prsp = prospects.find(p => p.id === sig.prospect.id);
                             if (prsp) handleOpenScribe(prsp);
                           }}
-                          className="text-xs bg-teal-600 hover:bg-teal-700 text-white font-bold px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1 shadow-2xs"
+                          className="text-xs bg-teal-600 hover:bg-teal-700 text-white font-bold px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer active:scale-98"
                         >
-                          <Sparkles className="w-3.5 h-3.5" />
-                          Generate Pitch
+                          <span>Generate Pitch</span>
                         </button>
                       </div>
                     </div>
@@ -2186,67 +2398,67 @@ export default function ProspectingHubDashboard() {
             {/* TAB 3: CRM RECORDS & SYNC STATUS */}
             {activeTab === "crm" && (
               <div className="flex flex-col gap-4">
-                <div className="bg-white border border-slate-200/90 rounded-xl p-5 flex items-center justify-between shadow-sm">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 flex items-center justify-between shadow-xs">
                   <div>
-                    <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+                    <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
                       <Database className="w-5 h-5 text-teal-600" />
                       {companyProfile.name} Synced CRM Records
                     </h2>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                       Directly synced leads, contacts, and account records with real-time deduplication.
                     </p>
                   </div>
                   <button
                     onClick={fetchCrmRecords}
-                    className="flex items-center gap-1.5 text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white px-3.5 py-2 rounded-lg transition-colors cursor-pointer shadow-2xs"
+                    className="flex items-center gap-1.5 text-xs font-bold bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-xl transition-all cursor-pointer shadow-xs active:scale-98"
                   >
-                    <RefreshCw className="w-3.5 h-3.5" /> Refresh CRM Records
+                    <RefreshCw className="w-3.5 h-3.5" /> <span>Refresh CRM Records</span>
                   </button>
                 </div>
 
-                <div className="bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-xs">
+                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-left text-sm text-slate-700">
-                      <thead className="bg-slate-50/80 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                    <table className="w-full text-left text-sm text-slate-700 dark:text-slate-300">
+                      <thead className="bg-slate-50/90 dark:bg-slate-800/60 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
                         <tr>
-                          <th className="px-5 py-3.5">CRM Record ID</th>
-                          <th className="px-5 py-3.5">Full Name &amp; Title</th>
-                          <th className="px-5 py-3.5">Company</th>
-                          <th className="px-5 py-3.5">Email / Phone</th>
-                          <th className="px-5 py-3.5">Lead Source &amp; Owner</th>
-                          <th className="px-5 py-3.5">Entity</th>
+                          <th className="px-6 py-4">CRM Record ID</th>
+                          <th className="px-6 py-4">Full Name &amp; Title</th>
+                          <th className="px-6 py-4">Company</th>
+                          <th className="px-6 py-4">Email / Phone</th>
+                          <th className="px-6 py-4">Lead Source &amp; Owner</th>
+                          <th className="px-6 py-4">Entity</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                         {crmRecords.length === 0 ? (
                           <tr>
-                            <td colSpan={6} className="px-5 py-12 text-center text-slate-400">
+                            <td colSpan={6} className="px-6 py-12 text-center text-slate-400">
                               No records synced to CRM yet. Click &quot;Push CRM&quot; on any prospect to sync!
                             </td>
                           </tr>
                         ) : (
                           crmRecords.map((rec) => (
-                            <tr key={rec.crmRecordId} className="hover:bg-slate-50/70 transition-colors">
-                              <td className="px-5 py-4 font-mono text-xs text-[#0066FF] font-bold">
+                            <tr key={rec.crmRecordId} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
+                              <td className="px-6 py-4 font-mono text-xs text-teal-600 dark:text-teal-400 font-bold">
                                 {rec.crmRecordId}
                               </td>
-                              <td className="px-5 py-4">
-                                <span className="font-bold text-slate-900 block">{rec.fullName}</span>
-                                <span className="text-xs text-slate-500">{rec.title || "Target Lead"}</span>
+                              <td className="px-6 py-4">
+                                <span className="font-bold text-slate-900 dark:text-white block">{rec.fullName}</span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400">{rec.title || "Target Lead"}</span>
                               </td>
-                              <td className="px-5 py-4 font-semibold text-slate-800">
+                              <td className="px-6 py-4 font-semibold text-slate-800 dark:text-slate-200">
                                 {rec.company}
                               </td>
-                              <td className="px-5 py-4 font-mono text-xs text-slate-700">
+                              <td className="px-6 py-4 font-mono text-xs text-slate-700 dark:text-slate-300">
                                 <div className="font-medium">{rec.email || "No email"}</div>
                                 <div className="text-slate-400">{rec.phone || ""}</div>
                               </td>
-                              <td className="px-5 py-4 text-xs text-slate-600 max-w-xs">
-                                <span className="text-teal-700 font-bold">{rec.leadSource || "Prospecting API"}</span>
+                              <td className="px-6 py-4 text-xs text-slate-600 dark:text-slate-400 max-w-xs">
+                                <span className="text-teal-700 dark:text-teal-400 font-bold">{rec.leadSource || "Prospecting API"}</span>
                                 <span className="block text-slate-400 text-[11px] truncate">Owner: {rec.assignedOwner || "Sales Team"}</span>
                               </td>
-                              <td className="px-5 py-4">
-                                <span className="text-xs bg-teal-50 text-teal-700 px-2 py-0.5 rounded font-bold border border-teal-200">
+                              <td className="px-6 py-4">
+                                <span className="text-xs bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 px-2 py-0.5 rounded font-bold border border-teal-200 dark:border-teal-800">
                                   {rec.entityType || "Lead"}
                                 </span>
                               </td>
@@ -2272,8 +2484,8 @@ export default function ProspectingHubDashboard() {
             {/* Modal Fixed Header */}
             <div className="flex items-center justify-between border-b border-slate-100 p-5 shrink-0 bg-white">
               <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0066FF] flex items-center justify-center">
-                  <Sparkles className="w-5 h-5" />
+                <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+                  <Bot className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="font-bold text-slate-900 text-base">Prospect AI Scribe Copilot</h3>
@@ -2306,11 +2518,10 @@ export default function ProspectingHubDashboard() {
                       <button
                         key={tpl.id}
                         onClick={() => setActiveAngleIndex(idx)}
-                        className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                          activeAngleIndex === idx
-                            ? "bg-teal-600 text-white shadow-xs"
-                            : "text-slate-600 hover:text-slate-900 bg-slate-100"
-                        }`}
+                        className={`text-xs font-bold px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${activeAngleIndex === idx
+                          ? "bg-teal-600 text-white shadow-xs"
+                          : "text-slate-600 hover:text-slate-900 bg-slate-100"
+                          }`}
                       >
                         {tpl.name}
                       </button>
