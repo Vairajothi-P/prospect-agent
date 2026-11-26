@@ -26,7 +26,7 @@ export async function POST(request) {
       );
     }
 
-    const result = CrmBridgeService.pushToCrm({
+    const result = await CrmBridgeService.pushToCrm({
       prospectId: prospect_id,
       prospectData: prospect,
       targetEntity: target_entity,

@@ -311,10 +311,23 @@ export default function ProspectingHubDashboard() {
   // Settings Configuration State
   const [settingsForm, setSettingsForm] = useState({
     apiKey: "phub_live_sec_9942a1b7e",
-    webhookUrl: "https://smartcrm.pibi.io/api/v1/webhook",
+    webhookUrl: "http://localhost:3000/api/addLeads",
     deduplicationStrategy: "skip_if_exists",
     defaultOwner: "Inbound SDR Team"
   });
+
+  // Load saved CRM settings from localStorage on client mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("prospect_crm_settings");
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setSettingsForm(prev => ({ ...prev, ...parsed }));
+        } catch (_) {}
+      }
+    }
+  }, []);
 
   // Alerts List State
   const [alertsList, setAlertsList] = useState([
@@ -349,6 +362,21 @@ export default function ProspectingHubDashboard() {
     fetchSignals();
     fetchCrmRecords();
   }, [searchQuery, selectedSeniority, selectedIndustry, companyProfile, activeProductIds, products]);
+
+  // Ensure view starts at the top (top header visible) whenever switching steps/views
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      const timer = setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        const hubTop = document.getElementById("prospect-hub-top");
+        if (hubTop) {
+          hubTop.scrollIntoView({ behavior: "instant", block: "start" });
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [currentView]);
 
   const fetchProspects = async () => {
     setLoading(true);
@@ -434,6 +462,9 @@ export default function ProspectingHubDashboard() {
     setFormSaved(true);
     fetchProspects();
     setCurrentView("prospect_hub");
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
   };
 
   // Product Portfolio Handlers
@@ -647,7 +678,8 @@ export default function ProspectingHubDashboard() {
           prospect_id: prospect.id,
           target_entity: "Lead",
           assigned_owner: `${companyProfile.name} SDR Team`,
-          deduplication_strategy: deduplicationStrategy
+          deduplication_strategy: deduplicationStrategy,
+          webhook_url: settingsForm.webhookUrl || null
         })
       });
       const data = await res.json();
@@ -699,7 +731,7 @@ export default function ProspectingHubDashboard() {
               title="Return to Landing Page"
             >
               <PiBiLogo className="h-8 w-auto shrink-0 transition-transform group-hover:scale-105" />
-              <span className={`text-xl font-bold tracking-tight ${isDarkMode ? "text-white" : "text-slate-900"}`}>
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-[#2563eb] to-[#059669] bg-clip-text text-transparent">
                 Prospect AI
               </span>
             </div>
@@ -994,17 +1026,27 @@ export default function ProspectingHubDashboard() {
 
               {/* Webhook Endpoint */}
               <div>
-                <label className="font-bold text-slate-800 block mb-1">
-                  CRM Push Webhook URL
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="font-bold text-slate-800 block">
+                    CRM Push Webhook URL
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setSettingsForm({ ...settingsForm, webhookUrl: "http://localhost:3000/api/addLeads" })}
+                    className="text-[10px] font-bold text-teal-700 hover:text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 cursor-pointer transition-colors"
+                    title="Click to set local PiBi CRM"
+                  >
+                    ⚡ Use Local CRM (:3000)
+                  </button>
+                </div>
                 <input
                   type="url"
                   value={settingsForm.webhookUrl}
                   onChange={(e) => setSettingsForm({ ...settingsForm, webhookUrl: e.target.value })}
-                  placeholder="https://your-crm.com/api/v1/prospect-webhook"
+                  placeholder="http://localhost:3000/api/addLeads"
                   className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:border-[#0066FF] focus:bg-white shadow-2xs"
                 />
-                <span className="text-[10px] text-slate-400 mt-0.5 block">Triggered asynchronously when contacts are unlocked or synced.</span>
+                <span className="text-[10px] text-slate-400 mt-0.5 block">Directly forwards lead payload to your CRM endpoint on Push to CRM.</span>
               </div>
 
               {/* Deduplication Strategy */}
@@ -1055,6 +1097,9 @@ export default function ProspectingHubDashboard() {
               <button
                 type="button"
                 onClick={() => {
+                  if (typeof window !== "undefined") {
+                    localStorage.setItem("prospect_crm_settings", JSON.stringify(settingsForm));
+                  }
                   setSettingsSavedToast(true);
                   setTimeout(() => {
                     setSettingsSavedToast(false);
@@ -1742,7 +1787,7 @@ export default function ProspectingHubDashboard() {
                   type="submit"
                   className="bg-teal-600 hover:bg-teal-700 text-white font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-md shadow-teal-600/10 flex items-center gap-2 cursor-pointer active:scale-98 shrink-0"
                 >
-                  <span>Save Profile &amp; Launch Prospect AI Hub</span>
+                  <span>Next</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
@@ -1753,7 +1798,7 @@ export default function ProspectingHubDashboard() {
 
       {/* VIEW 2: PROSPECT AI DASHBOARD - STREAMLINED & FOCUSED ON CORE PROSPECTS */}
       {currentView === "prospect_hub" && (
-        <div className="flex-1 flex flex-col animate-in fade-in duration-200">
+        <div id="prospect-hub-top" className="flex-1 flex flex-col animate-in fade-in duration-200">
           {/* Top ICP Control & Metric Overview Bar */}
           <div className="w-full bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-2xs">
             <div className="w-full max-w-[1700px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 py-3.5 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
